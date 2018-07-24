@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+    <div class="container" th:fragment="corpo">
+        <h1 th:text="#{titulo.equipamentos}"></h1>
+        <hr>
+            <!-- <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <form class="navbar-form navbar-left" th:action="@{/equipamento/status}" method="get">
+                            <div class="form-group">
+                                <select name="tipoSexo" class="form-control" >
+                                    <option value="">Busca por Sexo</option>
+                                    <option th:each="s : ${status}" th:value="${stAtivo.desc}" th:text="${stAtivo.desc}">F</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Localizar</button>
+                        </form>
+
+                        <form class="navbar-form navbar-left" role="search" th:action="@{/equipamento/nome}" method="get">
+                            <div class="form-group">
+                                <input name="nome" type="text" class="form-control" placeholder="nome">
+                            </div>
+                            <button type="submit" class="btn btn-default">Localizar</button>
+                        </form>
+                    </div>
+                </div>
+            </nav> -->
+
+            <div th:class="${#strings.isEmpty(message)}? 'panel panel-default' : 'panel panel-success' ">
+
+                <div class="panel-heading">
+                    <span th:text="${#strings.isEmpty(message)}? '': ${message}"> </span>
+                </div>
+
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Cód</th>
+                            <th>Descrição</th>
+                            <th>Nr Série</th>
+                            <th>Cont. Inicial</th>
+                            <th>Cont. Atual</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="e : ${equipamentos}">
+                            <td th:text="${e.cdEquipamento}"></td>
+                            <td th:text="${e.dsEquipamento} "></td>
+                            <td th:text="${e.contInicial} "></td>
+                            <td th:text="${e.contAtual} "></td>
+                            <td th:text="${e.stAtivo.desc}"></td>
+                            <td>
+                                <a class="btn btn-info" th:href="@{/equipamento/update/{id}(id=${u.id})}" th:text="Alterar">Editar</a>
+                                <a class="btn btn-danger" th:href="@{/equipamento/delete/{id}(id=${u.id})}" th:text="Deletar">Excluir</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</html>

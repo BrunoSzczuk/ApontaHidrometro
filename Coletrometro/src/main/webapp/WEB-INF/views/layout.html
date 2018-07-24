@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <title>Coletrômetro</title>
+            <link type="text/css" rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}"/>
+    </head>
+    <body>
+        <div th:replace="fragmentos/header :: cabecalho">
+            <span>carrega fragmento do cabecalho</span>
+        </div>
+
+        <div class="container" th:include="${conteudo} :: corpo">
+            <span>o conteudo sera inserido aqui!</span>
+        </div>
+
+        <footer class="footer" th:insert="fragmentos/footer"/>
+    </body>
+    
+</html>
