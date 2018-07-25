@@ -6,14 +6,16 @@
 package br.com.brunoszczuk.apontahidrometro.repository;
 
 import br.com.brunoszczuk.apontahidrometro.domain.Equipamento;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author bruno.szczuk
  */
 @Repository
-public interface EquipamentoRepository extends JpaRepository<Equipamento, Long>{
+@Transactional
+public interface EquipamentoRepository extends CrudRepository<Equipamento, Long>{
     
 }

@@ -7,6 +7,7 @@ package br.com.brunoszczuk.apontahidrometro.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -21,15 +22,19 @@ public class Equipamento implements Serializable{
     private long cdEquipamento;
     
     @Column(name = "nr_serie", length = 60)
+    @NotNull(message = "É necessário informar um Número de Série")
     private String nrSerie;
     
     @Column(name = "cont_inicial")
+    @NotNull(message = "É necessário informar um valor de Contador Inicial")
     private long contInicial;
     
     @Column(name = "cont_atual")
+    @NotNull(message = "É necessário informar um valor de Contador Atual")
     private long contAtual;
     
     @Column(name = "ds_equipamento", length = 100)
+    @NotNull(message = "É necessário informar uma Descrição desse Equipamento")
     private String dsEquipamento;
     
     @Column(name = "st_ativo", length = 20)
@@ -82,19 +87,19 @@ public class Equipamento implements Serializable{
         this.nrSerie = nrSerie;
     }
 
-    public long getCoInicial() {
+    public long getContInicial() {
         return contInicial;
     }
 
-    public void setCoInicial(long contInicial) {
+    public void setContInicial(long contInicial) {
         this.contInicial = contInicial;
     }
 
-    public long getCoAtual() {
+    public long getContAtual() {
         return contAtual;
     }
 
-    public void setCoAtual(long contAtual) {
+    public void setContAtual(long contAtual) {
         this.contAtual = contAtual;
     }
 

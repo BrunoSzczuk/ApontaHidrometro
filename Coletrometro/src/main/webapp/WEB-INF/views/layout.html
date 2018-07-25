@@ -10,7 +10,7 @@
                 <title>Coletrômetro</title>
         </head>
         <body>
-            <div  th:replace="fragmentos/header2 :: cabecalho">
+            <div th:include="fragmentos/header2 :: cabecalho">
                 <span>carrega fragmento do cabecalho</span>
             </div>
 
@@ -18,7 +18,7 @@
                 <span>o conteudo sera inserido aqui!</span>
             </div-->
 
-            <footer class="footer" th:insert="fragmentos/footer"/>
+            <footer class="footer" th:include="fragmentos/footer"/>
         </body>
 
 </html>

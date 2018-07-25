@@ -54,8 +54,8 @@
                             <td th:text="${e.contAtual} "></td>
                             <td th:text="${e.stAtivo.desc}"></td>
                             <td>
-                                <a class="btn btn-info" th:href="@{/equipamento/update/{id}(id=${u.id})}" th:text="Alterar">Editar</a>
-                                <a class="btn btn-danger" th:href="@{/equipamento/delete/{id}(id=${u.id})}" th:text="Deletar">Excluir</a>
+                                <a class="btn btn-info" th:href="@{/equipamento/update/{id}(id=${e.cdEquipamento})}" th:text="Alterar">Editar</a>
+                                <a class="btn btn-danger" th:href="@{/equipamento/delete/{id}(id=${e.cdEquipamento})}" th:text="Deletar">Excluir</a>
                             </td>
                         </tr>
                     </tbody>

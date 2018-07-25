@@ -11,15 +11,15 @@ package br.com.brunoszczuk.apontahidrometro.domain;
  */
 public enum Status {
 
-    ATIVO('@'), INATIVO('*');
+    ATIVO("Ativo"), INATIVO("Inativo");
 
-    private char desc;
+    private String desc;
 
-    Status(char desc) {
+    Status(String desc) {
         this.desc = desc;
     }
 
-    public char getDesc() {
+    public String getDesc() {
         return desc;
     }
 
