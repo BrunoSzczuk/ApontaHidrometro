@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -23,7 +24,7 @@ public class SpringMvcConfig implements ApplicationContextAware, WebMvcConfigure
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/statics/");
     }
 
     // ThymeLeaf
@@ -67,7 +68,7 @@ public class SpringMvcConfig implements ApplicationContextAware, WebMvcConfigure
         return resolver;
     }
      */
-    //Habilita o uso do arquivo messa.properties
+    //Habilita o uso do arquivo message.properties
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();

@@ -49,6 +49,7 @@
                         <tr th:each="e : ${equipamentos}">
                             <td th:text="${e.cdEquipamento}"></td>
                             <td th:text="${e.dsEquipamento} "></td>
+                            <td th:text="${e.nrSerie} "></td>
                             <td th:text="${e.contInicial} "></td>
                             <td th:text="${e.contAtual} "></td>
                             <td th:text="${e.stAtivo.desc}"></td>

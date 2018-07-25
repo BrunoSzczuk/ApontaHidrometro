@@ -24,9 +24,9 @@ public class EquipamentoController {
     @Autowired
     private EquipamentoRepository eq;
     
-    @GetMapping("/todos")
+    @GetMapping("/")
     private ModelAndView home(ModelMap model) {
-        model.addAttribute("usuarios", eq.findAll());
+        model.addAttribute("equipamentos", eq.findAll());
         model.addAttribute("conteudo", "/equipamento/list");
         return new ModelAndView("layout", model);
     }
