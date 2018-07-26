@@ -1,12 +1,12 @@
 <div class="container" th:fragment="cabecalho">
     <div class="row">
-        <div class="col-sm-3 col-md-3">
+        <div class="col-sm-3 col-md-2">
             <div class="panel-group" id="accordion">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-folder-close">
-                                </span>Content</a>
+                                </span>Cadastro</a>
                         </h4>
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse in">
@@ -14,8 +14,7 @@
                             <table class="table">
                                 <tr>
                                     <td>
-                                        <span class="glyphicon glyphicon-pencil text-primary"></span><a href="http://www.jquery2dotnet.com">Articles</a>
-                                        <a class="btn btn-default" th:href="@{/equipamento/add}">Novo Equipamento</a>
+                                        <span class="glyphicon glyphicon-pencil text-primary" ></span><a th:href="@{/equipamento/add}">Novo Equipamento</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -143,7 +142,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-7">
+        <div class="col-sm-9 col-md-7">
             <div class="well" th:replace="${conteudo} :: corpo" id="corpo">
                 <h1>
                     Accordion Menu With Icon</h1>

@@ -10,6 +10,7 @@ import br.com.brunoszczuk.apontahidrometro.domain.Status;
 import br.com.brunoszczuk.apontahidrometro.repository.EquipamentoRepository;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,7 +35,7 @@ public class EquipamentoController {
 
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
-        model.addAttribute("equipamentos", eq.findAll());
+        model.addAttribute("equipamentos", eq.findAll(new Sort(Sort.Direction.ASC, "cdEquipamento")));
         model.addAttribute("conteudo", "/equipamento/list");
         return new ModelAndView("layout", model);
     }
@@ -73,6 +74,12 @@ public class EquipamentoController {
         model.addAttribute("equipamento", e);
         model.addAttribute("conteudo", "/equipamento/add");
         return new ModelAndView("layout", model);
+    }
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes attrib) {
+        eq.deleteById(id);
+        attrib.addFlashAttribute("message", "Equipamento removido com sucesso.");
+        return "redirect:/equipamento/";
     }
 
     @ModelAttribute("status")
