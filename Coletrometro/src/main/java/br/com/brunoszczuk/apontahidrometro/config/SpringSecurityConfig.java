@@ -36,7 +36,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().hasAnyRole("Administrador", "Usuário")
+        http
+			.authorizeRequests()
+				.antMatchers("/resources/**", "/webjars/**").permitAll()
+				//.antMatchers("/vendas/relatorios/equipe").hasRole("VISUALIZAR_RELATORIO_EQUIPE")
+			//	.antMatchers("/vendas/relatorios/custos").hasRole("VISUALIZAR_RELATORIO_CUSTOS")
+				.anyRequest().authenticated()
+			.and()
+			.formLogin()
+				.loginPage("/login").permitAll()
+			.and()
+			.rememberMe();
+       /* http.authorizeRequests().anyRequest().hasAnyRole("Administrador", "Usuário")
                 .and()
                 .authorizeRequests().antMatchers("/login**").permitAll()
                 .and()
@@ -44,6 +55,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/login").permitAll()
                 .and()
-                .csrf().disable();
+                .csrf().disable();*/
     }
 }
