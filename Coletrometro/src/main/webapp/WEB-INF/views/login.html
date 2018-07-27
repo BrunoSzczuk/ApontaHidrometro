@@ -1,0 +1,44 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/static/js/bootstrap.min.js}"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<!--link type="text/css" rel="stylesheet" th:href="@{/static/css/menu.css}" /-->
+<link rel="shortcut icon" th:href="@{/static/logo1.png}" />
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{nomeapp}"></title>
+</head>
+<body style="background-color: #f9f9f9" margintop="50px">
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
+        <div class="panel panel/home/bruno/projetos/ApontaHidrometro/Coletrometro-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">ENTRE</h3>
+            </div>
+            <div class="panel-body">
+                <form th:action="@{/login}" method="post">
+                    <div class="form-group">
+                        <input name="username" class="form-control" placeholder="Usuário"/>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Senha"/>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block">Entrar</button>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="remember-me" name="remember-me" />
+                        <label for="remember-me">Lembrar?</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
