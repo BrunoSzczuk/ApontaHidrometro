@@ -6,6 +6,7 @@
 package br.com.brunoszczuk.apontahidrometro.domain;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -41,13 +42,14 @@ public class Usuario implements Serializable {
     @Column(name = "dt_inclusao", columnDefinition = "DATE")
     @NotNull(message = "Informe a data de inclusão.")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private String dtInclusao;
+    private Date dtInclusao;
 
     @Column(name = "dt_ultimologin", columnDefinition = "DATE")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private String dtUltimoLogin;
+    private Date dtUltimoLogin;
 
-    @Column(name = "st_ativo")
+    @Column(name = "st_ativo", length = 20)
+    @Enumerated(EnumType.STRING)
     private Status stAtivo;
 
     @OneToOne
@@ -109,19 +111,19 @@ public class Usuario implements Serializable {
         this.dsEmail = dsEmail;
     }
 
-    public String getDtInclusao() {
+    public Date getDtInclusao() {
         return dtInclusao;
     }
 
-    public void setDtInclusao(String dtInclusao) {
+    public void setDtInclusao(Date dtInclusao) {
         this.dtInclusao = dtInclusao;
     }
 
-    public String getDtUltimoLogin() {
+    public Date getDtUltimoLogin() {
         return dtUltimoLogin;
     }
 
-    public void setDtUltimoLogin(String dtUltimoLogin) {
+    public void setDtUltimoLogin(Date dtUltimoLogin) {
         this.dtUltimoLogin = dtUltimoLogin;
     }
 

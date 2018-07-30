@@ -5,6 +5,7 @@
  */
 package br.com.brunoszczuk.apontahidrometro.domain;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 /**
@@ -13,6 +14,37 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "permissao")
-public class Permissao {
+public class Permissao implements Serializable{
+    @Id
+    @Column(name = "cd_permissao")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int cdPermissao;
+    
+    @Column(name = "nm_rotina")
+    private String nmRotina;
+
+    public int getCdPermissao() {
+        return cdPermissao;
+    }
+
+    public void setCdPermissao(int cdPermissao) {
+        this.cdPermissao = cdPermissao;
+    }
+
+    public String getNmRotina() {
+        return nmRotina;
+    }
+
+    public void setNmRotina(String nmRotina) {
+        this.nmRotina = nmRotina;
+    }
+
+    @Override
+    public String toString() {
+        return "Permissao{" + "cdPermissao=" + cdPermissao + ", nmRotina=" + nmRotina + '}';
+    }
+
+    public Permissao() {
+    }
     
 }

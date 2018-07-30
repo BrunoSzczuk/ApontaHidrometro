@@ -27,7 +27,8 @@ public class TipoUsuario implements Serializable{
     @NotBlank(message = "É necessário informar uma descrição")
     private String dsTipo;
     
-    @Column(name = "st_ativo")
+    @Column(name = "st_ativo", length = 20)
+    @Enumerated(EnumType.STRING)
     private Status stAtivo;
 
     public TipoUsuario() {
