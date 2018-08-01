@@ -37,17 +37,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-			.authorizeRequests()
-				.antMatchers("/resources/**", "/static/**").permitAll()
-				//.antMatchers("/vendas/relatorios/equipe").hasRole("VISUALIZAR_RELATORIO_EQUIPE")
-			//	.antMatchers("/vendas/relatorios/custos").hasRole("VISUALIZAR_RELATORIO_CUSTOS")
-				.anyRequest().authenticated()
-			.and()
-			.formLogin()
-				.loginPage("/login").permitAll()
-			.and()
-			.rememberMe();
-       /* http.authorizeRequests().anyRequest().hasAnyRole("Administrador", "Usuário")
+                .authorizeRequests()
+                .antMatchers("/resources/**", "/static/**", "/webjars/**").permitAll()
+                .and().authorizeRequests().antMatchers("/login").anonymous()
+                //.antMatchers("/vendas/relatorios/equipe").hasRole("VISUALIZAR_RELATORIO_EQUIPE")
+                //	.antMatchers("/vendas/relatorios/custos").hasRole("VISUALIZAR_RELATORIO_CUSTOS")
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().rememberMe();
+        /* http.authorizeRequests().anyRequest().hasAnyRole("Administrador", "Usuário")
                 .and()
                 .authorizeRequests().antMatchers("/login**").permitAll()
                 .and()
