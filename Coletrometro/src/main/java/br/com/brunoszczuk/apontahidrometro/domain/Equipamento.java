@@ -7,6 +7,7 @@ package br.com.brunoszczuk.apontahidrometro.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,28 +16,29 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "equipamento")
-public class Equipamento implements Serializable{
+public class Equipamento implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cd_equipamento")
     private long cdEquipamento;
-    
+
     @Column(name = "nr_serie", length = 60)
-    @NotNull(message = "É necessário informar um Número de Série")
+    @NotBlank(message = "É necessário informar um Número de Série")
     private String nrSerie;
-    
+
     @Column(name = "cont_inicial")
     @NotNull(message = "É necessário informar um valor de Contador Inicial")
     private long contInicial;
-    
+
     @Column(name = "cont_atual")
     @NotNull(message = "É necessário informar um valor de Contador Atual")
     private long contAtual;
-    
+
     @Column(name = "ds_equipamento", length = 100)
-    @NotNull(message = "É necessário informar uma Descrição desse Equipamento")
+    @NotBlank(message = "É necessário informar uma Descrição desse Equipamento")
     private String dsEquipamento;
-    
+
     @Column(name = "st_ativo", length = 20)
     @Enumerated(EnumType.STRING)
     private Status stAtivo;

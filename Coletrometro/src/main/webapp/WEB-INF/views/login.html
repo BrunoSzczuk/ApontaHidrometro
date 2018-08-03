@@ -3,7 +3,7 @@
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <head>
-        <title>Spring Security</title>
+        <title th:text="#{nomeapp}"></title>
 
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
 
@@ -14,9 +14,13 @@
         <link th:href="@{/static/estilo.css}" rel="stylesheet"/>
     </head>
 
-    <body style="background-color: #f9f9f9">
+    <body style="background-color: #f9f9f9"  th:style="'background:url(' + @{/static/logo1.png} + ') no-repeat 33% 67%;'">
+
+        <h2 class="text-primary" th:text="#{nomeapp}" align="center"/>
         <div class="row">
-            <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
+
+            <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4 transparent">
+
                 <div th:if="${param.error}">
                     <div class="alert alert-danger"
                          th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message} + ': Usuário e/ou inválidos!'">Usuário e/ou inválidos!</div>

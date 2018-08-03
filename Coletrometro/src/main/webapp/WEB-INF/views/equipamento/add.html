@@ -19,12 +19,12 @@
                     </div>
                     <div class="form-group">
                         <label th:for="contInicial">Contador Inicial: </label>
-                        <input type="text" class="form-control" id="contInicial" th:field="*{contInicial}"  th:disabled="${equipamento.cdEquipamento == null}" />
+                        <input type="text" class="form-control" id="contInicial" th:field="*{contInicial}"  th:disabled="${equipamento.cdEquipamento >0}" />
                         <span th:if="${#fields.hasErrors('contInicial')}" th:errors="*{contInicial}" class="label label-danger"></span>
                     </div>
                     <div class="form-group">
                         <label th:for="contAtual">Contador Atual: </label>
-                        <input type="text" class="form-control" id="contAtual" th:field="*{contAtual} " th:disabled="${equipamento.cdEquipamento == null}" />
+                        <input type="text" class="form-control" id="contAtual" th:field="*{contAtual} " th:disabled="${equipamento.cdEquipamento != null}" />
                         <span th:if="${#fields.hasErrors('contAtual')}" th:errors="*{contAtual}" class="label label-danger"></span>
                     </div>
                     <div class="form-group">

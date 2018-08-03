@@ -1,4 +1,5 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 
     <!-talvez retirar isso aqui
@@ -10,16 +11,15 @@
 
     <link th:href="@{/webjars/font-awesome/css/font-awesome.min.css}" rel="stylesheet"/>
     <!--link type="text/css" rel="stylesheet" th:href="@{/static/css/menu.css}" /-->
-    <link rel="shortcut icon" th:href="@{/static/logo1.png}" />
+        <link rel="shortcut icon" th:href="@{/static/logo1.png}" />
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <title th:text="#{nomeapp}"> </title>
     </head>
     <body>
-        <div th:include="fragmentos/header_nav :: header_nav">
-        </div>    
-
-        <div th:include="fragmentos/header2 :: cabecalho">
+        <nav  th:replace="fragmentos/header_nav :: header_nav"/>
+        
+        <div th:include="fragmentos/header2 :: cabecalho" class="container">
             <span>carrega fragmento do cabecalho</span>
         </div>
 
@@ -27,10 +27,13 @@
             <span>o conteudo sera inserido aqui!</span>
         </div-->
 
-        <footer class="footer" th:insert="fragmentos/footer"/>
+        <div class="container">
+            <hr/>
+            <footer class="footer" th:include="fragmentos/footer"/>
+        </div>
         <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     </body>
-   
+
 </html>

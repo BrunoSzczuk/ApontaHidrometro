@@ -1,4 +1,5 @@
-<nav class="navbar navbar-default navbar-fixed-top" th:fragment="header_nav">
+
+<nav class="navbar navbar-default navbar-fixed-top js-sticky-reference" th:fragment="header_nav">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed"
@@ -45,25 +46,6 @@
                     Sair
                 </button>
             </form>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" 
-                       data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false" th:text="#{nomeapp}"> 
-                         
-                        <span class="caret"></span>
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        <li><a href="http://www.algaworks.com" target="_blank">Site</a></li>
-                        <li><a href="http://www.facebook.com/algaworks" target="_blank">Facebook</a></li>
-                        <li><a href="http://www.youtube.com/algaworks" target="_blank">YouTube</a></li>
-                        <li><a href="http://github.com/algaworks" target="_blank">Github</a></li>
-                        <li><a href="http://blog.algaworks.com/" target="_blank">Nosso Blog</a></li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>
