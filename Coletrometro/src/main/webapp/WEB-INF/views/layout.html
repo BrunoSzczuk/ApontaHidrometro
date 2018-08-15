@@ -11,14 +11,15 @@
 
     <link th:href="@{/webjars/font-awesome/css/font-awesome.min.css}" rel="stylesheet"/>
     <!--link type="text/css" rel="stylesheet" th:href="@{/static/css/menu.css}" /-->
-        <link rel="shortcut icon" th:href="@{/static/logo1.png}" />
+    <link rel="shortcut icon" th:href="@{/static/logo1.png}" />
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <title th:text="#{nomeapp}"> </title>
     </head>
     <body>
         <nav  th:replace="fragmentos/header_nav :: header_nav"/>
-        
+
         <div th:include="fragmentos/header2 :: cabecalho" class="container">
             <span>carrega fragmento do cabecalho</span>
         </div>
@@ -31,8 +32,6 @@
             <hr/>
             <footer class="footer" th:include="fragmentos/footer"/>
         </div>
-        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     </body>
 
