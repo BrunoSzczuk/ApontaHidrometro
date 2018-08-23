@@ -1,26 +1,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
-
-    <!-talvez retirar isso aqui
-
-    <link type="text/css" rel="stylesheet" th:href="@{/static/estilo.css}" />
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
 
-    <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    <!-- Custom fonts for this template-->
 
-    <link th:href="@{/webjars/font-awesome/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet"/>
+
+
+
     <!--link type="text/css" rel="stylesheet" th:href="@{/static/css/menu.css}" /-->
     <link rel="shortcut icon" th:href="@{/static/logo1.png}" />
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/static/css/sb-admin.css}" rel="stylesheet"/>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <title th:text="#{nomeapp}"> </title>
     </head>
-    <body>
-        <nav  th:replace="fragmentos/header_nav :: header_nav"/>
+    <body id="page-top">
+        <nav  th:replace="fragmentos/header:: header_nav"/>
 
-        <div th:include="fragmentos/header2 :: cabecalho" class="container">
+        <div th:include="fragmentos/navlateral :: layout"  id="wrapper">
             <span>carrega fragmento do cabecalho</span>
         </div>
 
@@ -28,11 +30,16 @@
             <span>o conteudo sera inserido aqui!</span>
         </div-->
 
-        <div class="container">
-            <hr/>
-            <footer class="footer" th:include="fragmentos/footer"/>
-        </div>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    
+        <!-- Bootstrap core JavaScript-->
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script th:src="@{/webjars/jquery-easing/jquery.easing.min.js}"></script>
+
+        <script th:src="@{/static/js/sb-admin.min.js}"></script>
     </body>
 
 </html>
