@@ -40,7 +40,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
             builder.disabled(user.getStAtivo() == Status.INATIVO);
             builder.password(user.getSnUsuario());
             String authorities = user.getTipoUsuario().getDsTipo();
-
+            builder.roles("Equipamento");
             builder.authorities(authorities);
         } else {
             throw new UsernameNotFoundException("User not found.");

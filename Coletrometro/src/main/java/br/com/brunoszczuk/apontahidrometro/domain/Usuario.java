@@ -7,6 +7,7 @@ package br.com.brunoszczuk.apontahidrometro.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -57,6 +58,16 @@ public class Usuario implements Serializable {
     @NotNull(message = "É necessário informar o tipo do usuário")
     private TipoUsuario tipoUsuario;
 
+    private List<Permissao> permissoes;
+
+    public List<Permissao> getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(List<Permissao> permissoes) {
+        this.permissoes = permissoes;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;
