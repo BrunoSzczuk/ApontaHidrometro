@@ -5,7 +5,7 @@
  */
 package br.com.brunoszczuk.apontahidrometro.repository;
 
-import br.com.brunoszczuk.apontahidrometro.domain.TipoUsuario;
+import br.com.brunoszczuk.apontahidrometro.entities.Tipousuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author bruno.szczuk
  */
 @Repository
-public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, String>{
+public interface TipoUsuarioRepository extends JpaRepository<Tipousuario, String>{
     
 }

@@ -5,7 +5,7 @@
  */
 package br.com.brunoszczuk.apontahidrometro.repository;
 
-import br.com.brunoszczuk.apontahidrometro.domain.Equipamento;
+import br.com.brunoszczuk.apontahidrometro.entities.Equipamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public interface EquipamentoRepository extends JpaRepository<Equipamento, Long>{
+public interface EquipamentoRepository extends JpaRepository<Equipamento, Integer>{
     
 }

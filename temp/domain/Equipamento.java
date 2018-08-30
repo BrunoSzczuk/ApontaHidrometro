@@ -14,8 +14,6 @@ import javax.validation.constraints.NotNull;
  *
  * @author bruno.szczuk
  */
-@Entity
-@Table(name = "equipamento")
 public class Equipamento implements Serializable {
 
     @Id

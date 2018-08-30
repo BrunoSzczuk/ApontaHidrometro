@@ -5,13 +5,10 @@
  */
 package br.com.brunoszczuk.apontahidrometro.config;
 
-import br.com.brunoszczuk.apontahidrometro.domain.Status;
-import br.com.brunoszczuk.apontahidrometro.domain.TipoUsuario;
-import br.com.brunoszczuk.apontahidrometro.domain.Usuario;
-import br.com.brunoszczuk.apontahidrometro.repository.TipoUsuarioRepository;
+import br.com.brunoszczuk.apontahidrometro.entities.Usuario;
 import br.com.brunoszczuk.apontahidrometro.repository.UsuarioRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,14 +30,14 @@ public class UserDetailsServiceImp implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Usuario user = userDetailsDao.findById(username).get();
+        Usuario user = userDetailsDao.findByNickUsuarioOrDsEmail(username, username);
         UserBuilder builder = null;
         if (user != null) {
             builder = org.springframework.security.core.userdetails.User.withUsername(username);
-            builder.disabled(user.getStAtivo() == Status.INATIVO);
+            builder.disabled(!user.isStAtivo());
             builder.password(user.getSnUsuario());
-            String authorities = user.getTipoUsuario().getDsTipo();
-            builder.roles("Equipamento");
+            String authorities = user.getTipousuario().getDsTipousuario();
+
             builder.authorities(authorities);
         } else {
             throw new UsernameNotFoundException("User not found.");

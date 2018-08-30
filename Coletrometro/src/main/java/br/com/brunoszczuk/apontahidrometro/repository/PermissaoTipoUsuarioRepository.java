@@ -5,8 +5,8 @@
  */
 package br.com.brunoszczuk.apontahidrometro.repository;
 
-import br.com.brunoszczuk.apontahidrometro.domain.Permissaotipousuario;
-import br.com.brunoszczuk.apontahidrometro.domain.PermissaotipousuarioId;
+import br.com.brunoszczuk.apontahidrometro.entities.Permissaotipousuario;
+import br.com.brunoszczuk.apontahidrometro.entities.PermissaotipousuarioId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

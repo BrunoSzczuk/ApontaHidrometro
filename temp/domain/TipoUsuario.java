@@ -15,8 +15,6 @@ import javax.validation.constraints.Size;
  *
  * @author bruno.szczuk
  */
-@Entity
-@Table(name = "tipousuario")
 public class TipoUsuario implements Serializable{
     @Id
     @Column(name = "cd_tipo")

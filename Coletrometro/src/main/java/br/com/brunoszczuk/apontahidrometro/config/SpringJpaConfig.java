@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "br.com.brunoszczuk.apontahidrometro.repository"
 })
 @EntityScan(basePackages = {
-    "br.com.brunoszczuk.apontahidrometro.domain"
+    "br.com.brunoszczuk.apontahidrometro.entities"
 })
 public class SpringJpaConfig {
 
@@ -41,7 +41,7 @@ public class SpringJpaConfig {
     public EntityManagerFactory entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(dataSource);
-        factory.setPackagesToScan("br.com.brunoszczuk.apontahidrometro.domain");
+        factory.setPackagesToScan("br.com.brunoszczuk.apontahidrometro.entities");
         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         factory.setJpaProperties(jpaProperties());
         factory.afterPropertiesSet();
@@ -61,6 +61,7 @@ public class SpringJpaConfig {
         props.setProperty("hibernate.show_sql", "true");
         props.setProperty("hibernate.format_sql", "true");
         props.setProperty("hibernate.hbm2ddl.auto", "update");
+        props.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         return props;
     }
 }

@@ -5,8 +5,8 @@
  */
 package br.com.brunoszczuk.apontahidrometro.repository;
 
-import br.com.brunoszczuk.apontahidrometro.domain.TipoUsuario;
-import br.com.brunoszczuk.apontahidrometro.domain.Usuario;
+import br.com.brunoszczuk.apontahidrometro.entities.Tipousuario;
+import br.com.brunoszczuk.apontahidrometro.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
  * @author bruno.szczuk
  */
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, String>{
-    TipoUsuario findByTipoUsuario(String id);
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
+    Tipousuario findByTipousuario(String id);
     
     Usuario findByNickUsuarioOrDsEmail(String nickUsuario, String dsEmail);
 }

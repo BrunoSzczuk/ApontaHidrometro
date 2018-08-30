@@ -20,8 +20,6 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * @author bruno.szczuk
  */
-@Entity
-@Table(name = "usuario")
 public class Usuario implements Serializable {
 
     @Id

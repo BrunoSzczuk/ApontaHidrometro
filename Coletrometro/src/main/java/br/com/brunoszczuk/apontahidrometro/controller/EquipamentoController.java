@@ -5,9 +5,9 @@
  */
 package br.com.brunoszczuk.apontahidrometro.controller;
 
-import br.com.brunoszczuk.apontahidrometro.domain.Equipamento;
-import br.com.brunoszczuk.apontahidrometro.domain.Status;
+import br.com.brunoszczuk.apontahidrometro.entities.Equipamento;
 import br.com.brunoszczuk.apontahidrometro.repository.EquipamentoRepository;
+import javafx.animation.Animation.Status;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -69,14 +69,14 @@ public class EquipamentoController {
     }
 
     @GetMapping("/update/{id}")
-    public ModelAndView preUpdate(@PathVariable("id") Long id, ModelMap model) {
+    public ModelAndView preUpdate(@PathVariable("id") Integer id, ModelMap model) {
         Equipamento e = eq.findById(id).get();
         model.addAttribute("equipamento", e);
         model.addAttribute("conteudo", "/equipamento/add");
         return new ModelAndView("layout", model);
     }
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, RedirectAttributes attrib) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes attrib) {
         eq.deleteById(id);
         attrib.addFlashAttribute("message", "Equipamento removido com sucesso.");
         return "redirect:/equipamento/";
