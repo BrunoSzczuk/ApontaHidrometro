@@ -5,37 +5,38 @@
         <h1 th:text="#{titulo.cadastros.equipamentos}"></h1>
         <hr>
             <div>
-                <form th:action="${equipamento.cdEquipamento == null}?  @{/equipamento/save}: @{/equipamento/update}" th:object="${equipamento}" method="post">
+                <form th:action="${equipamento.cdEquipamento == 0}?  @{/equipamento/save}: @{/equipamento/update}" th:object="${equipamento}" method="post">
                     <input type="hidden" id="cdEquipamento" th:field="*{cdEquipamento}"/>
                     <div class="form-group">
-                        <label th:for="dsEquipamento">Descrição: </label>
+                        <label th:for="dsEquipamento" th:text="#{lbdescricao}"></label>
                         <input type="text" class="form-control" id="dsEquipamento" th:field="*{dsEquipamento}" />
-                        <span th:if="${#fields.hasErrors('dsEquipamento')}" th:errors="*{dsEquipamento}" class="label label-danger"></span>
+                        <span th:if="${#fields.hasErrors('dsEquipamento')}" th:errors="*{dsEquipamento}" class="badge badge-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label th:for="nrSerie">Número de série: </label>
+                        <label th:for="nrSerie" th:text="#{lbnumerodeserie}"></label>
                         <input type="text" class="form-control" id="nrSerie" th:field="*{nrSerie}" >
-                            <span th:if="${#fields.hasErrors('nrSerie')}" th:errors="*{nrSerie}" class="label label-danger"></span>
+                            <span th:if="${#fields.hasErrors('nrSerie')}" th:errors="*{nrSerie}" class="badge badge-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label th:for="contInicial">Contador Inicial: </label>
-                        <input type="text" class="form-control" id="contInicial" th:field="*{contInicial}"  th:disabled="${equipamento.cdEquipamento >0}" />
-                        <span th:if="${#fields.hasErrors('contInicial')}" th:errors="*{contInicial}" class="label label-danger"></span>
+                        <label th:for="contInicial" th:text="#{lbcontadorinicial}"></label>
+                        <input type="text" class="form-control" id="contInicial" th:field="*{contInicial}"  th:readonly="${equipamento.cdEquipamento !=0}" />
+                        <span th:if="${#fields.hasErrors('contInicial')}" th:errors="*{contInicial}" class="badge badge-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label th:for="contAtual">Contador Atual: </label>
-                        <input type="text" class="form-control" id="contAtual" th:field="*{contAtual} " th:disabled="${equipamento.cdEquipamento != null}" />
-                        <span th:if="${#fields.hasErrors('contAtual')}" th:errors="*{contAtual}" class="label label-danger"></span>
+                        <label th:for="contAtual"  th:text="#{lbcontadoratual}"></label>
+                        <input type="text" class="form-control" id="contAtual" th:field="*{contAtual} "  th:readonly="${equipamento.cdEquipamento != 0}" />
+                        <span th:if="${#fields.hasErrors('contAtual')}" th:errors="*{contAtual}" class="badge badge-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label th:for="status">Status: </label>
+                        <label th:for="stAtivo"   th:text="#{lbstatus}"></label>
                         <select id="stAtivo" th:field="*{stAtivo}">
-                            <option th:each="s : ${status}" th:value="${s}" th:text="${s.desc}"></option>
+                            <option th:value="true" th:text="#{lbativo}"></option>
+                            <option th:value="false" th:text="#{lbinativo}"> </option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Confirmar</button>
-                        <button type="button" class="btn btn-warning" onclick="history.go(-1)">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"></button>
+                        <button type="button" class="btn btn-warning" onclick="history.go(-1)" th:text="#{lbcancelar}"></button>
                     </div>
                 </form>
             </div>

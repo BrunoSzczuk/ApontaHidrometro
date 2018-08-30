@@ -45,7 +45,7 @@ public class EquipamentoController {
         return new ModelAndView("layout", "conteudo", "/equipamento/add");
     }
 
-    @PostMapping("/save")
+    @PostMapping(path = {"/save", "/update"})
     public ModelAndView save(@Valid Equipamento equipamento, BindingResult result, RedirectAttributes attrib) {
 
         if (result.hasErrors()) {
@@ -57,17 +57,6 @@ public class EquipamentoController {
         return new ModelAndView("redirect:/equipamento/");
     }
 
-    @PostMapping("/update")
-    public ModelAndView update(@Valid Equipamento equipamento, BindingResult result, RedirectAttributes attrib) {
-
-        if (result.hasErrors()) {
-            return new ModelAndView("layout", "conteudo", "/equipamento/add");
-        }
-        eq.save(equipamento);
-        attrib.addFlashAttribute("message", "Registro editado com sucesso.");
-        return new ModelAndView("redirect:/equipamento/");
-    }
-
     @GetMapping("/update/{id}")
     public ModelAndView preUpdate(@PathVariable("id") Integer id, ModelMap model) {
         Equipamento e = eq.findById(id).get();
@@ -75,6 +64,7 @@ public class EquipamentoController {
         model.addAttribute("conteudo", "/equipamento/add");
         return new ModelAndView("layout", model);
     }
+
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id, RedirectAttributes attrib) {
         eq.deleteById(id);

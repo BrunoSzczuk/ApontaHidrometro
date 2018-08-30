@@ -18,5 +18,5 @@ import org.springframework.stereotype.Repository;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
     Tipousuario findByTipousuario(String id);
     
-    Usuario findByNickUsuarioOrDsEmail(String nickUsuario, String dsEmail);
+    Usuario findByIgnoreCaseNickUsuarioOrIgnoreCaseDsEmail(String nickUsuario, String dsEmail);
 }
