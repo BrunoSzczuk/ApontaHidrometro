@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <div class="container" th:fragment="corpo">
+    <div class="container  col-sm-12 col-md-6" th:fragment="corpo">
         <h1 th:text="#{titulo.equipamentos}"></h1>
         <hr>
-            <nav class="navbar navbar-default">
+
+
+
+            <nav class="navbar navbar-expand-sm navbar-light bg-light rounded mb-3">
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="">
 
@@ -12,68 +15,68 @@
 
                             <a class="btn btn-primary" th:href="@{/equipamento/add}">adicionar</a>
 
-                            <input id="edFiltrar" type="text" class="form-control navbar-right col-md-auto" placeholder="Filtrar">
-
-
+                            <input id="edFiltrar" type="text" class="form-control " placeholder="Filtrar">
                         </div>
                     </div>
                 </div>
             </nav>
+            <div class="card mb-3">
+                <div class="card-header" th:text="#{titulo.equipamentos}">
+                    <i class="fas fa-table"></i>
 
-            <div th:class="${#strings.isEmpty(message)}? 'panel panel-default' : 'panel panel-success' ">
-
-                <div class="panel-heading">
-                    <span th:text="${#strings.isEmpty(message)}? '': ${message}"> </span>
                 </div>
-                <div class="card mb-3">
-                    <div class="card-header" th:text="#{titulo.equipamentos}">
-                        <i class="fas fa-table"></i>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th th:text="#{lbcodigo}">Cód</th>
-                                        <th th:text="#{lbdescricao}">Descrição</th>
-                                        <th th:text="#{lbnumerodeserie}">Nr Série</th>
-                                        <th th:text="#{lbcontadorinicial}">Cont. Inicial</th>
-                                        <th th:text="#{lbcontadoratual}">Cont. Atual</th>
-                                        <th th:text="#{lbstatus}">Status</th>
-                                        <th th:text="#{lbacao}">Ação</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dados">
-                                    <tr th:each="e : ${equipamentos}" th:class="${!e.stAtivo}? 'table-danger': ''" >
-                                        <td th:text="${e.cdEquipamento}"></td>
-                                        <td th:text="${e.dsEquipamento} "></td>
-                                        <td th:text="${e.nrSerie} "></td>
-                                        <td th:text="${e.contInicial} "></td>
-                                        <td th:text="${e.contAtual} "/> </td>
-                                        <td> <span th:class="${e.stAtivo}? 'fas fa-check' : 'fas fa-ban'"/></td>
-                                        <td>
-                                            <a class="btn btn-info" th:href="@{/equipamento/update/{id}(id=${e.cdEquipamento})}" th:text="#{lbeditar}"></a>
-                                            <a class="btn btn-danger" th:href="@{/equipamento/delete/{id}(id=${e.cdEquipamento})}" th:text="#{lbexcluir}"></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div th:class="${#strings.isEmpty(message)}? 'card ' : 'card bg-success mb-3' ">
+                            <div class="card-header">
+                                <span th:text="${#strings.isEmpty(message)}? '': ${message}"> </span>
+                            </div>
                         </div>
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th th:text="#{lbcodigo}">Cód</th>
+                                    <th th:text="#{lbdescricao}">Descrição</th>
+                                    <th th:text="#{lbnumerodeserie}">Nr Série</th>
+                                    <th th:text="#{lbcontadorinicial}">Cont. Inicial</th>
+                                    <th th:text="#{lbcontadoratual}">Cont. Atual</th>
+                                    <th th:text="#{lbstatus}">Status</th>
+                                    <th th:text="#{lbacao}">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dados">
+                                <tr th:each="e : ${equipamentos}" th:class="${!e.stAtivo}? 'table-danger': ''" >
+                                    <td th:text="${e.cdEquipamento}"></td>
+                                    <td th:text="${e.dsEquipamento} "></td>
+                                    <td th:text="${e.nrSerie} "></td>
+                                    <td th:text="${e.contInicial} "></td>
+                                    <td th:text="${e.contAtual} "/> </td>
+                                    <td> <span th:class="${e.stAtivo}? 'fas fa-check' : 'fas fa-ban'"/></td>
+                                    <td>
+                                        <a class="btn btn-info" th:href="@{/equipamento/update/{id}(id=${e.cdEquipamento})}" th:text="#{lbeditar}"></a>
+                                        <a class="btn btn-danger" th:href="@{/equipamento/delete/{id}(id=${e.cdEquipamento})}" th:text="#{lbexcluir}"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <script>
-                    $(document).ready(function () {
-                        $("#edFiltrar").on("keyup", function () {
-                            var value = $(this).val().toLowerCase();
-                            $("#dados tr").filter(function () {
-                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                            });
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $("#edFiltrar").on("keyup", function () {
+                        var value = $(this).val().toLowerCase();
+                        $("#dados tr").filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                         });
                     });
-                </script>
-            </div>
-            <script th:src="@{/static/css/datatables/jquery.dataTables.js}"></script>
-            <script th:src="@{/static/css/datatables/dataTables.bootstrap4.js}"></script>
+                });
+            </script>
     </div>
+    <script th:src="@{/static/css/datatables/jquery.dataTables.js}"></script>
+    <script th:src="@{/static/css/datatables/dataTables.bootstrap4.js}"></script>
+</div>
 
 </html>

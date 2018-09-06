@@ -45,7 +45,7 @@ public class EquipamentoController {
         return new ModelAndView("layout", "conteudo", "/equipamento/add");
     }
 
-    @PostMapping(path = {"/save", "/update"})
+    @PostMapping("/save")
     public ModelAndView save(@Valid Equipamento equipamento, BindingResult result, RedirectAttributes attrib) {
 
         if (result.hasErrors()) {
@@ -53,7 +53,20 @@ public class EquipamentoController {
         }
 
         eq.save(equipamento);
+
         attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        return new ModelAndView("redirect:/equipamento/");
+    }
+
+    @PostMapping("/update")
+    public ModelAndView update(@Valid Equipamento equipamento, BindingResult result, RedirectAttributes attrib) {
+
+        if (result.hasErrors()) {
+            return new ModelAndView("layout", "conteudo", "/equipamento/add");
+        }
+
+        eq.save(equipamento);
+        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
         return new ModelAndView("redirect:/equipamento/");
     }
 
