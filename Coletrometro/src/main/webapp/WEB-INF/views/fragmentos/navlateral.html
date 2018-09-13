@@ -15,7 +15,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                 <a class="dropdown-item" th:href="@{/equipamento/}" th:text="#{titulo.equipamentos}"></a>
-                <a class="dropdown-item" href="register.html">Register</a>
+                <a class="dropdown-item" th:href="@{/pais/}" th:text="#{titulo.paises}">Register</a>
                 <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
                 <div class="dropdown-divider"></div>
                 <h6 class="dropdown-header">Other Pages:</h6>
@@ -41,15 +41,11 @@
             <div  th:include="${conteudo} :: corpo">
             </div>
 
-            <!-- Icon Cards-->
-            <div class="row">
-
-            </div>
+            
         </div>
-        <!-- /.container-fluid -->
 
         <!-- Sticky Footer -->
-        <footer class="sticky-footer" th:include="fragmentos/footer"/>
+        <!footer class="sticky-footer" th:insert="fragmentos/footer"/>
 
 
     </div>

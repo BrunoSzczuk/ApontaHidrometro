@@ -7,7 +7,6 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Equipamento;
 import br.com.brunoszczuk.apontahidrometro.repository.EquipamentoRepository;
-import javafx.animation.Animation.Status;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -85,8 +84,8 @@ public class EquipamentoController {
         return "redirect:/equipamento/";
     }
 
-    @ModelAttribute("status")
+    /*@ModelAttribute("status")
     public Status[] tipoStatus() {
         return Status.values();
-    }
+    }*/
 }
