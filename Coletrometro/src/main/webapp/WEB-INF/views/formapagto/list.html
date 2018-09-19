@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <div class="container  col-sm-12 col-md-6" th:fragment="corpo">
+        <h1 th:text="#{titulo.formapagtos}"></h1>
+        <hr>
+            <nav class="navbar navbar-expand-sm navbar-light bg-light rounded mb-3">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="">
+
+
+                        <div class="collapse navbar-collapse navbar-form " id="bs-example-navbar-collapse-1">
+
+                            <a class="btn btn-primary" th:href="@{/formapagto/add}">adicionar</a>
+
+                            <input id="edFiltrar" type="text" class="form-control " placeholder="Filtrar">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="card mb-3">
+                <div class="card-header" th:text="#{titulo.formapagtos}">
+                    <i class="fas fa-table"></i>
+
+                </div>
+
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div th:class="${#strings.isEmpty(message)}? 'card ' : 'card bg-success mb-3' ">
+                            <div class="card-header">
+                                <span th:text="${#strings.isEmpty(message)}? '': ${message}"> </span>
+                            </div>
+                        </div>
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th th:text="#{lbcodigo}">Cód</th>
+                                    <th th:text="#{lbdescricao}">Descrição</th>
+                                    <th th:text="#{lbstatus}"></th>
+                                    <th th:text="#{lbacao}">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dados">
+                                <tr th:each="e : ${formapagtos}" th:class="${!e.stAtivo}? 'table-danger': ''" >
+                                    <td th:text="${e.cdFormapagto}"></td>
+                                    <td th:text="${e.dsFormapagto} "></td>
+                                    <td> <span th:class="${e.stAtivo}? 'fas fa-check' : 'fas fa-ban'"/></td>
+                                    <td>
+                                        <a class="btn btn-info" th:href="@{/formapagto/update/{id}(id=${e.cdFormapagto})}" th:text="#{lbeditar}"></a>
+                                        <a class="btn btn-danger" th:href="@{/formapagto/delete/{id}(id=${e.cdFormapagto})}" th:text="#{lbexcluir}"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $("#edFiltrar").on("keyup", function () {
+                        var value = $(this).val().toLowerCase();
+                        $("#dados tr").filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                        });
+                    });
+                });
+            </script>
+    </div>
+    <script th:src="@{/static/css/datatables/jquery.dataTables.js}"></script>
+    <script th:src="@{/static/css/datatables/dataTables.bootstrap4.js}"></script>
+</div>
+
+</html>
