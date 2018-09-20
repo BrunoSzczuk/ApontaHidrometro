@@ -18,4 +18,9 @@ public class HomeController {
     public ModelAndView home(){
         return new ModelAndView("layout", "conteudo", "/index");
     }
+    
+    @GetMapping("/index2")
+    public ModelAndView home2(){
+        return new ModelAndView("index2", "conteudo", "/index");
+    }
 }
