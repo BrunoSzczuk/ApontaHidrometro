@@ -5,15 +5,20 @@
  */
 package br.com.brunoszczuk.apontahidrometro.controller;
 
+import br.com.brunoszczuk.apontahidrometro.entities.Estado;
 import br.com.brunoszczuk.apontahidrometro.entities.Pais;
+import br.com.brunoszczuk.apontahidrometro.repository.EstadoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.PaisRepository;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,54 +30,59 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author bruno
  */
 @Controller
-@RequestMapping("pais")
-public class PaisController {
+@RequestMapping("estado")
+public class EstadoController {
 
     @Autowired
-    PaisRepository repo;
+    EstadoRepository repo;
+
+    @Autowired
+    PaisRepository paises;
 
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
-        model.addAttribute("paises", repo.findAll(new Sort(Sort.Direction.ASC, "cdPais")));
-        model.addAttribute("conteudo", "/pais/list");
+        model.addAttribute("estados", repo.findAll(new Sort(Sort.Direction.ASC, "cdEstado")));
+        model.addAttribute("conteudo", "/estado/list");
         return new ModelAndView("layout", model);
     }
 
     @GetMapping("/add")
-    private ModelAndView add(Pais p) {
-        return new ModelAndView("layout", "conteudo", "/pais/add");
+    private ModelAndView add(Estado p) {
+        return new ModelAndView("layout", "conteudo", "/estado/add");
     }
 
     @PostMapping("/save")
-    public ModelAndView save(@Valid Pais pais, BindingResult result, RedirectAttributes attrib) {
-
+    public ModelAndView save(@Valid Estado estado, BindingResult result, RedirectAttributes attrib, ModelMap model) {
+        model.addAttribute("conteudo", "/estado/add");
+        model.addAttribute("paises", getPaises());
         if (result.hasErrors()) {
-            return new ModelAndView("layout", "conteudo", "/pais/add");
+            return new ModelAndView("layout", model);
         }
 
-        repo.save(pais);
+        repo.save(estado);
 
         attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
-        return new ModelAndView("redirect:/pais/");
+        return new ModelAndView("redirect:/estado/");
     }
 
     @PostMapping("/update")
-    public ModelAndView update(@Valid Pais pais, BindingResult result, RedirectAttributes attrib) {
-
+    public ModelAndView update(@Valid Estado estado, BindingResult result, RedirectAttributes attrib, ModelMap model) {
+        model.addAttribute("conteudo", "/estado/add");
+        model.addAttribute("paises", getPaises());
         if (result.hasErrors()) {
-            return new ModelAndView("layout", "conteudo", "/pais/add");
+            return new ModelAndView("layout", model);
         }
 
-        repo.save(pais);
+        repo.save(estado);
         attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
-        return new ModelAndView("redirect:/pais/");
+        return new ModelAndView("redirect:/estado/");
     }
 
     @GetMapping("/update/{id}")
     public ModelAndView preUpdate(@PathVariable("id") String id, ModelMap model) {
-        Pais e = repo.findById(id).get();
-        model.addAttribute("pais", e);
-        model.addAttribute("conteudo", "/pais/add");
+        Estado e = repo.findById(id).get();
+        model.addAttribute("estado", e);
+        model.addAttribute("conteudo", "/estado/add");
         return new ModelAndView("layout", model);
     }
 
@@ -80,6 +90,11 @@ public class PaisController {
     public String delete(@PathVariable("id") String id, RedirectAttributes attrib) {
         repo.deleteById(id);
         attrib.addFlashAttribute("message", "Registro removido com sucesso.");
-        return "redirect:/pais/";
+        return "redirect:/estado/";
+    }
+
+    @ModelAttribute
+    public List<Pais> getPaises() {
+        return paises.findAll();
     }
 }

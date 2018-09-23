@@ -5,7 +5,7 @@
  */
 package br.com.brunoszczuk.apontahidrometro.repository;
 
-import br.com.brunoszczuk.apontahidrometro.entities.Pais;
+import br.com.brunoszczuk.apontahidrometro.entities.Estado;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public interface PaisRepository extends JpaRepository<Pais, String>{
+public interface EstadoRepository extends JpaRepository<Estado, String>{
     
 }
