@@ -13,6 +13,7 @@
 
         <!-- Bootstrap core CSS-->
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/static/css/bootstrap-select.min.css}" rel="stylesheet"/>
         <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet" type="text/css"/>
 
         <link th:href="@{/static/css/datatables/dataTables.bootstrap4.css}" rel="stylesheet"/>
@@ -37,7 +38,7 @@
         <div id="wrapper">
 
             <!-- Sidebar -->
-            
+
             <ul class="sidebar navbar-nav">
                 <li class="nav-item active">
                     <a class="nav-link" th:href="@{/equipamento/}">
@@ -75,7 +76,7 @@
             </ul>
 
             <div id="content-wrapper" th:include="${conteudo} :: corpo">
-              
+
 
             </div>
             <!-- /.container-fluid -->
@@ -117,10 +118,12 @@
 
     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
 
+
     <!-- Core plugin JavaScript-->
 
 
     <script th:src="@{/static/js/sb-admin.min.js}"></script>
+    <script th:src="@{/static/js/bootstrap-select.min.js}"></script>
 
 </body>
 

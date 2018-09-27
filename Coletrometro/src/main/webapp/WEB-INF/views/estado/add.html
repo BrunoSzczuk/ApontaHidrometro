@@ -1,55 +1,60 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <div th:fragment="corpo">
-        <div class="col-md-10 offset-md-1" >
-         
-            <hr class="my-5">
-                <h3 th:text="#{titulo.cadastros.estados}"></h3>
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
 
-                <!-- form complex example -->
-                <form th:action="${estado.cdEstado == null}?  @{/estado/save}: @{/estado/update}" th:object="${estado}" method="post">
-                    <div class="form-row mt-4">
-                        <div class="col-sm-5 pb-3">
-                            <label th:for="cdEstado"  th:text="#{lbcodigo}"></label>
-                            <input type="text" class="form-control" id="cdEstado" th:placeholder="#{lbcodigo}" th:field="*{cdEstado}" />
-                            <span th:if="${#fields.hasErrors('cdEstado')}" th:errors="*{cdEstado}" class="badge badge-danger" th:readonly="${estado.cdEstado == null}"></span>
-                        </div>
-                        <div class="col-sm-3 pb-3">
-                            <label th:for="dsEstado" th:text="#{lbdescricao}">Control #</label>
-                            <input type="text" class="form-control" id="dsEstado" th:placeholder="#{lbdescricao}" th:field="*{dsEstado}">
-                                <span th:if="${#fields.hasErrors('dsEstado')}" th:errors="*{dsEstado}" class="badge badge-danger"></span>
-                        </div>
-                        <div class="col-sm-4 pb-3">
-                            <label th:for="sgEstado" th:text="#{lbsigla}">Control #</label>
-                            <input type="text" class="form-control" id="sgEstado" th:field="*{sgEstado}">
-                                <span th:if="${#fields.hasErrors('sgEstado')}" th:errors="*{sgEstado}" class="badge badge-danger"></span>
-                        </div>
-                        <div class="col-sm-6 pb-3">
-                            <label th:for="pais.cdPais" th:text="#{lbcodigopais}"></label>
-                            <input type="text" class="form-control" id="pais.cdPais" th:field="*{pais.cdPais}" >
-                                <span th:if="${#fields.hasErrors('pais.cdPais')}" th:errors="*{pais.cdPais}" class="badge badge-danger"></span>
-                        </div>
-                        <div class="col-sm-6 pb-3">
-                            <label th:for="pais.dsPais" th:text="#{lbdescricaopais}"></label>
-                            <input type="text" class="form-control" id="pais.dsPais" th:field="*{pais.dsPais}" >
-                                <span th:if="${#fields.hasErrors('pais.dsPais')}" th:errors="*{pais.dsPais}" class="badge badge-danger"></span>
-                        </div>
-                        <div class="col-sm-3 pb-3">
-                            <label th:for="stAtivo"   th:text="#{lbstatus}"></label>
-                            <select id="stAtivo" class="form-control" th:field="*{stAtivo}">
-                                <option th:value="true" th:text="#{lbativo}"></option>
-                                <option th:value="false" th:text="#{lbinativo}"> </option>
-                            </select>
-                        </div>
+        <hr class="my-5">
+        <h3 th:text="#{titulo.cadastros.estados}"></h3>
 
-                        <div class="col-12">
-                            <div class="form-row">
-                                <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"></button>
-                                <button type="button" class="btn btn-warning" onclick="history.go(-1)" th:text="#{lbcancelar}"></button>
-                            </div>
-                        </div>
+        <!-- form complex example -->
+        <form th:action="${estado.cdEstado == null}?  @{/estado/save}: @{/estado/update}" th:object="${estado}" method="post">
+            <div class="form-row mt-4">
+                <div class="col-sm-5 pb-3">
+                    <label th:for="cdEstado"  th:text="#{lbcodigo}"></label>
+                    <input type="text" class="form-control" id="cdEstado" th:placeholder="#{lbcodigo}" th:field="*{cdEstado}" />
+                    <span th:if="${#fields.hasErrors('cdEstado')}" th:errors="*{cdEstado}" class="badge badge-danger" th:readonly="${estado.cdEstado == null}"></span>
+                </div>
+                <div class="col-sm-3 pb-3">
+                    <label th:for="dsEstado" th:text="#{lbdescricao}">Control #</label>
+                    <input type="text" class="form-control" id="dsEstado" th:placeholder="#{lbdescricao}" th:field="*{dsEstado}">
+                    <span th:if="${#fields.hasErrors('dsEstado')}" th:errors="*{dsEstado}" class="badge badge-danger"></span>
+                </div>
+                <div class="col-sm-4 pb-3">
+                    <label th:for="sgEstado" th:text="#{lbsigla}">Control #</label>
+                    <input type="text" class="form-control" id="sgEstado" th:field="*{sgEstado}">
+                    <span th:if="${#fields.hasErrors('sgEstado')}" th:errors="*{sgEstado}" class="badge badge-danger"></span>
+                </div>
+                <div class="col-lg-6">
+                    <label th:for="pais" th:text="#{lbpais}"></label> <p/>
+                    <select data-placeholder="Selecione o País" class="selectpicker" id="pais"   data-live-search="true" th:field="*{pais.cdPais}">
+                        <option th:value="${null}" th:text="Selecione"/>
+                        <option th:each="i : ${paises}"  th:value="${i.cdPais}" th:text="${i.cdPais + ' - ' + i.dsPais }"/>
+                    </select>
+                    <span th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}" class="badge badge-danger"></span>
+                </div>
+
+                <div class="col-sm-3 pb-3">
+                    <label th:for="stAtivo"   th:text="#{lbstatus}"></label>
+                    <select id="stAtivo" class="form-control" th:field="*{stAtivo}">
+                        <option th:value="true" th:text="#{lbativo}"></option>
+                        <option th:value="false" th:text="#{lbinativo}"> </option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"></button>
+                        <button type="button" class="btn btn-warning" onclick="history.go(-1)" th:text="#{lbcancelar}"></button>
                     </div>
-                </form>
-        </div>
+                </div>
+            </div>
+
+        </form>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+
+                $('.selectpicker').selectpicker({
+
+                });
+            });
+        </script>  
     </div>
-</html>
+</div>

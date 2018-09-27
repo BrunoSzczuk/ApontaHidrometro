@@ -26,8 +26,10 @@ public class Equipamento implements java.io.Serializable {
     private int cdEquipamento;
     @NotNull(message = "É necessário informar um valor de Contador Inicial")
     private long contInicial;
+    
     @NotBlank(message = "É necessário informar uma Descrição desse Equipamento")
     private String dsEquipamento;
+    
     @NotBlank(message = "É necessário informar um Número de Série")
     private String nrSerie;
     @NotNull(message = "É necessário informar um valor de Contador Atual")

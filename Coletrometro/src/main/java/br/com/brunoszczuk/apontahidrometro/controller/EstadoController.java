@@ -47,7 +47,9 @@ public class EstadoController {
     }
 
     @GetMapping("/add")
-    private ModelAndView add(Estado p) {
+    private ModelAndView add(Estado p,  ModelMap model) {
+        model.addAttribute("conteudo", "/estado/add");
+        model.addAttribute("paises", getPaises());
         return new ModelAndView("layout", "conteudo", "/estado/add");
     }
 
@@ -82,6 +84,7 @@ public class EstadoController {
     public ModelAndView preUpdate(@PathVariable("id") String id, ModelMap model) {
         Estado e = repo.findById(id).get();
         model.addAttribute("estado", e);
+        model.addAttribute("paises", getPaises());
         model.addAttribute("conteudo", "/estado/add");
         return new ModelAndView("layout", model);
     }
