@@ -47,7 +47,7 @@ public class EstadoController {
     }
 
     @GetMapping("/add")
-    private ModelAndView add(Estado p,  ModelMap model) {
+    private ModelAndView add(Estado p, ModelMap model) {
         model.addAttribute("conteudo", "/estado/add");
         model.addAttribute("paises", getPaises());
         return new ModelAndView("layout", "conteudo", "/estado/add");
@@ -55,6 +55,7 @@ public class EstadoController {
 
     @PostMapping("/save")
     public ModelAndView save(@Valid Estado estado, BindingResult result, RedirectAttributes attrib, ModelMap model) {
+
         model.addAttribute("conteudo", "/estado/add");
         model.addAttribute("paises", getPaises());
         if (result.hasErrors()) {
@@ -62,7 +63,6 @@ public class EstadoController {
         }
 
         repo.save(estado);
-
         attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
         return new ModelAndView("redirect:/estado/");
     }
@@ -98,6 +98,6 @@ public class EstadoController {
 
     @ModelAttribute
     public List<Pais> getPaises() {
-        return paises.findAll();
+        return paises.findByStAtivoTrue();
     }
 }

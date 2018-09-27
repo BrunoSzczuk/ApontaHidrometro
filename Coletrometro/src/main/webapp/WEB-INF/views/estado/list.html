@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <div class="container  col-sm-12 col-md-6" th:fragment="corpo">
+    <div class="container  col-sm-12 col-md-6 offset-md-1" th:fragment="corpo">
         <hr class="my-3">
 
 
@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <div th:class="${#strings.isEmpty(message)}? 'card ' : 'card bg-success mb-3' ">
+                    <div th:class="${#strings.isEmpty(message)}? 'card ' : 'card border-success mb-3' ">
                         <div class="card-header">
                             <a class="btn btn-primary" th:href="@{/estado/add}">adicionar</a>
                             <span th:text="${#strings.isEmpty(message)}? '': ${message}"> </span>

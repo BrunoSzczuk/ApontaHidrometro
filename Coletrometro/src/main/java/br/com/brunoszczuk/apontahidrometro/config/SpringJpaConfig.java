@@ -31,7 +31,7 @@ public class SpringJpaConfig {
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://localhost:5433/coletrometro?createDatabaseIfNotExist=true");
+        ds.setUrl("jdbc:postgresql://localhost:5432/coletrometro?createDatabaseIfNotExist=true");
         ds.setUsername("aplicacao");
         ds.setPassword("aplicacao01");
         return ds;

@@ -33,9 +33,7 @@ public class Estado implements java.io.Serializable {
     @Length(max = 20)
     private String cdEstado;
     
-    
-    @Valid
-   
+      
     private Pais pais;
     
     @NotBlank(message = "É necessário informar uma Sigla")
