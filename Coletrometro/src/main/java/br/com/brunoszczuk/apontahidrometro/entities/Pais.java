@@ -22,17 +22,17 @@ import org.hibernate.validator.constraints.Length;
 )
 public class Pais implements java.io.Serializable {
 
-    @NotBlank(message = "É necessário informar um código para o País")
+    @NotBlank(message = "{message.pais.cdpais}")
     @Length(max = 20)
     private String cdPais;
-    @NotBlank(message = "É necessário informar uma Descrição para o País")
+    @NotBlank(message = "{message.pais.dspais}")
     @Length(max = 100)
     private String dsPais;
     private String dsRegiao;
     private String dsSubregiao;
     private String cdCidadecapital;
     
-    @NotBlank(message = "É necessário informar uma Sigla")
+    @NotBlank(message = "{message.pais.sgpais}")
     @Length(max = 5)
     private String sgPais;
     

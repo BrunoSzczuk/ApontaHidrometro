@@ -7,7 +7,7 @@
         <!-- form complex example -->
         <form th:action="${estado.cdEstado == null}?  @{/estado/save}: @{/estado/update}" th:object="${estado}" method="post">
             <div class="form-row mt-4">
-                <div class="col-sm-2 pb-3">
+                <div class="col-sm-3 pb-3">
                     <label th:for="cdEstado"  th:text="#{lbcodigo}"></label>
                     <input type="text" class="form-control" id="cdEstado" th:placeholder="#{lbcodigo}" th:field="*{cdEstado}" />
                     <span th:if="${#fields.hasErrors('cdEstado')}" th:errors="*{cdEstado}" class="badge badge-danger" th:readonly="${estado.cdEstado == null}"></span>
@@ -27,7 +27,7 @@
                     <select data-placeholder="Selecione o País" class="selectpicker" id="pais"   data-live-search="true" th:field="*{pais.cdPais}">
                         
                         <option th:each="i : ${paises}"  th:value="${i.cdPais}" th:text="${i.cdPais + ' - ' + i.dsPais }"/>
-                        <option th:value="${null}" th:text="Selecione"/>
+                        <option th:value="${null}" th:text="Selecione" disabled selected/>
                     </select>
                     <span th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}" class="badge badge-danger"></span>
                 </div>
@@ -53,7 +53,7 @@
             $(window).on('load', function () {
 
                 $('.selectpicker').selectpicker({
-
+                    noneSelectedText : "Selecione um valor"
                 });
             });
         </script>  

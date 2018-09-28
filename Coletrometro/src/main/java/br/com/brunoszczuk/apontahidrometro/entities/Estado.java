@@ -29,18 +29,19 @@ import org.hibernate.validator.constraints.Length;
 )
 public class Estado implements java.io.Serializable {
 
-    @NotBlank(message = "É necessário informar o Código do Estado")
+    @NotBlank(message = "{message.estado.cdestado}")
     @Length(max = 20)
     private String cdEstado;
     
-      
+    
+    @NotNull(message = "É necessário informar um País")
     private Pais pais;
     
-    @NotBlank(message = "É necessário informar uma Sigla")
+    @NotBlank(message = "{message.estado.sgestado}")
     @Length(max = 5)
     private String sgEstado;
     
-    @NotBlank(message = "É necessário informar uma Descrição")
+    @NotBlank(message = "{message.estado.dsestado}")
     @Length(max = 100)
     private String dsEstado;
     private boolean stAtivo;

@@ -24,15 +24,15 @@ import javax.validation.constraints.NotNull;
 public class Equipamento implements java.io.Serializable {
 
     private int cdEquipamento;
-    @NotNull(message = "É necessário informar um valor de Contador Inicial")
+    @NotNull(message = "{message.equipamento.continicial}")
     private long contInicial;
     
-    @NotBlank(message = "É necessário informar uma Descrição desse Equipamento")
+    @NotBlank(message = "{message.equipamento.dsequipamento}")
     private String dsEquipamento;
     
-    @NotBlank(message = "É necessário informar um Número de Série")
+    @NotBlank(message = "{message.equipamento.nrserie}")
     private String nrSerie;
-    @NotNull(message = "É necessário informar um valor de Contador Atual")
+    @NotNull(message = "{message.equipamento.contatual}")
     private long contAtual;
     private boolean stAtivo;
     private Set<Unidadeconsumidora> unidadeconsumidoras = new HashSet<Unidadeconsumidora>(0);
