@@ -61,7 +61,6 @@ public class EstadoController {
         if (result.hasErrors()) {
             return new ModelAndView("layout", model);
         }
-        estado.setPais(paises.findById(estado.getPais().getCdPais()).get());
         repo.save(estado);
         attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
         return new ModelAndView("redirect:/estado/");

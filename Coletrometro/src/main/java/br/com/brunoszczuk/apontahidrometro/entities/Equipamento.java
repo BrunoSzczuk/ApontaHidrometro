@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -25,6 +26,7 @@ public class Equipamento implements java.io.Serializable {
 
     private int cdEquipamento;
     @NotNull(message = "{message.equipamento.continicial}")
+    @Min(0)
     private long contInicial;
     
     @NotBlank(message = "{message.equipamento.dsequipamento}")
@@ -33,6 +35,7 @@ public class Equipamento implements java.io.Serializable {
     @NotBlank(message = "{message.equipamento.nrserie}")
     private String nrSerie;
     @NotNull(message = "{message.equipamento.contatual}")
+    @Min(0)
     private long contAtual;
     private boolean stAtivo;
     private Set<Unidadeconsumidora> unidadeconsumidoras = new HashSet<Unidadeconsumidora>(0);

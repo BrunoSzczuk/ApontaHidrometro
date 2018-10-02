@@ -5,8 +5,7 @@
  */
 package br.com.brunoszczuk.apontahidrometro.repository;
 
-import br.com.brunoszczuk.apontahidrometro.entities.Municipio;
-import java.util.List;
+import br.com.brunoszczuk.apontahidrometro.entities.Frequenciacoleta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @Repository
-public interface MunicipioRepository extends JpaRepository<Municipio, String>{
-    List<Municipio> findByStAtivoTrue();
+public interface FrequenciaColetaRepository extends JpaRepository<Frequenciacoleta, Integer>{
+    
 }

@@ -1,0 +1,60 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.frequenciacoletas}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.frequenciacoletas}"/> 
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${frequenciacoleta.cdFrequenciacoleta == null}?  @{/frequenciacoleta/save}: @{/frequenciacoleta/update}" th:object="${frequenciacoleta}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="cdFrequenciacoleta"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdFrequenciacoleta" th:placeholder="#{lbcodigo}" th:field="*{cdFrequenciacoleta}" th:readonly="${frequenciacoleta.cdFrequenciacoleta != null}" style="text-transform:uppercase"/>
+                            <span th:if="${#fields.hasErrors('cdFrequenciacoleta')}" th:errors="*{cdFrequenciacoleta}" class="badge badge-danger" th:readonly="${frequenciacoleta.cdFrequenciacoleta == null}"/>
+                        </div>
+                        <div class="col-sm-7 pb-3 pr-3">
+                            <label th:for="qtDias" th:text="#{lbdescricao}"/>
+                            <input type="text" class="form-control" id="dsFrequenciacoleta" th:placeholder="#{lbdescricao}" th:field="*{dsFrequenciacoleta}"/>
+                            <span th:if="${#fields.hasErrors('dsFrequenciacoleta')}" th:errors="*{dsFrequenciacoleta}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="qtDias" th:text="#{lbqtdias}"/>
+                            <input type="text" class="form-control" id="qtDias" th:placeholder="#{lbqtdias}" th:field="*{qtDias}"/>
+                            <span th:if="${#fields.hasErrors('qtDias')}" th:errors="*{qtDias}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 pb-3 ">
+                            <label th:for="stAtivo"   th:text="#{lbstatus}"/>
+                            <select id="stAtivo" class="form-control" th:field="*{stAtivo}" >
+                                <option th:value="true" th:text="#{lbativo}"/>
+                                <option th:value="false" th:text="#{lbinativo}"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/frequenciacoleta/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+
+                $('.selectpicker').selectpicker({
+
+                });
+            });
+        </script>  
+    </div>
+</div>
