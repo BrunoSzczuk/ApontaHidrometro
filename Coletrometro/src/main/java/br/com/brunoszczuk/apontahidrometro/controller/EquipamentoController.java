@@ -40,7 +40,8 @@ public class EquipamentoController {
     }
 
     @GetMapping("/add")
-    private ModelAndView add(Equipamento eq) {
+    private ModelAndView add(Equipamento e) {
+        e.setCdEquipamento((int) (eq.count() + 1));
         return new ModelAndView("layout", "conteudo", "/equipamento/add");
     }
 
@@ -50,7 +51,9 @@ public class EquipamentoController {
         if (result.hasErrors()) {
             return new ModelAndView("layout", "conteudo", "/equipamento/add");
         }
-
+        if (eq.findById(equipamento.getCdEquipamento()) != null) {
+            equipamento.setCdEquipamento((int) (eq.count() + 1));
+        }
         eq.save(equipamento);
 
         attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
