@@ -17,7 +17,7 @@
                             <span th:if="${#fields.hasErrors('cdFrequenciacoleta')}" th:errors="*{cdFrequenciacoleta}" class="badge badge-danger" th:readonly="${frequenciacoleta.cdFrequenciacoleta == null}"/>
                         </div>
                         <div class="col-sm-7 pb-3 pr-3">
-                            <label th:for="qtDias" th:text="#{lbdescricao}"/>
+                            <label th:for="dsFrequenciacoleta" th:text="#{lbdescricao}"/>
                             <input type="text" class="form-control" id="dsFrequenciacoleta" th:placeholder="#{lbdescricao}" th:field="*{dsFrequenciacoleta}"/>
                             <span th:if="${#fields.hasErrors('dsFrequenciacoleta')}" th:errors="*{dsFrequenciacoleta}" class="badge badge-danger"/>
                         </div>

@@ -4,13 +4,13 @@
 
 
     <div class="card mb-3">
-        <h3 th:text="#{titulo.frequenciacoletas}"></h3>
+        <h3 th:text="#{titulo.clientes}"></h3>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <div th:class="${#strings.isEmpty(message)}? 'card ' : 'card border-success mb-3' ">
                 <div class="card-header">
-                    <a class="btn btn-primary" th:href="@{/frequenciacoleta/add}" th:text="#{lbadicionar}"></a>
+                    <a class="btn btn-primary" th:href="@{/cliente/add}" th:text="#{lbadicionar}"></a>
                     <span th:text="${#strings.isEmpty(message)}? '': ${message}"> </span>
                 </div>
             </div>
@@ -20,19 +20,18 @@
                         <th th:text="#{lbcodigo}">Cód</th>
                         <th th:text="#{lbdescricao}">Descrição</th>
                         <th th:text="#{lbqtdias}"></th>
-                        <th th:text="#{lbstatus}"/>
                         <th th:text="#{lbacao}">Ação</th>
                     </tr>
                 </thead>
                 <tbody id="dados">
-                    <tr th:each="e : ${frequenciacoletas}" th:class="${!e.stAtivo}? 'table-danger': ''">
-                        <td th:text="${e.cdFrequenciacoleta}"></td>
-                        <td th:text="${e.dsFrequenciacoleta} "></td>
-                        <td th:text="${e.qtDias} "></td>
-                        <td> <span th:class="${e.stAtivo}? 'fas fa-check' : 'fas fa-ban'"/></td>
+                    <tr th:each="e : ${clientes}" th:class="${!e.stStatus}? 'table-danger': ''">
+                        <td th:text="${e.cdCliente}"></td>
+                        <td th:text="${e.nmCliente} "></td>
+                        <td th:text="${e.nmBairro} "></td>
+                        <td> <span th:class="${e.stStatus}? 'fas fa-check' : 'fas fa-ban'"/></td>
                         <td>
-                            <a class="btn btn-info" th:href="@{/frequenciacoleta/update/{id}(id=${e.cdFrequenciacoleta})}" th:text="#{lbeditar}"></a>
-                            <a class="btn btn-danger" th:href="@{/frequenciacoleta/delete/{id}(id=${e.cdFrequenciacoleta})}" th:text="#{lbexcluir}"></a>
+                            <a class="btn btn-info" th:href="@{/cliente/update/{id}(id=${e.cdCliente})}" th:text="#{lbeditar}"></a>
+                            <a class="btn btn-danger" th:href="@{/cliente/delete/{id}(id=${e.cdCliente})}" th:text="#{lbexcluir}"></a>
                         </td>
                     </tr>
                 </tbody>

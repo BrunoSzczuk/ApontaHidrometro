@@ -22,16 +22,18 @@
                         <th th:text="#{lbbairro}"></th>
                         <th th:text="#{lbcep}"></th>
                         <th th:text="#{lbmunicipio}">Ação</th>
+                        <th th:text="#{lbstatus}"/>
                         <th th:text="#{lbacao}">Ação</th>
                     </tr>
                 </thead>
                 <tbody id="dados">
-                    <tr th:each="e : ${enderecos}">
+                    <tr th:each="e : ${enderecos}" th:class="${!e.stAtivo}? 'table-danger': ''">
                         <td th:text="${e.cdEndereco}"></td>
                         <td th:text="${e.nrLogradouro} "></td>
                         <td th:text="${e.nmBairro} "></td>
                         <td th:text="${e.nrCep} "></td>
                         <td th:text="${e.municipio.dsMunicipio} "></td>
+                        <td> <span th:class="${e.stAtivo}? 'fas fa-check' : 'fas fa-ban'"/></td>
                         <td>
                             <a class="btn btn-info" th:href="@{/endereco/update/{id}(id=${e.cdEndereco})}" th:text="#{lbeditar}"></a>
                             <a class="btn btn-danger" th:href="@{/endereco/delete/{id}(id=${e.cdEndereco})}" th:text="#{lbexcluir}"></a>

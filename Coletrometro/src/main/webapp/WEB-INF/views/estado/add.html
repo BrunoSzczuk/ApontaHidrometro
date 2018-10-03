@@ -26,15 +26,15 @@
                             <input type="text" class="form-control" id="sgEstado" th:field="*{sgEstado}" style="text-transform:uppercase"/>
                             <span th:if="${#fields.hasErrors('sgEstado')}" th:errors="*{sgEstado}" class="badge badge-danger"></span>
                         </div>
-                        <div class="col-sm-2 col-lg-5">
-                            <span  th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}" class="badge badge-danger"/>
+                        <div class="col-sm-2 col-lg-3">
+                            
                             <label th:for="pais" th:text="#{lbpais}"></label> <p/>
-                            <select data-placeholder="Selecione o País" class="selectpicker" id="pais"   data-live-search="true" th:field="*{pais.cdPais}">
+                            <select data-placeholder="Selecione o País" class="selectpicker form-control" id="pais"   data-live-search="true" th:field="*{pais.cdPais}">
                                 <option id="op1" value="" th:text="Selecione"  />
                                 <option th:each="i : ${paises}"  th:value="${i.cdPais}" th:text="${i.cdPais + ' - ' + i.dsPais }"/>
 
                             </select>
-
+                            <span  th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}" class="badge badge-danger"/>
                         </div>
 
                         <div class="col-sm-3 col-lg-3 ">
@@ -66,6 +66,7 @@
 
                 });
             });
+            document.getElementById('pais').selectedIndex = -1;
         </script>  
     </div>
 </div>
