@@ -4,13 +4,13 @@
 
 
     <div class="card mb-3">
-        <h3 th:text="#{titulo.clientes}"></h3>
+        <h3 th:text="#{titulo.unddconsumidoras}"></h3>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <div th:class="${#strings.isEmpty(message)}? 'card ' : 'card border-success mb-3' ">
                 <div class="card-header">
-                    <a class="btn btn-primary" th:href="@{/cliente/add}" th:text="#{lbadicionar}"></a>
+                    <a class="btn btn-primary" th:href="@{/unddconsumidora/add}" th:text="#{lbadicionar}"></a>
                     <span th:text="${#strings.isEmpty(message)}? '': ${message}"> </span>
                 </div>
             </div>
@@ -18,23 +18,21 @@
                 <thead>
                     <tr>
                         <th th:text="#{lbcodigo}">Cód</th>
-                        <th th:text="#{lbnrloja}">Descrição</th>
-                        <th th:text="#{lbnmcliente}"></th>
-                        <th th:text="#{lbnmfantasia}"></th>
-                        <th th:text="#{lbstatus}"></th>
+                        <th th:text="#{lbnmcliente}">Descrição</th>
+                        <th th:text="#{lbnrloja}"></th>
+                        <th th:text="#{lbequipamento}"></th>
                         <th th:text="#{lbacao}">Ação</th>
                     </tr>
                 </thead>
                 <tbody id="dados">
-                    <tr th:each="e : ${clientes}" th:class="${!e.stStatus}? 'table-danger': ''">
-                        <td th:text="${e.cdCliente}"></td>
-                        <td th:text="${e.nrLoja} "></td>
-                        <td th:text="${e.nmCliente} "></td>
-                        <td th:text="${e.nmFantasia} "></td>
-                        <td> <span th:class="${e.stStatus}? 'fas fa-check' : 'fas fa-ban'"/></td>
+                    <tr th:each="e : ${unidadesonsumidoras}" >
+                        <td th:text="${e.cdUnidadeconsumidora}"></td>
+                        <td th:text="${e.cliente.nmCliente} "></td>
+                        <td th:text="${e.cliente.nrLoja} "></td>
+                        <td th:text="${e.equipamento.cdEquipamento} "></td>
                         <td>
-                            <a class="btn btn-info" th:href="@{/cliente/update/{id}(id=${e.cdCliente})}" th:text="#{lbeditar}"></a>
-                            <a class="btn btn-danger" th:href="@{/cliente/delete/{id}(id=${e.cdCliente})}" th:text="#{lbexcluir}"></a>
+                            <a class="btn btn-info" th:href="@{/unddconsumidora/update/{id}(id=${e.cdUnidadeconsumidora})}" th:text="#{lbeditar}"></a>
+                            <a class="btn btn-danger" th:href="@{/unddconsumidora/delete/{id}(id=${e.cdUnidadeconsumidora})}" th:text="#{lbexcluir}"></a>
                         </td>
                     </tr>
                 </tbody>

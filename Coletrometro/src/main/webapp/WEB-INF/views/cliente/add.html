@@ -17,8 +17,8 @@
                             <span th:if="${#fields.hasErrors('cdCliente')}" th:errors="*{cdCliente}" class="badge badge-danger" th:readonly="${cliente.cdCliente == null}"/>
                         </div>
                         <div class="col-sm-2 pb-3 pr-3">
-                            <label th:for="nrLoja" th:text="#{lbnmcliente}"/>
-                            <input type="text" class="form-control" id="nrLoja" th:placeholder="#{lbnmcliente}" th:field="*{nrLoja}"/>
+                            <label th:for="nrLoja" th:text="#{lbnrloja}"/>
+                            <input type="text" class="form-control" id="nrLoja" pattern="[0-9]+$" min="4" th:placeholder="#{lbnrloja}" th:field="*{nrLoja}"/>
                             <span th:if="${#fields.hasErrors('nrLoja')}" th:errors="*{nrLoja}" class="badge badge-danger"/>
                         </div>
                         <div class="col-sm-2 pb-3 pr-3">
@@ -28,17 +28,17 @@
                                 <option th:value="PJ" th:text="#{lbpj}"/>
                             </select>
                         </div>
-                        <div class="col-sm-2 pb-3 pr-3">
+                        <div class="col-sm-3 pb-3 pr-3">
                             <label th:for="nrCnpjcpf" th:text="#{lbcnpjcpf}"/>
                             <input type="text" class="form-control" id="nrCnpjcpf" th:placeholder="#{lbcnpjcpf}" th:field="*{nrCnpjcpf}"/>
                             <span th:if="${#fields.hasErrors('nrCnpjcpf')}" th:errors="*{nrCnpjcpf}" class="badge badge-danger"/>
                         </div>
-                        <div class="col-sm-2 pb-3 pr-3">
+                        <div class="col-sm-6 pb-3 pr-3">
                             <label th:for="nmCliente" th:text="#{lbnmcliente}"/>
                             <input type="text" class="form-control" id="nmCliente" th:placeholder="#{lbnmcliente}" th:field="*{nmCliente}"/>
                             <span th:if="${#fields.hasErrors('nmCliente')}" th:errors="*{nmCliente}" class="badge badge-danger"/>
                         </div>
-                        <div class="col-sm-2 pb-3 pr-3">
+                        <div class="col-sm-6 pb-3 pr-3">
                             <label th:for="nmFantasia" th:text="#{lbnmfantasia}"/>
                             <input type="text" class="form-control" id="nmFantasia" th:placeholder="#{lbnmfantasia}" th:field="*{nmFantasia}"/>
                             <span th:if="${#fields.hasErrors('nmFantasia')}" th:errors="*{nmFantasia}" class="badge badge-danger"/>
@@ -53,25 +53,25 @@
                             <input type="text" class="form-control" id="nrTelefone" th:placeholder="#{lbnrtelefone}" th:field="*{nrTelefone}"/>
                             <span th:if="${#fields.hasErrors('nrTelefone')}" th:errors="*{nrTelefone}" class="badge badge-danger"/>
                         </div>                        
-                        <div class="col-sm-2 pb-3 pr-3 ">
+                        <div class="col-sm-9 pb-3 pr-3 ">
                             <label th:for="dsEmail" th:text="#{lbdsemail}"/>
                             <input type="email" class="form-control" id="dsEmail" th:placeholder="#{lbdsemail}" th:field="*{dsEmail}"/>
                             <span th:if="${#fields.hasErrors('dsEmail')}" th:errors="*{dsEmail}" class="badge badge-danger"/>
                         </div>
-                        <div class="col-sm-2 col-lg-7">
-                            <span  th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}" class="badge badge-danger"/>
+                        <div class="col-sm-2 col-lg-6">
                             <label th:for="endereco" th:text="#{lbendereco}"></label> <p/>
                             <select th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="endereco"   data-live-search="true" th:field="*{endereco.cdEndereco}" >
-                                
+
                                 <option th:each="e : ${enderecos}"  class="form-control" th:value="${e.cdEndereco}" th:text="${e.cdEndereco + ' - ' + e.nmRua + ' - ' + e.nrLogradouro }"/>
                             </select>
+                            <span  th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}" class="badge badge-danger"/>
                         </div>
-                        <div class="col-sm-2 col-lg-5">
-                            <span  th:if="${#fields.hasErrors('formapagto')}" th:errors="*{formapagto}" class="badge badge-danger"/>
+                        <div class="col-sm-2 col-lg-6">
                             <label th:for="formapagto" th:text="#{lbformapagto}"></label> <p/>
                             <select th:placeholder="#{lbselecione}"  class="selectpicker form-control" id="formapagto"   data-live-search="true" th:field="*{formapagto.cdFormapagto}">
                                 <option th:each="i : ${formapagtos}"  th:value="${i.cdFormapagto}" th:text="${i.cdFormapagto + ' - ' + i.dsFormapagto }"/>
                             </select>
+                            <span  th:if="${#fields.hasErrors('formapagto')}" th:errors="*{formapagto}" class="badge badge-danger"/> 
                         </div>
                         <div class="col-sm-3 col-lg-3 pb-3 ">
                             <label th:for="stStatus"   th:text="#{lbstatus}"/>
@@ -99,11 +99,13 @@
             $(window).on('load', function () {
 
                 $('.selectpicker').selectpicker({
-                   noneSelectedText : "Selecione..."
+                    noneSelectedText: "Selecione..."
                 });
             });
-            document.getElementById('endereco').selectedIndex = -1;
-            document.getElementById('formapagto').selectedIndex = -1;
+            if (document.getElementById('nmCliente').value.length === 0) {
+                document.getElementById('endereco').selectedIndex = -1;
+                document.getElementById('formapagto').selectedIndex = -1;
+            }
         </script>  
     </div>
 </div>
