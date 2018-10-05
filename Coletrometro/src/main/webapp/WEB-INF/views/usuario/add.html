@@ -1,0 +1,85 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.usuarios}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.usuarios}"/> 
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${usuario.cdUsuario == null}?  @{/usuario/save}: @{/usuario/update}" th:object="${usuario}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="cdUsuario"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdUsuario" th:placeholder="#{lbcodigo}" th:field="*{cdUsuario}" readonly/>
+                            <span th:if="${#fields.hasErrors('cdUsuario')}" th:errors="*{cdUsuario}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-6 pb-3 pr-3">
+                            <label th:for="nickUsuario" th:text="#{lbnickusuario}"/>
+                            <input type="text" class="form-control" id="nickUsuario" th:placeholder="#{lbnickusuario}" th:field="*{nickUsuario}"/>
+                            <span th:if="${#fields.hasErrors('nickUsuario')}" th:errors="*{nickUsuario}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-4 pb-3 pr-3">
+                            <label th:for="snUsuario" th:text="#{lbsenha}"/>
+                            <input type="password" class="form-control" id="snUsuario" th:placeholder="#{lbsenha}" th:field="*{snUsuario}"/>
+                            <span th:if="${#fields.hasErrors('snUsuario')}" th:errors="*{snUsuario}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-7 col-lg-7 pb-3">
+                            <label th:for="dsEmail" th:text="#{lbemail}"/>
+                            <input type="email" class="form-control" id="dsEmail" th:field="*{dsEmail}" style="text-transform:uppercase"/>
+                            <span th:if="${#fields.hasErrors('dsEmail')}" th:errors="*{dsEmail}" class="badge badge-danger"></span>
+                        </div>
+                        <div class="col-sm-5 col-lg-5">
+                            <label th:for="tipousuario" th:text="#{lbtipousuario}"></label> <p/>
+                            <select data-placeholder="Selecione o País" class="selectpicker form-control" id="tipousuario"   data-live-search="true" th:field="*{tipousuario.cdTipousuario}">
+                                <option id="op1" value="" th:text="Selecione"  />
+                                <option th:each="i : ${tipousuarios}"  th:value="${i.cdTipousuario}" th:text="${i.cdTipousuario + ' - ' + i.dsTipousuario }"/>
+
+                            </select>
+                            <span  th:if="${#fields.hasErrors('tipousuario')}" th:errors="*{tipousuario}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3">
+                            <label th:for="dtInclusao" th:text="#{lbdtinclusao}"/>
+                            <input type="datetime"  class="form-control" id="dtInclusao" th:field="*{dtInclusao}" readonly/>
+                        </div>
+                        <div class="col-sm-3 pb-3">
+                            <label th:for="dtUltimologin" th:text="#{lbultimologin}"/>
+                            <input type="datetime" class="form-control" id="dtUltimologin" th:field="*{dtUltimologin}" readonly/>
+                        </div>
+                        <div class="col-sm-2  pb-3 ">
+                            <label th:for="stAtivo"   th:text="#{lbstatus}"/>
+                            <select id="stAtivo" class="form-control" th:field="*{stAtivo}" >
+                                <option th:value="true" th:text="#{lbativo}"/>
+                                <option th:value="false" th:text="#{lbinativo}"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/usuario/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+
+                $('.selectpicker').selectpicker({
+
+                });
+            });
+            if (document.getElementById('nickUsuario').value == '') {
+                document.getElementById('tipousuario').selectedIndex = -1;
+            }
+        </script>  
+    </div>
+</div>
