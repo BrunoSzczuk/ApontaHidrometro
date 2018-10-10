@@ -108,7 +108,7 @@ public class UnidadeconsumidoraController {
     @GetMapping("/update/{id}")
     public ModelAndView preUpdate(@PathVariable("id") int id, ModelMap model) {
         Unidadeconsumidora e = repo.findById(id).get();
-        model.addAttribute("unidadeConsumidora", e);
+        model.addAttribute("unidadeconsumidora", e);
         model.addAttribute("clientes", getClientes());
         model.addAttribute("enderecos", getEnderecos());
         model.addAttribute("equipamentos", getEquipamentos());

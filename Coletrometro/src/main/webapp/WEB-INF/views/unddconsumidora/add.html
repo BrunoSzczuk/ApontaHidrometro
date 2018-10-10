@@ -18,13 +18,13 @@
                         </div>
                         <div class="col-sm-2 col-lg-6">
                             <label th:for="endereco" th:text="#{lbendereco}"></label> <p/>
-                            <select th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="endereco"   data-live-search="true" th:field="*{endereco.cdEndereco}" >
+                            <select data-size="5" th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="endereco"   data-live-search="true" th:field="*{endereco.cdEndereco}" >
 
                                 <option th:each="e : ${enderecos}"  class="form-control" th:value="${e.cdEndereco}" th:text="${e.cdEndereco + ' - ' + e.nmRua + ' - ' + e.nrLogradouro }"/>
                             </select>
                             <span  th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}" class="badge badge-danger"/>
                         </div>
-                        <div class="col-sm-2 col-lg-3">
+                        <div class="col-sm-2 col-lg-4">
                             <label th:for="cliente" th:text="#{lbcliente}"></label> <p/>
                             <select data-placeholder="Selecione o País"  data-none-selected-text class="selectpicker form-control" id="cliente"   data-live-search="true" th:field="*{cliente.cdCliente}">
                                 <option th:each="i : ${clientes}"  th:value="${i.cdCliente}" th:text="${i.cdCliente + ' - ' + i.nmCliente}"/>
@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-sm-3 pb-3 pr-3">
                             <label th:for="dtInclusao"  th:text="#{lbdtinclusao}"/>
-                            <input type="date" class="form-control" id="dtInclusao" th:placeholder="#{lbdtinclusao}" th:field="*{dtInclusao}" readonly/>
+                            <input type="datetime" class="form-control" id="dtInclusao" th:placeholder="#{lbdtinclusao}" th:field="*{dtInclusao}" readonly/>
                         </div>
                         <div class="col-12">
                             <div class="form-row">
@@ -61,7 +61,7 @@
             $(window).on('load', function () {
 
                 $('.selectpicker').selectpicker({
-
+                    
                 });
             });
             if (document.getElementById('dtInclusao').value.length === 0) {

@@ -18,6 +18,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -36,7 +38,7 @@ public class Usuario implements java.io.Serializable {
     @NotBlank(message = "{message.usuario.nickusuario}")
     @Size(min = 3, max = 40)
     private String nickUsuario;
-    @NotBlank(message = "{message.usuario.snusuario}")
+    
     @Size(min = 5, max = 80)
     private String snUsuario;
     @NotBlank(message = "{message.usuario.dsemail}")
@@ -87,6 +89,7 @@ public class Usuario implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "cd_tipousuario", nullable = false)
     public Tipousuario getTipousuario() {
         return this.tipousuario;
@@ -111,7 +114,7 @@ public class Usuario implements java.io.Serializable {
     }
 
     public void setSnUsuario(String snUsuario) {
-        this.snUsuario = new BCryptPasswordEncoder().encode(snUsuario);
+        this.snUsuario = snUsuario;
     }
 
     @Column(name = "ds_email", nullable = false, length = 100)

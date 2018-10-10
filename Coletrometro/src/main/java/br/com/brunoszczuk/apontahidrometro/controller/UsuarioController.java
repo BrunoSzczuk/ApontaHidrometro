@@ -39,6 +39,7 @@ public class UsuarioController {
 
     @Autowired
     TipousuarioRepository tipousuarios;
+
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
         model.addAttribute("usuarios", repo.findAll(new Sort(Sort.Direction.ASC, "cdUsuario")));
@@ -48,20 +49,23 @@ public class UsuarioController {
 
     @GetMapping("/add")
     private ModelAndView add(Usuario p, ModelMap model) {
-        p.setCdUsuario((int)repo.count() +1 );
+        p.setCdUsuario((int) repo.count() + 1);
         model.addAttribute("conteudo", "/usuario/add");
         model.addAttribute("tipousuarios", getTipousuarios());
         return new ModelAndView("layout", model);
     }
 
     @PostMapping("/save")
-    public ModelAndView save(@Valid Usuario usuario, BindingResult result, RedirectAttributes attrib) {
+    public ModelAndView save(@Valid Usuario usuario, BindingResult result, RedirectAttributes attrib, ModelMap model) {
+        model.addAttribute("conteudo", "/usuario/add");
+        model.addAttribute("tipousuarios", getTipousuarios());
         if (result.hasErrors()) {
-            return new ModelAndView("layout", "conteudo", "/usuario/add");
+            return new ModelAndView("layout", model);
         }
         if (repo.findById(usuario.getCdUsuario()) != null) {
             usuario.setCdUsuario((int) (repo.count() + 1));
         }
+        usuario.setSnUsuario(new BCryptPasswordEncoder().encode(usuario.getSnUsuario()));
         usuario.setDtInclusao(new Date());
         repo.save(usuario);
 
@@ -70,15 +74,18 @@ public class UsuarioController {
     }
 
     @PostMapping("/update")
-    public ModelAndView update(@Valid Usuario usuario, BindingResult result, RedirectAttributes attrib) {
-
+    public ModelAndView update(@Valid Usuario usuario, BindingResult result, RedirectAttributes attrib, ModelMap model) {
+        model.addAttribute("conteudo", "/usuario/add");
+        model.addAttribute("tipousuarios", getTipousuarios());
         if (result.hasErrors()) {
-            return new ModelAndView("layout", "conteudo", "/usuario/add");
+            return new ModelAndView("layout", model);
         }
-        if (usuario.getDtInclusao() == null){
+        if (usuario.getDtInclusao() == null) {
             usuario.setDtInclusao(new Date());
         }
-        
+        if (usuario.getSnUsuario()!= null) {
+            usuario.setSnUsuario(new BCryptPasswordEncoder().encode(usuario.getSnUsuario()));
+        }
         repo.save(usuario);
         attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
         return new ModelAndView("redirect:/usuario/");
@@ -99,10 +106,9 @@ public class UsuarioController {
         attrib.addFlashAttribute("message", "Registro removido com sucesso.");
         return "redirect:/usuario/";
     }
-    
-    
+
     @ModelAttribute
-    private List<Tipousuario> getTipousuarios(){
+    private List<Tipousuario> getTipousuarios() {
         return tipousuarios.findAll();
     }
 }
