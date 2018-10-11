@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-sm-4 pb-3 pr-3">
                             <label th:for="snUsuario" th:text="#{lbsenha}"/>
-                            <input type="password" class="form-control "id="snUsuario" th:placeholder="#{lbsenha}" th:field="*{snUsuario}" th:readonly="true"/>
+                            <input type="password" class="form-control "id="snUsuario" th:placeholder="#{lbsenha}" th:field="*{snUsuario}"/>
                             <span th:if="${#fields.hasErrors('snUsuario')}" th:errors="*{snUsuario}" class="badge badge-danger"/>
                             <input type="checkbox"  id="stAlterarSenha" unchecked th:text="#{lbalterarsenha}" onchange="habilitaSenha();"/>
                         </div>

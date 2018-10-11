@@ -31,6 +31,7 @@
                         <td>
                             <a class="btn btn-info" th:href="@{/usuario/update/{id}(id=${e.cdUsuario})}" th:text="#{lbeditar}"></a>
                             <a class="btn btn-danger" th:href="@{/usuario/delete/{id}(id=${e.cdUsuario})}" th:text="#{lbexcluir}"></a>
+                            <a class="btn btn-warning" th:href="@{/usuario/password/{id}(id=${e.cdUsuario})}" th:text="#{lbalterarsenha}"></a>
                         </td>
                     </tr>
                 </tbody>

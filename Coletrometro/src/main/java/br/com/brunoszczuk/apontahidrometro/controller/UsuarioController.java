@@ -12,12 +12,17 @@ import br.com.brunoszczuk.apontahidrometro.repository.UsuarioRepository;
 import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,7 +88,7 @@ public class UsuarioController {
         if (usuario.getDtInclusao() == null) {
             usuario.setDtInclusao(new Date());
         }
-        if (usuario.getSnUsuario()!= null) {
+        if (usuario.getSnUsuario() != null) {
             usuario.setSnUsuario(new BCryptPasswordEncoder().encode(usuario.getSnUsuario()));
         }
         repo.save(usuario);
@@ -98,6 +103,32 @@ public class UsuarioController {
         model.addAttribute("tipousuarios", getTipousuarios());
         model.addAttribute("conteudo", "/usuario/add");
         return new ModelAndView("layout", model);
+    }
+
+    @GetMapping("/password/{id}")
+    public ModelAndView password(@PathVariable("id") int id, ModelMap model) {
+        Usuario e = repo.findById(id).get();
+        model.addAttribute("usuario", e);
+        model.addAttribute("conteudo", "/usuario/password");
+        return new ModelAndView("layout", model);
+    }
+
+    @PostMapping("/password/save")
+    public ModelAndView passwordSave(Usuario usuario, BindingResult result, RedirectAttributes attrib, ModelMap model) {
+        model.addAttribute("conteudo", "/usuario/password");
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        if (!validator.validateProperty(usuario, "snUsuario").isEmpty()) {
+            result.addError(new FieldError("Usuario", "snUsuario", validator.validateProperty(usuario, "snUsuario").iterator().next().getMessage()));
+            return new ModelAndView("layout", model);
+        }
+        Usuario outro = repo.findById(usuario.getCdUsuario()).get();
+        outro.setSnUsuario(new BCryptPasswordEncoder().encode(usuario.getSnUsuario()));
+        repo.save(outro);
+        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        return new ModelAndView("redirect:/usuario/");
     }
 
     @GetMapping("/delete/{id}")
