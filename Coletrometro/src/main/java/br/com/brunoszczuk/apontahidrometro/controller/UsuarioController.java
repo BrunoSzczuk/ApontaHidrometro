@@ -91,6 +91,7 @@ public class UsuarioController {
         if (usuario.getSnUsuario() != null) {
             usuario.setSnUsuario(new BCryptPasswordEncoder().encode(usuario.getSnUsuario()));
         }
+        usuario.setSnUsuario(repo.findById(usuario.getCdUsuario()).get().getSnUsuario());
         repo.save(usuario);
         attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
         return new ModelAndView("redirect:/usuario/");

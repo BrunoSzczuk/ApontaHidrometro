@@ -19,7 +19,8 @@
                     <tr>
                         <th data-priority='1' th:text="#{lbcodigo}">Cód</th>
                         <th data-priority='2' th:text="#{lbnickusuario}">Descrição</th> 
-                        <th  th:text="#{lbstatus}">Status</th>
+                        <th th:text="#{lbemail}">Status</th>
+                        <th th:text="#{lbstatus}">Status</th>
                         <th th:text="#{lbacao}">Ação</th>
                     </tr>
                 </thead>
@@ -27,6 +28,8 @@
                     <tr th:each="e : ${usuarios}" th:class="${!e.stAtivo}? 'table-danger': ''" >
                         <td th:text="${e.cdUsuario}"></td>
                         <td th:text="${e.nickUsuario} "></td>
+                        <td th:text="${e.dsEmail} "></td>
+                        
                         <td> <span th:class="${e.stAtivo}? 'fas fa-check' : 'fas fa-ban'"/></td>
                         <td>
                             <a class="btn btn-info" th:href="@{/usuario/update/{id}(id=${e.cdUsuario})}" th:text="#{lbeditar}"></a>
