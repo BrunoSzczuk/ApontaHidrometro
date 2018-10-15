@@ -1,0 +1,80 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.condicaopagtos}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.condicaopagtos}"/> 
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${condicaopagto.cdCondicaopagto == null}?  @{/condicaopagto/save}: @{/condicaopagto/update}" th:object="${condicaopagto}" method="post">
+                    <div class="form-row mt-4"> 
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="cdCondicaopagto"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdCondicaopagto" th:placeholder="#{lbcodigo}" th:field="*{cdCondicaopagto}" th:readonly="${condicaopagto.cdCondicaopagto != null}" style="text-transform:uppercase"/>
+                            <span th:if="${#fields.hasErrors('cdCondicaopagto')}" th:errors="*{cdCondicaopagto}" class="badge badge-danger" th:readonly="${condicaopagto.cdCondicaopagto == null}"/>
+                        </div>
+                        <div class="col-sm-7 pb-3 pr-3">
+                            <label th:for="dsCondicaopagto" th:text="#{lbdescricao}"/>
+                            <input type="text" class="form-control" id="dsCondicaopagto" th:placeholder="#{lbdescricao}" th:field="*{dsCondicaopagto}"/>
+                            <span th:if="${#fields.hasErrors('dsCondicaopagto')}" th:errors="*{dsCondicaopagto}" class="badge badge-danger"/>
+                        </div>
+
+                        <div class="col-sm-3 col-lg-3 ">
+                            <label th:for="stAtivo"   th:text="#{lbstatus}"/>
+                            <select id="stAtivo" class="form-control" th:field="*{stAtivo}" >
+                                <option th:value="true" th:text="#{lbativo}"/>
+                                <option th:value="false" th:text="#{lbinativo}"/>
+                            </select>
+                        </div>
+
+                        <div class="card border-primary mb-2 container">
+                            <div class="card-body">
+                                <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i class="fa fa-plus fa-2x"
+                                                                                                                   aria-hidden="true"></i></a></span>
+                                <table class="table table-striped table-bordered table-editable nowrap" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th th:text="#{lbqtdias}"/>
+                                            <th th:text="#{lbproporcao}"/>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dados">
+                                        <tr  th:each="e, rowStat : *{itemcondicaopagtos}" >
+                                            <td> <input type="text" name="qtDias" class="form-control" th:placeholder="#{lbqtdias}" th:field="*{itemcondicaopagtos[__${rowStat.index}__].qtDias}"/> </td>
+                                            <td> <input type="text" name="pcQuota" class="form-control" th:placeholder="#{lbproporcao}" th:field="*{itemcondicaopagtos[__${rowStat.index}__].pcQuota}"/></td>   
+
+                                        </tr>
+                                     </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/condicaopagto/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var $TABLE = $('#dataTable');
+                $('.table-add').click(function () {
+                    var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
+                    $TABLE.find('dataTable').append($clone);
+                });
+            });
+        </script>  
+    </div>
+</div>
