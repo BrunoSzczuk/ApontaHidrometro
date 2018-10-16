@@ -6,7 +6,10 @@
 package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Condicaopagto;
+import br.com.brunoszczuk.apontahidrometro.entities.Itemcondicaopagto;
+import br.com.brunoszczuk.apontahidrometro.entities.ItemcondicaopagtoId;
 import br.com.brunoszczuk.apontahidrometro.repository.CondicaopagtoRepository;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -39,7 +42,7 @@ public class CondicaopagtoController {
     }
 
     @GetMapping("/add")
-    private ModelAndView add(Condicaopagto p) {
+    private ModelAndView add(final Condicaopagto p) {
         return new ModelAndView("layout", "conteudo", "/condicaopagto/add");
     }
 
@@ -72,7 +75,7 @@ public class CondicaopagtoController {
     public ModelAndView preUpdate(@PathVariable("id") String id, ModelMap model) {
         Condicaopagto e = repo.findById(id).get();
         model.addAttribute("condicaopagto", e);
-        model.addAttribute("conteudo", "/condicaopagto/add");
+        model.addAttribute("conteGetudo", "/condicaopagto/add");
         return new ModelAndView("layout", model);
     }
 
@@ -81,5 +84,21 @@ public class CondicaopagtoController {
         repo.deleteById(id);
         attrib.addFlashAttribute("message", "Registro removido com sucesso.");
         return "redirect:/condicaopagto/";
+    }
+
+    @PostMapping(value = {"/save","/update"}, params = {"addRow"} )
+    public ModelAndView addRow(final Condicaopagto condicaopagto, final BindingResult bindingResult) {
+        condicaopagto.getItemcondicaopagtos().add(
+                new Itemcondicaopagto(
+                        new ItemcondicaopagtoId(condicaopagto.getCdCondicaopagto(), condicaopagto.getItemcondicaopagtos().size() + 1),
+                        condicaopagto, 0, 0));
+        return new ModelAndView("layout", "conteudo", "/condicaopagto/add");
+    }
+    
+    @PostMapping(value = {"/save","/update"}, params = {"removeRow"} )
+    public ModelAndView removeRow(final Condicaopagto condicaopagto, final BindingResult bindingResult, final HttpServletRequest req) {
+        final int row = Integer.valueOf(req.getParameter("removeRow"));
+        condicaopagto.getItemcondicaopagtos().remove(row);
+        return new ModelAndView("layout", "conteudo", "/condicaopagto/add");
     }
 }

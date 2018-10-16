@@ -32,22 +32,22 @@
 
                         <div class="card border-primary mb-2 container">
                             <div class="card-body">
-                                <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i class="fa fa-plus fa-2x"
-                                                                                                                   aria-hidden="true"></i></a></span>
+                                <span class="table-add float-right mb-3 mr-2"><button class="fa fa-plus form-control text-success" type="submit" name="addRow" th:text="#{lbadicionar}"/></span>
                                 <table class="table table-striped table-bordered table-editable nowrap" id="dataTable">
                                     <thead>
                                         <tr>
                                             <th th:text="#{lbqtdias}"/>
                                             <th th:text="#{lbproporcao}"/>
+                                            <th th:text="#{lbacao}"/>
                                         </tr>
                                     </thead>
                                     <tbody id="dados">
                                         <tr  th:each="e, rowStat : *{itemcondicaopagtos}" >
                                             <td> <input type="text" name="qtDias" class="form-control" th:placeholder="#{lbqtdias}" th:field="*{itemcondicaopagtos[__${rowStat.index}__].qtDias}"/> </td>
                                             <td> <input type="text" name="pcQuota" class="form-control" th:placeholder="#{lbproporcao}" th:field="*{itemcondicaopagtos[__${rowStat.index}__].pcQuota}"/></td>   
-
+                                            <td><button class="fa fa-times form-control text-danger" th:value="${rowStat.index}"  type="submit" name="removeRow" th:text="#{lbcancelar}"/></td>
                                         </tr>
-                                     </tbody>
+                                    </tbody>
                                 </table>
 
                             </div>
