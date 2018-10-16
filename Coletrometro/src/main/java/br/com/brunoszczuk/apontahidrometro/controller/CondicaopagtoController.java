@@ -9,6 +9,7 @@ import br.com.brunoszczuk.apontahidrometro.entities.Condicaopagto;
 import br.com.brunoszczuk.apontahidrometro.entities.Itemcondicaopagto;
 import br.com.brunoszczuk.apontahidrometro.entities.ItemcondicaopagtoId;
 import br.com.brunoszczuk.apontahidrometro.repository.CondicaopagtoRepository;
+import br.com.brunoszczuk.apontahidrometro.repository.ItemcondicaopagtoRepository;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,10 @@ public class CondicaopagtoController {
 
     @Autowired
     CondicaopagtoRepository repo;
-
+    
+    @Autowired
+    ItemcondicaopagtoRepository itens;
+    
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
         model.addAttribute("condicaopagtos", repo.findAll(new Sort(Sort.Direction.ASC, "cdCondicaopagto")));
@@ -54,20 +58,13 @@ public class CondicaopagtoController {
         }
 
         repo.save(condicaopagto);
+        int i = 0;
+        for (Itemcondicaopagto it : condicaopagto.getItemcondicaopagtos()){
+            it.getId().setNrSequencia(i++);
+        }
+        itens.saveAll(condicaopagto.getItemcondicaopagtos());
 
         attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
-        return new ModelAndView("redirect:/condicaopagto/");
-    }
-
-    @PostMapping("/update")
-    public ModelAndView update(@Valid Condicaopagto condicaopagto, BindingResult result, RedirectAttributes attrib) {
-
-        if (result.hasErrors()) {
-            return new ModelAndView("layout", "conteudo", "/condicaopagto/add");
-        }
-
-        repo.save(condicaopagto);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
         return new ModelAndView("redirect:/condicaopagto/");
     }
 
@@ -75,7 +72,7 @@ public class CondicaopagtoController {
     public ModelAndView preUpdate(@PathVariable("id") String id, ModelMap model) {
         Condicaopagto e = repo.findById(id).get();
         model.addAttribute("condicaopagto", e);
-        model.addAttribute("conteGetudo", "/condicaopagto/add");
+        model.addAttribute("conteudo", "/condicaopagto/add");
         return new ModelAndView("layout", model);
     }
 
