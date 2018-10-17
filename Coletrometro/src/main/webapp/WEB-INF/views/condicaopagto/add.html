@@ -1,5 +1,5 @@
 <div th:fragment="corpo">
-    <div class="col-md-10 offset-md-1" >
+    <div class="col-md-10 offset-md-1">
 
         <h3 class="my-1" th:text="#{titulo.condicaopagtos}"/>
         <hr class="my-3"/>
@@ -8,12 +8,12 @@
 
 
             <!-- form complex example -->
-            <div class="card-body">
+            <div class="card-body ">
                 <form th:action="@{/condicaopagto/save}" th:object="${condicaopagto}" method="post">
                     <div class="form-row mt-4"> 
                         <div class="col-sm-2 pb-3 pr-3">
                             <label th:for="cdCondicaopagto"  th:text="#{lbcodigo}"/>
-                            <input type="text" class="form-control" id="cdCondicaopagto" th:placeholder="#{lbcodigo}" th:field="*{cdCondicaopagto}" th:readonly="${condicaopagto.cdCondicaopagto != null && condicaopagto.cdCondicaopagto != ''}" style="text-transform:uppercase"/>
+                            <input type="text" class="form-control" id="cdCondicaopagto" th:placeholder="#{lbcodigo}" th:field="*{cdCondicaopagto}" th:readonly="${condicaopagto.cdCondicaopagto != null && condicaopagto.cdCondicaopagto != '' && !#fields.hasErrors('cdCondicaopagto')}" style="text-transform:uppercase"/>
                             <span th:if="${#fields.hasErrors('cdCondicaopagto')}" th:errors="*{cdCondicaopagto}" class="badge badge-danger" th:readonly="${condicaopagto.cdCondicaopagto == null}"/>
                         </div>
                         <div class="col-sm-7 pb-3 pr-3">
@@ -41,11 +41,25 @@
                                             <th th:text="#{lbacao}"/>
                                         </tr>
                                     </thead>
+
+                                    <div class="col-sm-2 pb-3 pr-3">
+                                        <label th:for="pcTotal"  th:text="#{lbquotatotal}"/>
+                                        <input class="form-control label label-info " type="text" id="pcTotal" readonly/> 
+                                    </div>
+                                    <span th:if="${#fields.hasErrors('itemcondicaopagtos')}" th:errors="*{itemcondicaopagtos}" class="badge badge-danger"/>
                                     <tbody id="dados"> 
                                         <tr th:each="e, rowStat : *{itemcondicaopagtos}" >
-                                            <td> <input type="text" name="qtDias" class="form-control" th:placeholder="#{lbqtdias}" th:field="*{itemcondicaopagtos[__${rowStat.index}__].qtDias}"/> </td>
-                                            <td> <input type="text" name="pcQuota" class="form-control" th:placeholder="#{lbproporcao}" th:field="*{itemcondicaopagtos[__${rowStat.index}__].pcQuota}"/></td>   
-                                            <td><button class="fa fa-times form-control text-danger" th:value="${rowStat.index}"  type="submit" name="removeRow" th:text="#{lbexcluir}"/></td>
+                                            <td> 
+                                                <input type="text" onkeypress="return isNumberKey(event);" name="qtDias" class="form-control" th:placeholder="#{lbqtdias}" th:field="*{itemcondicaopagtos[__${rowStat.index}__].qtDias}"/>
+                                                <span th:if="${#fields.hasErrors('itemcondicaopagtos[__${rowStat.index}__].qtDias')}" th:errors="*{itemcondicaopagtos[__${rowStat.index}__].qtDias}" class="badge badge-danger"/>
+                                            </td>
+                                            <td> 
+                                                <input type="number" name="pcQuota" onchange="atualizaQuota();" class="form-control" th:placeholder="#{lbproporcao}" th:field="*{itemcondicaopagtos[__${rowStat.index}__].pcQuota}"/>
+                                                <span th:if="${#fields.hasErrors('itemcondicaopagtos[__${rowStat.index}__].pcQuota')}" th:errors="*{itemcondicaopagtos[__${rowStat.index}__].pcQuota}" class="badge badge-danger"/>
+                                            </td>  
+                                            <td>
+                                                <button class="fa fa-times form-control text-danger" th:value="${rowStat.index}"  type="submit" name="removeRow" th:text="#{lbexcluir}"/>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -68,4 +82,26 @@
         </div>
         </form>
     </div>
+    <script>
+        atualizaQuota();
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        function atualizaQuota() {
+            var valor = 0;
+            var tabela = document.getElementById('dados');
+            var linha = tabela.rows.length;
+            for (i = 0; i < linha; i++) {
+                valor += parseFloat(tabela.rows[i].cells[1].children[0].value);
+            }
+            if (isNaN(valor)) {
+                document.getElementById('pcTotal').value = 'Vazio';
+            } else {
+                document.getElementById('pcTotal').value = valor + '%';
+            }
+        }
+    </script>
 </div>

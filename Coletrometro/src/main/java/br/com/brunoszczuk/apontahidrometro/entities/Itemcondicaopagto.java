@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -26,7 +28,10 @@ public class Itemcondicaopagto  implements java.io.Serializable {
 
      private ItemcondicaopagtoId id;
      private Condicaopagto condicaopagto;
+     @Min(1)
      private int qtDias;
+     @Min(1)
+     @Max(100)
      private float pcQuota;
 
     public Itemcondicaopagto() {

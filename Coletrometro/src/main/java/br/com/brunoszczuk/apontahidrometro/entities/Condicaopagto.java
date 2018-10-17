@@ -11,6 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -23,9 +26,14 @@ import org.hibernate.annotations.FetchMode;
 )
 public class Condicaopagto implements java.io.Serializable {
 
+    @NotBlank
+    @Size(max=3)
     private String cdCondicaopagto;
+    @Size(max=100,min=3)
     private String dsCondicaopagto;
     private boolean stAtivo;
+    @Valid
+    @Size(min = 1, message = "{message.condicaopagto.itemcondicaopagtos}")
     private List<Itemcondicaopagto> itemcondicaopagtos = new ArrayList<>(0);
     private Set<Contrato> contratos = new HashSet<>(0);
 

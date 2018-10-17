@@ -60,7 +60,7 @@ public class CondicaopagtoController {
         repo.save(condicaopagto);
         int i = 0;
         for (Itemcondicaopagto it : condicaopagto.getItemcondicaopagtos()){
-            it.getId().setNrSequencia(i++);
+            it.setId(new ItemcondicaopagtoId(condicaopagto.getCdCondicaopagto(), i++));
         }
         itens.saveAll(condicaopagto.getItemcondicaopagtos());
 
@@ -78,6 +78,7 @@ public class CondicaopagtoController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") String id, RedirectAttributes attrib) {
+        itens.deleteItemcondicaopagtoByCdCondicaoPagto(id);
         repo.deleteById(id);
         attrib.addFlashAttribute("message", "Registro removido com sucesso.");
         return "redirect:/condicaopagto/";
