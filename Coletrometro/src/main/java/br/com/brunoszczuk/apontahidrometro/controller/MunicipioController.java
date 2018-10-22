@@ -7,16 +7,15 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Estado;
 import br.com.brunoszczuk.apontahidrometro.entities.Municipio;
-import br.com.brunoszczuk.apontahidrometro.entities.Pais;
 import br.com.brunoszczuk.apontahidrometro.repository.EstadoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.MunicipioRepository;
-import br.com.brunoszczuk.apontahidrometro.repository.MunicipioRepository;
-import br.com.brunoszczuk.apontahidrometro.repository.PaisRepository;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -41,7 +40,9 @@ public class MunicipioController {
 
     @Autowired
     EstadoRepository estados;
-
+    
+    ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
+    
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
         model.addAttribute("municipios", repo.findAll(new Sort(Sort.Direction.ASC, "cdMunicipio")));
@@ -65,7 +66,7 @@ public class MunicipioController {
             return new ModelAndView("layout", model);
         }
         repo.save(municipio);
-        attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/municipio/");
     }
 
@@ -78,7 +79,7 @@ public class MunicipioController {
         }
 
         repo.save(municipio);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/municipio/");
     }
 
@@ -93,8 +94,13 @@ public class MunicipioController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") String id, RedirectAttributes attrib) {
-        repo.deleteById(id);
-        attrib.addFlashAttribute("message", "Registro removido com sucesso.");
+        try {
+            repo.deleteById(id);
+            attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
+            
+        }catch(DataIntegrityViolationException ex){
+            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+        }
         return "redirect:/municipio/";
     }
 

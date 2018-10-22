@@ -10,9 +10,12 @@ import br.com.brunoszczuk.apontahidrometro.entities.Itemcondicaopagto;
 import br.com.brunoszczuk.apontahidrometro.entities.ItemcondicaopagtoId;
 import br.com.brunoszczuk.apontahidrometro.repository.CondicaopagtoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.ItemcondicaopagtoRepository;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,6 +40,8 @@ public class CondicaopagtoController {
     
     @Autowired
     ItemcondicaopagtoRepository itens;
+    
+    ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
     
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
@@ -64,7 +69,7 @@ public class CondicaopagtoController {
         }
         itens.saveAll(condicaopagto.getItemcondicaopagtos());
 
-        attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/condicaopagto/");
     }
 
@@ -78,9 +83,14 @@ public class CondicaopagtoController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") String id, RedirectAttributes attrib) {
-        itens.deleteItemcondicaopagtoByCdCondicaoPagto(id);
-        repo.deleteById(id);
-        attrib.addFlashAttribute("message", "Registro removido com sucesso.");
+        try {
+            itens.deleteItemcondicaopagtoByCdCondicaoPagto(id);
+            repo.deleteById(id);
+            attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
+            
+        }catch(DataIntegrityViolationException ex){
+            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+        }
         return "redirect:/condicaopagto/";
     }
 

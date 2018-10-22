@@ -11,11 +11,14 @@ import br.com.brunoszczuk.apontahidrometro.repository.TipousuarioRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.UsuarioRepository;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -44,7 +47,10 @@ public class UsuarioController {
 
     @Autowired
     TipousuarioRepository tipousuarios;
+    ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
 
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
         model.addAttribute("usuarios", repo.findAll(new Sort(Sort.Direction.ASC, "cdUsuario")));
@@ -70,11 +76,11 @@ public class UsuarioController {
         if (repo.findById(usuario.getCdUsuario()) != null) {
             usuario.setCdUsuario((int) (repo.count() + 1));
         }
-        usuario.setSnUsuario(new BCryptPasswordEncoder().encode(usuario.getSnUsuario()));
+        usuario.setSnUsuario(encoder.encode(usuario.getSnUsuario()));
         usuario.setDtInclusao(new Date());
         repo.save(usuario);
 
-        attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/usuario/");
     }
 
@@ -89,11 +95,11 @@ public class UsuarioController {
             usuario.setDtInclusao(new Date());
         }
         if (usuario.getSnUsuario() != null) {
-            usuario.setSnUsuario(new BCryptPasswordEncoder().encode(usuario.getSnUsuario()));
+            usuario.setSnUsuario(encoder.encode(usuario.getSnUsuario()));
         }
         usuario.setSnUsuario(repo.findById(usuario.getCdUsuario()).get().getSnUsuario());
         repo.save(usuario);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/usuario/");
     }
 
@@ -128,14 +134,19 @@ public class UsuarioController {
         Usuario outro = repo.findById(usuario.getCdUsuario()).get();
         outro.setSnUsuario(new BCryptPasswordEncoder().encode(usuario.getSnUsuario()));
         repo.save(outro);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/usuario/");
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes attrib) {
-        repo.deleteById(id);
-        attrib.addFlashAttribute("message", "Registro removido com sucesso.");
+        try {
+            repo.deleteById(id);
+            attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
+            
+        }catch(DataIntegrityViolationException ex){
+            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+        }
         return "redirect:/usuario/";
     }
 

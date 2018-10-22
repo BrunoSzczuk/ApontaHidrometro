@@ -7,8 +7,11 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Equipamento;
 import br.com.brunoszczuk.apontahidrometro.repository.EquipamentoRepository;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,18 +33,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class EquipamentoController {
 
     @Autowired
-    private EquipamentoRepository eq;
+    private EquipamentoRepository repo;
+
+    ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
-        model.addAttribute("equipamentos", eq.findAll(new Sort(Sort.Direction.ASC, "cdEquipamento")));
+        model.addAttribute("equipamentos", repo.findAll(new Sort(Sort.Direction.ASC, "cdEquipamento")));
         model.addAttribute("conteudo", "/equipamento/list");
         return new ModelAndView("layout", model);
     }
 
     @GetMapping("/add")
     private ModelAndView add(Equipamento e) {
-        e.setCdEquipamento((int) (eq.count() + 1));
+        e.setCdEquipamento((int) (repo.count() + 1));
         return new ModelAndView("layout", "conteudo", "/equipamento/add");
     }
 
@@ -51,12 +56,12 @@ public class EquipamentoController {
         if (result.hasErrors()) {
             return new ModelAndView("layout", "conteudo", "/equipamento/add");
         }
-        if (eq.findById(equipamento.getCdEquipamento()) != null) {
-            equipamento.setCdEquipamento((int) (eq.count() + 1));
+        if (repo.findById(equipamento.getCdEquipamento()) != null) {
+            equipamento.setCdEquipamento((int) (repo.count() + 1));
         }
-        eq.save(equipamento);
+        repo.save(equipamento);
 
-        attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/equipamento/");
     }
 
@@ -67,14 +72,14 @@ public class EquipamentoController {
             return new ModelAndView("layout", "conteudo", "/equipamento/add");
         }
 
-        eq.save(equipamento);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        repo.save(equipamento);
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/equipamento/");
     }
 
     @GetMapping("/update/{id}")
     public ModelAndView preUpdate(@PathVariable("id") Integer id, ModelMap model) {
-        Equipamento e = eq.findById(id).get();
+        Equipamento e = repo.findById(id).get();
         model.addAttribute("equipamento", e);
         model.addAttribute("conteudo", "/equipamento/add");
         return new ModelAndView("layout", model);
@@ -82,13 +87,14 @@ public class EquipamentoController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id, RedirectAttributes attrib) {
-        eq.deleteById(id);
-        attrib.addFlashAttribute("message", "Equipamento removido com sucesso.");
+        try {
+            repo.deleteById(id);
+            attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
+
+        } catch (DataIntegrityViolationException ex) {
+            attrib.addFlashAttribute("errorMessage", bundle.getString("lbregistroexistente"));
+        }
         return "redirect:/equipamento/";
     }
 
-    /*@ModelAttribute("status")
-    public Status[] tipoStatus() {
-        return Status.values();
-    }*/
 }

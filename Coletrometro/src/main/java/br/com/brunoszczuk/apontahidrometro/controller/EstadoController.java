@@ -9,9 +9,13 @@ import br.com.brunoszczuk.apontahidrometro.entities.Estado;
 import br.com.brunoszczuk.apontahidrometro.entities.Pais;
 import br.com.brunoszczuk.apontahidrometro.repository.EstadoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.PaisRepository;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.stereotype.Controller;
@@ -38,6 +42,8 @@ public class EstadoController {
 
     @Autowired
     PaisRepository paises;
+    
+    ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
 
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
@@ -62,7 +68,7 @@ public class EstadoController {
             return new ModelAndView("layout", model);
         }
         repo.save(estado);
-        attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/estado/");
     }
 
@@ -75,7 +81,7 @@ public class EstadoController {
         }
 
         repo.save(estado);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/estado/");
     }
 
@@ -90,9 +96,15 @@ public class EstadoController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") String id, RedirectAttributes attrib) {
-        repo.deleteById(id);
-        attrib.addFlashAttribute("message", "Registro removido com sucesso.");
+        try {
+            repo.deleteById(id);
+            attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
+            
+        }catch(DataIntegrityViolationException ex){
+            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+        }
         return "redirect:/estado/";
+
     }
 
     @ModelAttribute

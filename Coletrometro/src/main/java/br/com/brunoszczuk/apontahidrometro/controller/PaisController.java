@@ -7,8 +7,11 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Pais;
 import br.com.brunoszczuk.apontahidrometro.repository.PaisRepository;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,6 +34,8 @@ public class PaisController {
     @Autowired
     PaisRepository repo;
 
+    ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
+    
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
         model.addAttribute("paises", repo.findAll(new Sort(Sort.Direction.ASC, "cdPais")));
@@ -52,7 +57,7 @@ public class PaisController {
 
         repo.save(pais);
 
-        attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/pais/");
     }
 
@@ -64,7 +69,7 @@ public class PaisController {
         }
 
         repo.save(pais);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/pais/");
     }
 
@@ -78,8 +83,13 @@ public class PaisController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") String id, RedirectAttributes attrib) {
-        repo.deleteById(id);
-        attrib.addFlashAttribute("message", "Registro removido com sucesso.");
+        try {
+            repo.deleteById(id);
+            attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
+            
+        }catch(DataIntegrityViolationException ex){
+            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+        }
         return "redirect:/pais/";
     }
 }

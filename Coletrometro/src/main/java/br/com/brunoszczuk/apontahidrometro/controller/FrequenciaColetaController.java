@@ -7,8 +7,11 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Frequenciacoleta;
 import br.com.brunoszczuk.apontahidrometro.repository.FrequenciaColetaRepository;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,6 +34,7 @@ public class FrequenciaColetaController {
     @Autowired
     FrequenciaColetaRepository repo;
 
+    ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
 
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
@@ -57,7 +61,7 @@ public class FrequenciaColetaController {
             frequenciacoleta.setCdFrequenciacoleta((int) (repo.count() + 1));
         }
         repo.save(frequenciacoleta);
-        attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/frequenciacoleta/");
     }
 
@@ -69,7 +73,7 @@ public class FrequenciaColetaController {
         }
 
         repo.save(frequenciacoleta);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/frequenciacoleta/");
     }
 
@@ -83,8 +87,13 @@ public class FrequenciaColetaController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes attrib) {
-        repo.deleteById(id);
-        attrib.addFlashAttribute("message", "Registro removido com sucesso.");
+        try {
+            repo.deleteById(id);
+            attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
+            
+        }catch(DataIntegrityViolationException ex){
+            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+        }
         return "redirect:/frequenciacoleta/";
     }
 

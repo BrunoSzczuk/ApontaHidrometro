@@ -7,8 +7,11 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Formapagto;
 import br.com.brunoszczuk.apontahidrometro.repository.FormaPagtoRepository;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,6 +34,8 @@ public class FormaPagtoController {
     @Autowired
     FormaPagtoRepository repo;
 
+    ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
+    
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
         model.addAttribute("formapagtos", repo.findAll(new Sort(Sort.Direction.ASC, "cdFormapagto")));
@@ -52,7 +57,7 @@ public class FormaPagtoController {
 
         repo.save(formapagto);
 
-        attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/formapagto/");
     }
 
@@ -64,7 +69,7 @@ public class FormaPagtoController {
         }
 
         repo.save(formapagto);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/formapagto/");
     }
 
@@ -78,7 +83,13 @@ public class FormaPagtoController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") String id, RedirectAttributes attrib) {
-        repo.deleteById(id);
+        try {
+            repo.deleteById(id);
+            attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
+            
+        }catch(DataIntegrityViolationException ex){
+            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+        }
         attrib.addFlashAttribute("message", "Registro removido com sucesso.");
         return "redirect:/formapagto/";
     }

@@ -15,8 +15,11 @@ import br.com.brunoszczuk.apontahidrometro.repository.EquipamentoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.UnidadeconsumidoraRepository;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -45,9 +48,11 @@ public class UnidadeconsumidoraController {
 
     @Autowired
     EquipamentoRepository equipamentos;
-    
+
     @Autowired
     EnderecoRepository enderecos;
+
+    ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
@@ -73,7 +78,7 @@ public class UnidadeconsumidoraController {
         model.addAttribute("clientes", getClientes());
         model.addAttribute("enderecos", getEnderecos());
         model.addAttribute("equipamentos", getEquipamentos());
-        if (unidadeConsumidora.getDtInclusao() == null){
+        if (unidadeConsumidora.getDtInclusao() == null) {
             unidadeConsumidora.setDtInclusao(new Date());
         }
         if (result.hasErrors()) {
@@ -83,7 +88,7 @@ public class UnidadeconsumidoraController {
             unidadeConsumidora.setCdUnidadeconsumidora((int) (repo.count() + 1));
         }
         repo.save(unidadeConsumidora);
-        attrib.addFlashAttribute("message", "Registro inserido com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/unddconsumidora/");
     }
 
@@ -93,7 +98,7 @@ public class UnidadeconsumidoraController {
         model.addAttribute("clientes", getClientes());
         model.addAttribute("enderecos", getEnderecos());
         model.addAttribute("equipamentos", getEquipamentos());
-        if (unidadeConsumidora.getDtInclusao() == null){
+        if (unidadeConsumidora.getDtInclusao() == null) {
             unidadeConsumidora.setDtInclusao(new Date());
         }
         if (result.hasErrors()) {
@@ -101,7 +106,7 @@ public class UnidadeconsumidoraController {
         }
 
         repo.save(unidadeConsumidora);
-        attrib.addFlashAttribute("message", "Registro alterado com sucesso.");
+        attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/unddconsumidora/");
     }
 
@@ -118,8 +123,13 @@ public class UnidadeconsumidoraController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes attrib) {
-        repo.deleteById(id);
-        attrib.addFlashAttribute("message", "Registro removido com sucesso.");
+        try {
+            repo.deleteById(id);
+            attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
+
+        } catch (DataIntegrityViolationException ex) {
+            attrib.addFlashAttribute("errorMessage", bundle.getString("lbregistroexistente"));
+        }
         return "redirect:/unddconsumidora/";
     }
 
@@ -132,7 +142,7 @@ public class UnidadeconsumidoraController {
     public List<Equipamento> getEquipamentos() {
         return equipamentos.findAll();
     }
-    
+
     @ModelAttribute
     public List<Endereco> getEnderecos() {
         return enderecos.findAll();
