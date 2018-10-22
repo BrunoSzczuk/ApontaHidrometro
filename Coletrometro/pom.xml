@@ -138,8 +138,6 @@
             <artifactId>bootstrap-select</artifactId>
             <version>1.12.4</version>
         </dependency>
-
-
         <!-- https://mvnrepository.com/artifact/org.webjars/jquery-easing -->
         <dependency>
             <groupId>org.webjars</groupId>
