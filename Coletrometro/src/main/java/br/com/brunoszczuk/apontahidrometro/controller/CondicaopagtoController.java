@@ -56,8 +56,8 @@ public class CondicaopagtoController {
     }
 
     @PostMapping("/save")
-    public ModelAndView save(@Valid Condicaopagto condicaopagto, BindingResult result, RedirectAttributes attrib) {
-
+    public ModelAndView save(@Valid final Condicaopagto condicaopagto, BindingResult result, RedirectAttributes attrib) {
+        condicaopagto.atualizaQuota();
         if (result.hasErrors()) {
             return new ModelAndView("layout", "conteudo", "/condicaopagto/add");
         }

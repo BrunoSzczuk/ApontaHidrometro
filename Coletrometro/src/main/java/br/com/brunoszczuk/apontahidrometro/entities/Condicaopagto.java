@@ -1,6 +1,7 @@
 package br.com.brunoszczuk.apontahidrometro.entities;
 // Generated 29/08/2018 23:02:23 by Hibernate Tools 4.3.1
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +12,10 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Fetch;
@@ -22,41 +26,55 @@ import org.hibernate.annotations.FetchMode;
  */
 @Entity
 @Table(name = "condicaopagto",
-         schema = "public"
+        schema = "public"
 )
 public class Condicaopagto implements java.io.Serializable {
 
     @NotBlank
-    @Size(max=3)
+    @Size(max = 3)
+    @Id
+    @Column(name = "cd_condicaopagto", nullable = false, length = 3)
     private String cdCondicaopagto;
-    @Size(max=100,min=3)
+    @Size(max = 100, min = 3)
+    @Column(name = "ds_condicaopagto", nullable = false, length = 100)
     private String dsCondicaopagto;
+    @Column(name = "st_ativo", nullable = false)
     private boolean stAtivo;
     @Valid
     @Size(min = 1, message = "{message.condicaopagto.itemcondicaopagtos}")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "condicaopagto")
+    @Fetch(FetchMode.JOIN)
     private List<Itemcondicaopagto> itemcondicaopagtos = new ArrayList<>(0);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "condicaopagto")
     private Set<Contrato> contratos = new HashSet<>(0);
 
+    @DecimalMin("100")
+    @DecimalMax("100")
+    @Transient
+    private BigDecimal totalQuota;
+
     public Condicaopagto() {
+        atualizaQuota();
     }
 
     public Condicaopagto(String cdCondicaopagto, String dsCondicaopagto, boolean stAtivo) {
+        atualizaQuota();
         this.cdCondicaopagto = cdCondicaopagto;
         this.dsCondicaopagto = dsCondicaopagto;
         this.stAtivo = stAtivo;
     }
 
-    public Condicaopagto(String cdCondicaopagto, String dsCondicaopagto, boolean stAtivo, List<Itemcondicaopagto> itemcondicaopagtos, Set<Contrato> contratos) {
+    public Condicaopagto(String cdCondicaopagto, String dsCondicaopagto, boolean stAtivo, List<Itemcondicaopagto> itemcondicaopagtos, Set<Contrato> contratos, BigDecimal totalQuota) {
+
         this.cdCondicaopagto = cdCondicaopagto;
         this.dsCondicaopagto = dsCondicaopagto;
         this.stAtivo = stAtivo;
         this.itemcondicaopagtos = itemcondicaopagtos;
         this.contratos = contratos;
+        this.totalQuota = totalQuota;
+        atualizaQuota();
     }
 
-    @Id
-
-    @Column(name = "cd_condicaopagto", nullable = false, length = 3)
     public String getCdCondicaopagto() {
         return this.cdCondicaopagto;
     }
@@ -65,7 +83,6 @@ public class Condicaopagto implements java.io.Serializable {
         this.cdCondicaopagto = cdCondicaopagto;
     }
 
-    @Column(name = "ds_condicaopagto", nullable = false, length = 100)
     public String getDsCondicaopagto() {
         return this.dsCondicaopagto;
     }
@@ -74,7 +91,6 @@ public class Condicaopagto implements java.io.Serializable {
         this.dsCondicaopagto = dsCondicaopagto;
     }
 
-    @Column(name = "st_ativo", nullable = false)
     public boolean isStAtivo() {
         return this.stAtivo;
     }
@@ -83,8 +99,6 @@ public class Condicaopagto implements java.io.Serializable {
         this.stAtivo = stAtivo;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "condicaopagto")
-    @Fetch(FetchMode.JOIN)
     public List<Itemcondicaopagto> getItemcondicaopagtos() {
         return this.itemcondicaopagtos;
     }
@@ -93,7 +107,6 @@ public class Condicaopagto implements java.io.Serializable {
         this.itemcondicaopagtos = itemcondicaopagtos;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "condicaopagto")
     public Set<Contrato> getContratos() {
         return this.contratos;
     }
@@ -102,4 +115,16 @@ public class Condicaopagto implements java.io.Serializable {
         this.contratos = contratos;
     }
 
+    public BigDecimal getTotalQuota() {
+        return totalQuota;
+    }
+
+    public void setTotalQuota(BigDecimal totalQuota) {
+        this.totalQuota = totalQuota;
+    }
+
+    public void atualizaQuota() {
+        totalQuota = new BigDecimal("0");
+        itemcondicaopagtos.forEach(item -> totalQuota =new BigDecimal(totalQuota.floatValue() + item.getPcQuota()));
+    }
 }
