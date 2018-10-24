@@ -23,7 +23,7 @@ public class Permissao  implements java.io.Serializable {
 
      private int cdPermissao;
      private String nmRotina;
-     private Set<Permissaotipousuario> permissaotipousuarios = new HashSet<Permissaotipousuario>(0);
+     private Set<Permissaotipousuario> permissaotipousuarios = new HashSet<>(0);
 
     public Permissao() {
     }

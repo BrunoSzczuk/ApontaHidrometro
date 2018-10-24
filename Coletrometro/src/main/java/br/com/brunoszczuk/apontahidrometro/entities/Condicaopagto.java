@@ -48,15 +48,13 @@ public class Condicaopagto implements java.io.Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "condicaopagto")
     private Set<Contrato> contratos = new HashSet<>(0);
 
-    
     @Transient
-    
-    @DecimalMin(value = "100")
-    @DecimalMax(value="100")
+    @DecimalMin(value = "100", message = "{message.condicaopagto.quotatotal}")
+    @DecimalMax(value = "100", message = "{message.condicaopagto.quotatotal}")
     private BigDecimal totalQuota;
 
     public Condicaopagto() {
-        
+
     }
 
     public Condicaopagto(String cdCondicaopagto, String dsCondicaopagto, boolean stAtivo) {
@@ -114,6 +112,7 @@ public class Condicaopagto implements java.io.Serializable {
     public void setContratos(Set<Contrato> contratos) {
         this.contratos = contratos;
     }
+
     public BigDecimal getTotalQuota() {
         atualizaQuota();
         return totalQuota;
