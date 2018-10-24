@@ -30,35 +30,36 @@ import org.hibernate.annotations.FetchMode;
 )
 public class Condicaopagto implements java.io.Serializable {
 
-    @NotBlank
-    @Size(max = 3)
     @Id
     @Column(name = "cd_condicaopagto", nullable = false, length = 3)
+    @NotBlank
+    @Size(max = 3)
     private String cdCondicaopagto;
-    @Size(max = 100, min = 3)
     @Column(name = "ds_condicaopagto", nullable = false, length = 100)
+    @Size(max = 100, min = 3)
     private String dsCondicaopagto;
     @Column(name = "st_ativo", nullable = false)
     private boolean stAtivo;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "condicaopagto")
     @Valid
     @Size(min = 1, message = "{message.condicaopagto.itemcondicaopagtos}")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "condicaopagto")
     @Fetch(FetchMode.JOIN)
     private List<Itemcondicaopagto> itemcondicaopagtos = new ArrayList<>(0);
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "condicaopagto")
     private Set<Contrato> contratos = new HashSet<>(0);
 
-    @DecimalMin("100")
-    @DecimalMax("100")
+    
     @Transient
+    
+    @DecimalMin(value = "100")
+    @DecimalMax(value="100")
     private BigDecimal totalQuota;
 
     public Condicaopagto() {
-        atualizaQuota();
+        
     }
 
     public Condicaopagto(String cdCondicaopagto, String dsCondicaopagto, boolean stAtivo) {
-        atualizaQuota();
         this.cdCondicaopagto = cdCondicaopagto;
         this.dsCondicaopagto = dsCondicaopagto;
         this.stAtivo = stAtivo;
@@ -72,7 +73,6 @@ public class Condicaopagto implements java.io.Serializable {
         this.itemcondicaopagtos = itemcondicaopagtos;
         this.contratos = contratos;
         this.totalQuota = totalQuota;
-        atualizaQuota();
     }
 
     public String getCdCondicaopagto() {
@@ -114,8 +114,8 @@ public class Condicaopagto implements java.io.Serializable {
     public void setContratos(Set<Contrato> contratos) {
         this.contratos = contratos;
     }
-
     public BigDecimal getTotalQuota() {
+        atualizaQuota();
         return totalQuota;
     }
 
@@ -124,7 +124,7 @@ public class Condicaopagto implements java.io.Serializable {
     }
 
     public void atualizaQuota() {
-        totalQuota = new BigDecimal("0");
-        itemcondicaopagtos.forEach(item -> totalQuota =new BigDecimal(totalQuota.floatValue() + item.getPcQuota()));
+        totalQuota = new BigDecimal(0);
+        itemcondicaopagtos.forEach(item -> totalQuota.add(new BigDecimal(item.getPcQuota())));
     }
 }

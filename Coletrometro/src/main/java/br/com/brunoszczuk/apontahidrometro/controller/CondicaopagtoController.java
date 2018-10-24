@@ -51,12 +51,15 @@ public class CondicaopagtoController {
     }
 
     @GetMapping("/add")
-    private ModelAndView add(final Condicaopagto p) {
-        return new ModelAndView("layout", "conteudo", "/condicaopagto/add");
+    private ModelAndView add(Condicaopagto p, ModelMap model) {
+        p = new Condicaopagto();
+        model.addAttribute("condicaopagto", p);
+        model.addAttribute("conteudo", "/condicaopagto/add");
+        return new ModelAndView("layout", model);
     }
 
     @PostMapping("/save")
-    public ModelAndView save(@Valid final Condicaopagto condicaopagto, BindingResult result, RedirectAttributes attrib) {
+    public ModelAndView save(@Valid  Condicaopagto condicaopagto, BindingResult result, RedirectAttributes attrib) {
         condicaopagto.atualizaQuota();
         if (result.hasErrors()) {
             return new ModelAndView("layout", "conteudo", "/condicaopagto/add");
@@ -95,7 +98,7 @@ public class CondicaopagtoController {
     }
 
     @PostMapping(value = {"/save","/update"}, params = {"addRow"} )
-    public ModelAndView addRow(final Condicaopagto condicaopagto, final BindingResult bindingResult) {
+    public ModelAndView addRow( Condicaopagto condicaopagto,  BindingResult bindingResult) {
         condicaopagto.getItemcondicaopagtos().add(
                 new Itemcondicaopagto(
                         new ItemcondicaopagtoId(condicaopagto.getCdCondicaopagto(), condicaopagto.getItemcondicaopagtos().size() + 1),
@@ -104,8 +107,8 @@ public class CondicaopagtoController {
     }
     
     @PostMapping(value = {"/save","/update"}, params = {"removeRow"} )
-    public ModelAndView removeRow(final Condicaopagto condicaopagto, final BindingResult bindingResult, final HttpServletRequest req) {
-        final int row = Integer.valueOf(req.getParameter("removeRow"));
+    public ModelAndView removeRow( Condicaopagto condicaopagto,  BindingResult bindingResult,  HttpServletRequest req) {
+         int row = Integer.valueOf(req.getParameter("removeRow"));
         condicaopagto.getItemcondicaopagtos().remove(row);
         return new ModelAndView("layout", "conteudo", "/condicaopagto/add");
     }

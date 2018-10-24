@@ -42,7 +42,7 @@
                                         </tr>
                                     </thead>
 
-                                    <div class="col-sm-2 pb-3 pr-3">
+                                    <div class="col-sm-3 pb-3 pr-3">
                                         <label th:for="pcTotal"  th:text="#{lbquotatotal}"/>
                                         <input readonly  type="number" th:field="*{totalQuota}"  class="form-control"/>
                                         <span th:if="${#fields.hasErrors('totalQuota')}" th:errors="*{totalQuota}" class="badge badge-danger" readonly/>
