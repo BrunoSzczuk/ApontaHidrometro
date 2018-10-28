@@ -5,16 +5,17 @@
  */
 package br.com.brunoszczuk.apontahidrometro.repository;
 
-import br.com.brunoszczuk.apontahidrometro.entities.Permissaotipousuario;
-import br.com.brunoszczuk.apontahidrometro.entities.PermissaotipousuarioId;
+import br.com.brunoszczuk.apontahidrometro.entities.Permissao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author bruno.szczuk
+ * @author bruno
  */
+@Transactional
 @Repository
-public interface PermissaoTipoUsuarioRepository extends JpaRepository<Permissaotipousuario, PermissaotipousuarioId>{
+public interface PermissaoRepository extends JpaRepository<Permissao, Integer>{
     
 }

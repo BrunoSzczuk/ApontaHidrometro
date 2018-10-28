@@ -594,7 +594,7 @@
     <column id="COL166" populated="true" UUID="8f8d1c20-104e-417c-be04-06175728ebbc" autoIncrement="false" autoIncrementSequenceName="contareceber_vl_titulo_seq" defaultValue="" name="vl_titulo" nullable="0" physicalName="vl_titulo" precision="15" referenceCount="1" scale="4" sourceDataTypeName="UserDefinedSQLType" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
      <remarks></remarks>
     </column>
-    <column id="COL167" populated="true" UUID="abd0125c-4f86-4ad3-9970-92111e6eed24" autoIncrement="false" autoIncrementSequenceName="formapagto_cd_formapagto_seq_1_1" defaultValue="" name="cd_formapagto" nullable="0" physicalName="cd_formapagto" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL167" populated="true" UUID="abd0125c-4f86-4ad3-9970-92111e6eed24" autoIncrement="false" autoIncrementSequenceName="formapagto_cd_formapagto_seq_1_1" defaultValue="" name="cd_formapagto" nullable="0" physicalName="cd_formapagto" precision="3" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL168" populated="true" UUID="4ae680e5-c835-4080-a609-ea68081c8b7d" autoIncrement="false" autoIncrementSequenceName="contareceber_vl_acrescimo_seq" defaultValue="" name="vl_acrescimo" nullable="1" physicalName="vl_acrescimo" precision="15" referenceCount="1" scale="4" sourceDataTypeName="UserDefinedSQLType" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
@@ -835,7 +835,7 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="0.8408964152537142" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
