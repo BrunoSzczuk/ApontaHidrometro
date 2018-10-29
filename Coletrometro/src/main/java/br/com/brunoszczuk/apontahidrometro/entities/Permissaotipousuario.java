@@ -2,14 +2,9 @@ package br.com.brunoszczuk.apontahidrometro.entities;
 // Generated 29/08/2018 23:02:23 by Hibernate Tools 4.3.1
 
 import java.util.Date;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,19 +20,29 @@ import org.hibernate.annotations.FetchMode;
  */
 @Entity
 @Table(name = "permissaotipousuario",
-        schema = "public"
+         schema = "public"
 )
-public class Permissaotipousuario implements java.io.Serializable {
+public class Permissaotipousuario implements java.io.Serializable, Comparable<Permissaotipousuario> {
 
     private int cdPermissaotipousuario;
     private Permissao permissao;
     private Tipousuario tipousuario;
     private Date dtInclusao;
     private Date dtUltimaatualizacao;
-
-    private boolean stMarcado;
-
+    private boolean stMarcado = true;
+            
     public Permissaotipousuario() {
+    }
+
+    @Override
+    public int compareTo(Permissaotipousuario o) {
+        if (this.permissao.getCdPermissao() < o.getPermissao().getCdPermissao()){
+            return -1;
+        }
+        if (this.permissao.getCdPermissao() > o.getPermissao().getCdPermissao()){
+            return 1;
+        }
+        return 0;
     }
 
     public Permissaotipousuario(int cdPermissaotipousuario, Permissao permissao, Tipousuario tipousuario, Date dtInclusao, Date dtUltimaatualizacao) {
@@ -48,20 +53,33 @@ public class Permissaotipousuario implements java.io.Serializable {
         this.dtUltimaatualizacao = dtUltimaatualizacao;
     }
 
-    public Permissaotipousuario(Permissao permissao, Tipousuario tipousuario, Date dtInclusao, Date dtUltimaatualizacao) {
+    public Permissaotipousuario(int cdPermissaotipousuario, Permissao permissao, Tipousuario tipousuario, Date dtInclusao, Date dtUltimaatualizacao, boolean stMarcado) {
+        this.cdPermissaotipousuario = cdPermissaotipousuario;
         this.permissao = permissao;
         this.tipousuario = tipousuario;
         this.dtInclusao = dtInclusao;
         this.dtUltimaatualizacao = dtUltimaatualizacao;
+        this.stMarcado = stMarcado;
     }
 
+    
     @Id
-    @Column(name = "cd_permissaotipousuario", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Column(name = "cd_permissaotipousuario", unique = true, nullable = false)
     public int getCdPermissaotipousuario() {
         return this.cdPermissaotipousuario;
     }
 
+    public void setCdPermissaotipousuario(int cdPermissaotipousuario) {
+        this.cdPermissaotipousuario = cdPermissaotipousuario;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name = "cd_permissao", nullable = false)
+    public Permissao getPermissao() {
+        return this.permissao;
+    }
     @Transient
     public boolean isStMarcado() {
         return stMarcado;
@@ -71,24 +89,14 @@ public class Permissaotipousuario implements java.io.Serializable {
         this.stMarcado = stMarcado;
     }
 
-    public void setCdPermissaotipousuario(int cdPermissaotipousuario) {
-        this.cdPermissaotipousuario = cdPermissaotipousuario;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "cd_permissao", nullable = false, insertable = false, updatable = false)
-    public Permissao getPermissao() {
-        return this.permissao;
-    }
-
+    
     public void setPermissao(Permissao permissao) {
         this.permissao = permissao;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "cd_tipousuario", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "cd_tipousuario", nullable = false)
     public Tipousuario getTipousuario() {
         return this.tipousuario;
     }

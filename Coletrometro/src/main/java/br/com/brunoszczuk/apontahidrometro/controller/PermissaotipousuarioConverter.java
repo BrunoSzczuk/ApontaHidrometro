@@ -22,7 +22,7 @@ public class PermissaotipousuarioConverter implements Converter<Integer, Permiss
     
     @Override
     public Permissaotipousuario convert(Integer s) {
-        return new Permissaotipousuario(repo.findById(s).get(), null, null, null);
+        return new Permissaotipousuario(0,repo.findById(s).get(), null, null, null);
     }
 
  

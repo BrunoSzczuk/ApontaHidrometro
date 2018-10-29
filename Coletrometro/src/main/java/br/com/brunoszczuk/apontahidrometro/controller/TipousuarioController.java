@@ -11,9 +11,12 @@ import br.com.brunoszczuk.apontahidrometro.repository.PermissaoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.PermissaotipousuarioRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.TipousuarioRepository;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TreeSet;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -46,7 +49,7 @@ public class TipousuarioController {
     @Autowired
     PermissaoRepository permissoes;
 
-    List<Permissaotipousuario> lista = new ArrayList<>();
+    TreeSet<Permissaotipousuario> lista = new TreeSet<>();
     
     ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
@@ -103,17 +106,19 @@ public class TipousuarioController {
         Tipousuario tipo = repo.findById(id).get();
 
         lista.clear();
-        permissoes.findAll().forEach(obj -> lista.add(new Permissaotipousuario(obj.getCdPermissao(),obj, tipo, null, null)));
+        permissaotipousuarios.findByTipoUsuario(e).forEach(obj-> lista.add(obj));
+        permissoes.findAll().forEach(obj -> lista.add(new Permissaotipousuario(obj.getCdPermissao(),obj, tipo, null, null,false)));
         model.addAttribute("permissoes", lista);
         model.addAttribute("tipousuario", e);
         return new ModelAndView("layout", model);
     }
     
     @PostMapping("/permissoes/save")
-    public ModelAndView savePermissoes(Tipousuario tipousuario, @RequestParam("permissaotipousuarios") List<Permissaotipousuario> ptu,BindingResult result, RedirectAttributes attrib, ModelMap model) {
-              
-        tipousuario.getPermissaotipousuarios().forEach(p -> p.getTipousuario().setCdTipousuario(tipousuario.getCdTipousuario()));
-        permissaotipousuarios.saveAll(tipousuario.getPermissaotipousuarios());
+    public ModelAndView savePermissoes(Tipousuario tipousuario, @RequestParam("permissaotipousuariosdados") List<String> ptu,BindingResult result, RedirectAttributes attrib, ModelMap model) {
+        TreeSet<Permissaotipousuario> dados = new TreeSet<>();
+        ptu.forEach(obj ->dados.add(new Permissaotipousuario(0,permissoes.findById(Integer.valueOf(obj)).get(), tipousuario, new Date(), new Date(), false))); 
+        //tipousuario.getPermissaotipousuarios().forEach(p -> p.getTipousuario().setCdTipousuario(tipousuario.getCdTipousuario()));
+        permissaotipousuarios.saveAll(dados);
 
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/tipousuario/");
