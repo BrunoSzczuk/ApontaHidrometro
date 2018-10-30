@@ -575,7 +575,7 @@
   <table id="TAB159" populated="true" UUID="a80ab6a0-f402-4345-b513-f5def15def23" name="contareceber" objectType="TABLE" physicalName="contareceber" >
    <remarks></remarks>
    <folder id="FOLTAB1591" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL160" populated="true" UUID="205a57c4-c7db-4f61-b0e9-6094858b5c50" autoIncrement="true" autoIncrementSequenceName="contareceber_cd_conta_seq" defaultValue="" name="cd_conta" nullable="0" physicalName="cd_conta" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL160" populated="true" UUID="205a57c4-c7db-4f61-b0e9-6094858b5c50" autoIncrement="true" autoIncrementSequenceName="contareceber_cd_contareceber_seq" defaultValue="" name="cd_contareceber" nullable="0" physicalName="cd_contareceber" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL161" populated="true" UUID="870da903-3d6c-4733-8b40-c1846beb684b" autoIncrement="false" autoIncrementSequenceName="contareceber_nr_titulo_seq" defaultValue="" name="nr_titulo" nullable="0" physicalName="nr_titulo" precision="9" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -621,7 +621,7 @@
     </folder>
     <folder id="FOLTAB1594" populated="true" name="Indices" physicalName="Indices" type="4">
     <index id="IDX173" populated="true" UUID="c41b32ad-b0e6-47ca-a3f0-fcc805210a15" clustered="false" name="contareceber_pk" physicalName="contareceber_pk" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC174" populated="true" UUID="a3818ab5-166a-4834-9d81-6457c7728cdb" ascendingOrDescending="UNSPECIFIED" column-ref="COL160" name="cd_conta" physicalName="cd_conta" />
+     <index-column id="IDC174" populated="true" UUID="a3818ab5-166a-4834-9d81-6457c7728cdb" ascendingOrDescending="UNSPECIFIED" column-ref="COL160" name="cd_contareceber" physicalName="cd_contareceber" />
     </index>
    </folder>
   </table>
@@ -840,7 +840,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.8408964152537142" viewportX="0" viewportY="566" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.8408964152537142" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="50" y="478" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB12" x="150" y="316" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB20" x="560" y="250" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>

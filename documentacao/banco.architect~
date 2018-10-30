@@ -546,16 +546,19 @@
   <table id="TAB151" populated="true" UUID="896907ff-322f-4a69-aac0-a6c29a3b523e" name="permissaotipousuario" objectType="TABLE" physicalName="permissaotipousuario" >
    <remarks></remarks>
    <folder id="FOLTAB1511" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL152" populated="true" UUID="e397e916-cd21-4ee6-a6f8-7f26662cb5ea" autoIncrement="false" autoIncrementSequenceName="permissao_cd_permissao_seq_1" defaultValue="" name="cd_permissao" nullable="0" physicalName="cd_permissao" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL152" populated="true" UUID="f4dbc55a-aadf-413b-9b84-658274aa78a2" autoIncrement="false" autoIncrementSequenceName="permissaotipousuario_cd_permissaotipousuario_seq" defaultValue="" name="cd_permissaotipousuario" nullable="0" physicalName="cd_permissaotipousuario" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL153" populated="true" UUID="ecd5f199-7012-4d44-a8f3-4227ef335b1b" autoIncrement="false" autoIncrementSequenceName="tipousuario_cd_tipousuario_seq_2" defaultValue="" name="cd_tipousuario" nullable="0" physicalName="cd_tipousuario" precision="20" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL153" populated="true" UUID="ecd5f199-7012-4d44-a8f3-4227ef335b1b" autoIncrement="false" autoIncrementSequenceName="tipousuario_cd_tipousuario_seq_2" defaultValue="" name="cd_tipousuario" nullable="0" physicalName="cd_tipousuario" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL154" populated="true" UUID="31ed9293-d609-4c9e-9a1f-1e1d725ba739" autoIncrement="false" autoIncrementSequenceName="permissaotipousuario_dt_inclusao_seq" defaultValue="current_timestamp" name="dt_inclusao" nullable="0" physicalName="dt_inclusao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+    <column id="COL154" populated="true" UUID="e397e916-cd21-4ee6-a6f8-7f26662cb5ea" autoIncrement="false" autoIncrementSequenceName="permissao_cd_permissao_seq_1" defaultValue="" name="cd_permissao" nullable="0" physicalName="cd_permissao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL155" populated="true" UUID="794a199a-36c1-433d-8a22-80a1f6575a4d" autoIncrement="false" autoIncrementSequenceName="permissaotipousuario_dt_ultimaatualizacao_seq" defaultValue="current_timestamp" name="dt_ultimaatualizacao" nullable="0" physicalName="dt_ultimaatualizacao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+    <column id="COL155" populated="true" UUID="31ed9293-d609-4c9e-9a1f-1e1d725ba739" autoIncrement="false" autoIncrementSequenceName="permissaotipousuario_dt_inclusao_seq" defaultValue="current_timestamp" name="dt_inclusao" nullable="0" physicalName="dt_inclusao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks></remarks>
+    </column>
+    <column id="COL156" populated="true" UUID="794a199a-36c1-433d-8a22-80a1f6575a4d" autoIncrement="false" autoIncrementSequenceName="permissaotipousuario_dt_ultimaatualizacao_seq" defaultValue="current_timestamp" name="dt_ultimaatualizacao" nullable="0" physicalName="dt_ultimaatualizacao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks></remarks>
     </column>
     </folder>
@@ -564,9 +567,8 @@
     <folder id="FOLTAB1512" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB1514" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX156" populated="true" UUID="bcec9234-0f2a-44c3-b4b2-1544c1d56396" clustered="false" name="permissaotipousuario_pk" physicalName="permissaotipousuario_pk" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC157" populated="true" UUID="facf4e49-2dbb-4dde-8b87-bbf3e358bf48" ascendingOrDescending="UNSPECIFIED" column-ref="COL152" name="cd_permissao" physicalName="cd_permissao" />
-     <index-column id="IDC158" populated="true" UUID="6d9150fd-dfc8-47af-9d27-98fe4e934671" ascendingOrDescending="UNSPECIFIED" column-ref="COL153" name="cd_tipousuario" physicalName="cd_tipousuario" />
+    <index id="IDX157" populated="true" UUID="bcec9234-0f2a-44c3-b4b2-1544c1d56396" clustered="false" name="permissaotipousuario_pk" physicalName="permissaotipousuario_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC158" populated="true" UUID="c9610eb0-fab0-407c-9684-01f8fa131dd5" ascendingOrDescending="UNSPECIFIED" column-ref="COL152" name="cd_permissaotipousuario" physicalName="cd_permissaotipousuario" />
     </index>
    </folder>
   </table>
@@ -816,7 +818,7 @@
     <column-mapping id="CMP254" populated="true" UUID="90601989-99fb-4541-aebd-69a06c245e06" fk-column-ref="COL137" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL123" />
    </relationship>
    <relationship id="REL255" populated="true" UUID="4a74caa7-676d-4ab9-a0bb-22d28ba486f4" deferrability="7" deleteRule="3" fk-table-ref="TAB151" fkCardinality="7" identifying="true" name="permissao_permissaotipousuario_fk" physicalName="permissao_permissaotipousuario_fk" pk-table-ref="TAB146" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP256" populated="true" UUID="ffdb018b-067d-40ff-bf34-3c7975904728" fk-column-ref="COL152" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL147" />
+    <column-mapping id="CMP256" populated="true" UUID="ffdb018b-067d-40ff-bf34-3c7975904728" fk-column-ref="COL154" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL147" />
    </relationship>
    <relationship id="REL257" populated="true" UUID="86db4ee0-a5cd-43e8-9751-ca260d39c673" deferrability="7" deleteRule="3" fk-table-ref="TAB36" fkCardinality="7" identifying="false" name="endereco_cliente_fk" physicalName="endereco_cliente_fk" pk-table-ref="TAB175" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP258" populated="true" UUID="a2d7708e-44c2-4915-aecd-83653c112168" fk-column-ref="COL47" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL176" />
@@ -835,10 +837,10 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.8408964152537142" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.8408964152537142" viewportX="0" viewportY="566" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="50" y="478" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB12" x="150" y="316" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB20" x="560" y="250" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
@@ -856,7 +858,7 @@
   <table-pane table-ref="TAB122" x="1436" y="1366" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB135" x="1778" y="938" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB146" x="328" y="1264" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB151" x="34" y="1054" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB151" x="35" y="1054" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB159" x="546" y="654" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB175" x="1576" y="20" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB186" x="1962" y="1376" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>

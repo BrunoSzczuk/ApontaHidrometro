@@ -16,24 +16,24 @@
                             <input type="text" class="form-control" id="cdTabpreco" th:placeholder="#{lbcodigo}" th:field="*{cdTabpreco}" th:readonly="${tabpreco.cdTabpreco != null}"/>
                             <span th:if="${#fields.hasErrors('cdTabpreco')}" th:errors="*{cdTabpreco}" class="badge badge-danger" th:readonly="${tabpreco.cdTabpreco == 0}"/>
                         </div>
-                        <div class="col-sm-4 pb-3 pr-3">
+                        <div class="col-sm-3 pb-3 pr-3">
                             <label th:for="vlMetrocubico" th:text="#{lbvalormetrocubico}"/>
                             <input required type="number"  step="0.01" class="form-control" th:placeholder="#{lbvalormetrocubico}" th:field="*{vlMetrocubico}"/>
                             <span th:if="${#fields.hasErrors('vlMetrocubico')}" th:errors="*{vlMetrocubico}" class="badge badge-danger"/>
                         </div>
-                        <div class="col-sm-4 pb-3 pr-3">
+                        <div class="col-sm-3 pb-3 pr-3">
                             <label th:for="vlTaxaadm" th:text="#{lbvltaxaadm}"/>
                             <input required type="number"  step="0.01" class="form-control" th:placeholder="#{lbvltaxaadm}" th:field="*{vlTaxaadm}"/>
                             <span th:if="${#fields.hasErrors('vlTaxaadm')}" th:errors="*{vlTaxaadm}" class="badge badge-danger"/>
                         </div>
-                        <div class="col-sm-3 pb-3 pr-3">
+                        <div class="col-sm-2 pb-3 pr-3">
                             <label th:for="dtVigenciaini"  th:text="#{lbperiodoinicial}"/>
-                            <input type="date" class="form-control datepicker" id="dtVigenciaini" th:placeholder="#{lbperiodoinicial}" th:field="*{dtVigenciaini}"/>
+                            <input type="date" class="form-control" id="dtVigenciaini" th:placeholder="#{lbperiodoinicial}" th:field="*{dtVigenciaini}"/>
                             <span  th:if="${#fields.hasErrors('dtVigenciaini')}" th:errors="*{dtVigenciaini}" class="badge badge-danger"/>
                         </div>
-                        <div class="col-sm-3 pb-3 pr-3">
+                        <div class="col-sm-2 pb-3 pr-3">
                             <label th:for="dtVigenciafim"  th:text="#{lbperiodofinal}"/>
-                            <input type="date" class="form-control datepicker" id="dtVigenciafim" th:placeholder="#{lbperiodofinal}" th:field="*{dtVigenciafim}"/>
+                            <input type="date" class="form-control" id="dtVigenciafim" th:placeholder="#{lbperiodofinal}" th:field="*{dtVigenciafim}"/>
                             <span  th:if="${#fields.hasErrors('dtVigenciafim')}" th:errors="*{dtVigenciafim}" class="badge badge-danger"/>
                         </div>
 

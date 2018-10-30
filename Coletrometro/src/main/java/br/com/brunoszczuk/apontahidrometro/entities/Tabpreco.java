@@ -2,7 +2,7 @@ package br.com.brunoszczuk.apontahidrometro.entities;
 // Generated 29/08/2018 23:02:23 by Hibernate Tools 4.3.1
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -11,11 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,23 +27,23 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Tabpreco implements java.io.Serializable {
 
     private int cdTabpreco;
-    @Min((long) 0.1)
+    @Min((long) 0.01)
     private BigDecimal vlMetrocubico;
-    @Min((long) 0.1)
+    @Min((long) 0.01)
     private BigDecimal vlTaxaadm;
     @FutureOrPresent
     @NotNull
-    private Date dtVigenciaini;
+    private LocalDate dtVigenciaini;
     @Future
     @NotNull
-    private Date dtVigenciafim;
+    private LocalDate dtVigenciafim;
     private boolean stAtivo;
     private Set<Fechamentoapontamento> fechamentoapontamentos = new HashSet<Fechamentoapontamento>(0);
 
     public Tabpreco() {
     }
 
-    public Tabpreco(int cdTabpreco, BigDecimal vlMetrocubico, BigDecimal vlTaxaadm, Date dtVigenciaini, Date dtVigenciafim, boolean stAtivo) {
+    public Tabpreco(int cdTabpreco, BigDecimal vlMetrocubico, BigDecimal vlTaxaadm, LocalDate dtVigenciaini, LocalDate dtVigenciafim, boolean stAtivo) {
         this.cdTabpreco = cdTabpreco;
         this.vlMetrocubico = vlMetrocubico;
         this.vlTaxaadm = vlTaxaadm;
@@ -55,7 +52,7 @@ public class Tabpreco implements java.io.Serializable {
         this.stAtivo = stAtivo;
     }
 
-    public Tabpreco(int cdTabpreco, BigDecimal vlMetrocubico, BigDecimal vlTaxaadm, Date dtVigenciaini, Date dtVigenciafim, boolean stAtivo, Set<Fechamentoapontamento> fechamentoapontamentos) {
+    public Tabpreco(int cdTabpreco, BigDecimal vlMetrocubico, BigDecimal vlTaxaadm, LocalDate dtVigenciaini, LocalDate dtVigenciafim, boolean stAtivo, Set<Fechamentoapontamento> fechamentoapontamentos) {
         this.cdTabpreco = cdTabpreco;
         this.vlMetrocubico = vlMetrocubico;
         this.vlTaxaadm = vlTaxaadm;
@@ -94,25 +91,23 @@ public class Tabpreco implements java.io.Serializable {
         this.vlTaxaadm = vlTaxaadm;
     }
 
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "dt_vigenciaini", nullable = false, length = 13)
-    public Date getDtVigenciaini() {
+    public LocalDate getDtVigenciaini() {
         return this.dtVigenciaini;
     }
 
-    public void setDtVigenciaini(Date dtVigenciaini) {
+    public void setDtVigenciaini(LocalDate dtVigenciaini) {
         this.dtVigenciaini = dtVigenciaini;
     }
 
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "dt_vigenciafim", nullable = false, length = 13)
-    public Date getDtVigenciafim() {
+    public LocalDate getDtVigenciafim() {
         return this.dtVigenciafim;
     }
 
-    public void setDtVigenciafim(Date dtVigenciafim) {
+    public void setDtVigenciafim(LocalDate dtVigenciafim) {
         this.dtVigenciafim = dtVigenciafim;
     }
 

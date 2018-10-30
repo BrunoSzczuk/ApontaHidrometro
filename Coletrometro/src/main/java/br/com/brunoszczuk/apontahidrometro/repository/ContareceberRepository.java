@@ -5,17 +5,17 @@
  */
 package br.com.brunoszczuk.apontahidrometro.repository;
 
-import br.com.brunoszczuk.apontahidrometro.entities.Tipousuario;
+import br.com.brunoszczuk.apontahidrometro.entities.Contareceber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author bruno.szczuk
+ * @author bruno
  */
-@Repository
 @Transactional
-public interface TipousuarioRepository extends JpaRepository<Tipousuario, String>{
+@Repository
+public interface ContareceberRepository extends JpaRepository<Contareceber, Integer>{
     
 }

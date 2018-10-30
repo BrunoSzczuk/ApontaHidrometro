@@ -1,7 +1,7 @@
 package br.com.brunoszczuk.apontahidrometro.entities;
 // Generated 29/08/2018 23:02:23 by Hibernate Tools 4.3.1
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -46,9 +46,9 @@ public class Contrato implements java.io.Serializable {
     @Size(max = 100)
     private String dsContrato;
     @FutureOrPresent
-    private Date dtPeriodoinicial;
+    private LocalDate dtPeriodoinicial;
     @Future
-    private Date dtPeriodofinal;
+    private LocalDate dtPeriodofinal;
     private boolean stAtivo;
     private Set<Apontamento> apontamentos = new HashSet<>(0);
     private Set<Contratousuario> contratousuarios = new HashSet<>(0);
@@ -57,7 +57,7 @@ public class Contrato implements java.io.Serializable {
     public Contrato() {
     }
 
-    public Contrato(String nrContrato, Cliente cliente, Condicaopagto condicaopagto, Frequenciacoleta frequenciacoleta, Unidadeconsumidora unidadeconsumidora, String dsContrato, Date dtPeriodoinicial, boolean stAtivo) {
+    public Contrato(String nrContrato, Cliente cliente, Condicaopagto condicaopagto, Frequenciacoleta frequenciacoleta, Unidadeconsumidora unidadeconsumidora, String dsContrato, LocalDate dtPeriodoinicial, boolean stAtivo) {
         this.nrContrato = nrContrato;
         this.cliente = cliente;
         this.condicaopagto = condicaopagto;
@@ -68,7 +68,7 @@ public class Contrato implements java.io.Serializable {
         this.stAtivo = stAtivo;
     }
 
-    public Contrato(String nrContrato, Cliente cliente, Condicaopagto condicaopagto, Frequenciacoleta frequenciacoleta, Unidadeconsumidora unidadeconsumidora, String dsContrato, Date dtPeriodoinicial, Date dtPeriodofinal, boolean stAtivo, Set<Apontamento> apontamentos, Set<Contratousuario> contratousuarios, Set<Fechamentoapontamento> fechamentoapontamentos) {
+    public Contrato(String nrContrato, Cliente cliente, Condicaopagto condicaopagto, Frequenciacoleta frequenciacoleta, Unidadeconsumidora unidadeconsumidora, String dsContrato, LocalDate dtPeriodoinicial, LocalDate dtPeriodofinal, boolean stAtivo, Set<Apontamento> apontamentos, Set<Contratousuario> contratousuarios, Set<Fechamentoapontamento> fechamentoapontamentos) {
         this.nrContrato = nrContrato;
         this.cliente = cliente;
         this.condicaopagto = condicaopagto;
@@ -147,25 +147,23 @@ public class Contrato implements java.io.Serializable {
         this.dsContrato = dsContrato;
     }
 
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "dt_periodoinicial", nullable = false, length = 13)
-    public Date getDtPeriodoinicial() {
+    public LocalDate getDtPeriodoinicial() {
         return this.dtPeriodoinicial;
     }
 
-    public void setDtPeriodoinicial(Date dtPeriodoinicial) {
+    public void setDtPeriodoinicial(LocalDate dtPeriodoinicial) {
         this.dtPeriodoinicial = dtPeriodoinicial;
     }
 
     @Column(name = "dt_periodofinal")
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    public Date getDtPeriodofinal() {
+    public LocalDate getDtPeriodofinal() {
         return this.dtPeriodofinal;
     }
 
-    public void setDtPeriodofinal(Date dtPeriodofinal) {
+    public void setDtPeriodofinal(LocalDate dtPeriodofinal) {
         this.dtPeriodofinal = dtPeriodofinal;
     }
 

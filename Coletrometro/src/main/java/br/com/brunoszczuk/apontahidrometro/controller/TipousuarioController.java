@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,6 +55,7 @@ public class TipousuarioController {
     ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
     @GetMapping("/")
+    @Transactional
     private ModelAndView home(ModelMap model) {
         model.addAttribute("tipousuarios", repo.findAll(new Sort(Sort.Direction.ASC, "cdTipousuario")));
         model.addAttribute("conteudo", "/tipousuario/list");
@@ -62,16 +64,14 @@ public class TipousuarioController {
 
     @GetMapping("/add")
     private ModelAndView add(Tipousuario p, ModelMap model) {
-        return new ModelAndView("layout", getModel(model));
+        return new ModelAndView("layout","conteudo", "/tipousuario/add");
     }
 
     @PostMapping("/save")
     public ModelAndView save(@Valid Tipousuario tipousuario, BindingResult result, RedirectAttributes attrib, ModelMap model) {
-
         if (result.hasErrors()) {
-            return new ModelAndView("layout", "conteudo", getModel(model));
+            return new ModelAndView("layout", "conteudo", "/tipousuario/add");
         }
-
         repo.save(tipousuario);
 
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
@@ -80,9 +80,8 @@ public class TipousuarioController {
 
     @PostMapping("/update")
     public ModelAndView update(@Valid Tipousuario tipousuario, BindingResult result, RedirectAttributes attrib, ModelMap model) {
-
         if (result.hasErrors()) {
-            return new ModelAndView("layout", "conteudo", getModel(model));
+            return new ModelAndView("layout", "conteudo", "/tipousuario/add");
         }
 
         repo.save(tipousuario);
@@ -93,7 +92,7 @@ public class TipousuarioController {
     @GetMapping("/update/{id}")
     public ModelAndView preUpdate(@PathVariable("id") String id, ModelMap model) {
         Tipousuario e = repo.findById(id).get();
-        model = getModel(model);
+        model.addAttribute("conteudo", "/tipousuario/add");
         model.addAttribute("tipousuario", e);
         return new ModelAndView("layout", model);
     }
@@ -101,33 +100,33 @@ public class TipousuarioController {
     
     @GetMapping("/permissoes/{id}")
     public ModelAndView updatePermissoes(@PathVariable("id") String id, ModelMap model) {
-        Tipousuario e = repo.findById(id).get();
         model.addAttribute("conteudo", "/tipousuario/permissao");
         Tipousuario tipo = repo.findById(id).get();
-
         lista.clear();
-        permissaotipousuarios.findByTipoUsuario(e).forEach(obj-> lista.add(obj));
+        permissaotipousuarios.findByTipoUsuario(tipo).forEach(obj-> lista.add(obj));
         permissoes.findAll().forEach(obj -> lista.add(new Permissaotipousuario(obj.getCdPermissao(),obj, tipo, null, null,false)));
         model.addAttribute("permissoes", lista);
-        model.addAttribute("tipousuario", e);
+        model.addAttribute("tipousuario", tipo);
         return new ModelAndView("layout", model);
     }
     
     @PostMapping("/permissoes/save")
+    @Transactional
     public ModelAndView savePermissoes(Tipousuario tipousuario, @RequestParam("permissaotipousuariosdados") List<String> ptu,BindingResult result, RedirectAttributes attrib, ModelMap model) {
-        TreeSet<Permissaotipousuario> dados = new TreeSet<>();
+        HashSet<Permissaotipousuario> dados = new HashSet<>();
         ptu.forEach(obj ->dados.add(new Permissaotipousuario(0,permissoes.findById(Integer.valueOf(obj)).get(), tipousuario, new Date(), new Date(), false))); 
-        //tipousuario.getPermissaotipousuarios().forEach(p -> p.getTipousuario().setCdTipousuario(tipousuario.getCdTipousuario()));
+        permissaotipousuarios.deletePermissaoTipoUsuarioByTipoUsuario(tipousuario.getCdTipousuario());
         permissaotipousuarios.saveAll(dados);
-
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/tipousuario/");
     }
     
     
     @GetMapping("/delete/{id}")
+    @Transactional
     public String delete(@PathVariable("id") String id, RedirectAttributes attrib) {
         try {
+            permissaotipousuarios.deletePermissaoTipoUsuarioByTipoUsuario(id);
             repo.deleteById(id);
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
 
@@ -137,13 +136,5 @@ public class TipousuarioController {
         return "redirect:/tipousuario/";
     }
 
-    @ModelAttribute
-    private List<Tipousuario> getTipousuario() {
-        return repo.findAll();
-    }
-    private ModelMap getModel(ModelMap model) {
-        model.addAttribute("tipousuarios", repo.findAll(new Sort(Sort.Direction.ASC, "cdTipousuario")));
-        model.addAttribute("conteudo", "/tipousuario/add");
-        return model;
-    }
+   
 }
