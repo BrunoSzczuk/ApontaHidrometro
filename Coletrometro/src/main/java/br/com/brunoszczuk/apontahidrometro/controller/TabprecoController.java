@@ -18,6 +18,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -33,16 +35,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author bruno
  */
+
 @Controller
 @RequestMapping("tabpreco")
+@PreAuthorize("hasRole('tabpreco')")
 public class TabprecoController {
 
     @Autowired
     TabprecoRepository repo;
 
-
     ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
+    
     @GetMapping("/")
+    
     private ModelAndView home(ModelMap model) {
         model.addAttribute("tabprecos", repo.findAll(new Sort(Sort.Direction.ASC, "cdTabpreco")));
         model.addAttribute("conteudo", "/tabpreco/list");
@@ -50,6 +55,7 @@ public class TabprecoController {
     }
 
     @GetMapping("/add")
+    
     private ModelAndView add(Tabpreco p, ModelMap model) {
         model.addAttribute("conteudo", "/tabpreco/add");
         return new ModelAndView("layout", model);

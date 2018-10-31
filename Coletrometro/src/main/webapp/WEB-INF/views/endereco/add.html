@@ -49,7 +49,7 @@
                         <div class="col-sm-2 col-lg-5">
                             <span  th:if="${#fields.hasErrors('municipio')}" th:errors="*{municipio}" class="badge badge-danger"/>
                             <label th:for="municipio" th:text="#{lbmunicipio}"></label> <p/>
-                            <select data-placeholder="Selecione o Município" class="selectpicker" id="municipio"   data-live-search="true" th:field="*{municipio.cdMunicipio}">
+                            <select data-placeholder="Selecione o Município" class="selectpicker form-control" id="municipio"   data-live-search="true" th:field="*{municipio.cdMunicipio}">
                                 <option id="op1" value="" th:text="Selecione"  />
                                 <option th:each="i : ${municipios}"  th:value="${i.cdMunicipio}" th:text="${i.cdMunicipio + ' - ' + i.dsMunicipio }"/>
                             </select>
