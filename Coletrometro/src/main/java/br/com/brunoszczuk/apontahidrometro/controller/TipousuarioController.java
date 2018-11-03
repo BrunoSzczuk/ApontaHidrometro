@@ -10,7 +10,6 @@ import br.com.brunoszczuk.apontahidrometro.entities.Tipousuario;
 import br.com.brunoszczuk.apontahidrometro.repository.PermissaoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.PermissaotipousuarioRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.TipousuarioRepository;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +41,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class TipousuarioController {
 
     @Autowired
-    TipousuarioRepository repo;
+    TipousuarioRepository tipousuarios;
     @Autowired
     PermissaotipousuarioRepository permissaotipousuarios;
 
@@ -55,9 +53,9 @@ public class TipousuarioController {
     ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
     @GetMapping("/")
-    @Transactional
+    
     private ModelAndView home(ModelMap model) {
-        model.addAttribute("tipousuarios", repo.findAll(new Sort(Sort.Direction.ASC, "cdTipousuario")));
+        model.addAttribute("tipousuarios", tipousuarios.findAll(new Sort(Sort.Direction.ASC, "cdTipousuario")));
         model.addAttribute("conteudo", "/tipousuario/list");
         return new ModelAndView("layout", model);
     }
@@ -72,7 +70,7 @@ public class TipousuarioController {
         if (result.hasErrors()) {
             return new ModelAndView("layout", "conteudo", "/tipousuario/add");
         }
-        repo.save(tipousuario);
+        tipousuarios.save(tipousuario);
 
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/tipousuario/");
@@ -84,14 +82,14 @@ public class TipousuarioController {
             return new ModelAndView("layout", "conteudo", "/tipousuario/add");
         }
 
-        repo.save(tipousuario);
+        tipousuarios.save(tipousuario);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/tipousuario/");
     }
 
     @GetMapping("/update/{id}")
     public ModelAndView preUpdate(@PathVariable("id") String id, ModelMap model) {
-        Tipousuario e = repo.findById(id).get();
+        Tipousuario e = tipousuarios.findById(id).get();
         model.addAttribute("conteudo", "/tipousuario/add");
         model.addAttribute("tipousuario", e);
         return new ModelAndView("layout", model);
@@ -101,7 +99,7 @@ public class TipousuarioController {
     @GetMapping("/permissoes/{id}")
     public ModelAndView updatePermissoes(@PathVariable("id") String id, ModelMap model) {
         model.addAttribute("conteudo", "/tipousuario/permissao");
-        Tipousuario tipo = repo.findById(id).get();
+        Tipousuario tipo = tipousuarios.findById(id).get();
         lista.clear();
         permissaotipousuarios.findByTipoUsuario(tipo).forEach(obj-> lista.add(obj));
         permissoes.findAll().forEach(obj -> lista.add(new Permissaotipousuario(obj.getCdPermissao(),obj, tipo, null, null,false)));
@@ -111,7 +109,7 @@ public class TipousuarioController {
     }
     
     @PostMapping("/permissoes/save")
-    @Transactional
+    
     public ModelAndView savePermissoes(Tipousuario tipousuario, @RequestParam("permissaotipousuariosdados") List<String> ptu,BindingResult result, RedirectAttributes attrib, ModelMap model) {
         HashSet<Permissaotipousuario> dados = new HashSet<>();
         ptu.forEach(obj ->dados.add(new Permissaotipousuario(0,permissoes.findById(Integer.valueOf(obj)).get(), tipousuario, new Date(), new Date(), false))); 
@@ -123,11 +121,11 @@ public class TipousuarioController {
     
     
     @GetMapping("/delete/{id}")
-    @Transactional
+    
     public String delete(@PathVariable("id") String id, RedirectAttributes attrib) {
         try {
             permissaotipousuarios.deletePermissaoTipoUsuarioByTipoUsuario(id);
-            repo.deleteById(id);
+            tipousuarios.deleteById(id);
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
 
         } catch (DataIntegrityViolationException ex) {
