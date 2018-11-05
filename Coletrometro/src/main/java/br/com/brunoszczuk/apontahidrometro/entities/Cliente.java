@@ -56,7 +56,7 @@ public class Cliente implements java.io.Serializable {
     @Email
     @Size(max = 100)
     private String dsEmail;
-    private String stStatus;
+    private boolean stStatus;
     private Set<Unidadeconsumidora> unidadeconsumidoras = new HashSet<>(0);
     private Set<Contrato> contratos = new HashSet<>(0);
     private Set<Contareceber> contarecebers = new HashSet<>(0);
@@ -64,7 +64,7 @@ public class Cliente implements java.io.Serializable {
     public Cliente() {
     }
 
-    public Cliente(int cdCliente, Endereco endereco, String nrLoja, String tpCliente, String nrCnpjcpf, String nmCliente, String nmFantasia, String dsEmail, String stStatus, Formapagto formapagto) {
+    public Cliente(int cdCliente, Endereco endereco, String nrLoja, String tpCliente, String nrCnpjcpf, String nmCliente, String nmFantasia, String dsEmail, boolean stStatus, Formapagto formapagto) {
         this.cdCliente = cdCliente;
         this.endereco = endereco;
         this.nrLoja = nrLoja;
@@ -77,7 +77,7 @@ public class Cliente implements java.io.Serializable {
         this.formapagto = formapagto;
     }
 
-    public Cliente(int cdCliente, Endereco endereco, String nrLoja, String tpCliente, String nrCnpjcpf, String nmCliente, String nmFantasia, String nrDdd, String nrTelefone, String dsEmail, String stStatus, Set<Unidadeconsumidora> unidadeconsumidoras, Set<Contrato> contratos, Set<Contareceber> contarecebers) {
+    public Cliente(int cdCliente, Endereco endereco, String nrLoja, String tpCliente, String nrCnpjcpf, String nmCliente, String nmFantasia, String nrDdd, String nrTelefone, String dsEmail, boolean stStatus, Set<Unidadeconsumidora> unidadeconsumidoras, Set<Contrato> contratos, Set<Contareceber> contarecebers) {
         this.cdCliente = cdCliente;
         this.endereco = endereco;
         this.nrLoja = nrLoja;
@@ -199,12 +199,12 @@ public class Cliente implements java.io.Serializable {
         this.dsEmail = dsEmail;
     }
 
-    @Column(name = "st_status", nullable = false, length = 20)
-    public String getStStatus() {
+    @Column(name = "st_status", nullable = false)
+    public boolean isStStatus() {
         return this.stStatus;
     }
 
-    public void setStStatus(String stStatus) {
+    public void setStStatus(boolean stStatus) {
         this.stStatus = stStatus;
     }
 

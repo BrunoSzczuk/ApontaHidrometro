@@ -23,7 +23,7 @@ public class Fotoapontamento  implements java.io.Serializable {
 
      private int cdFoto;
      private byte[] ftApontamento;
-     private Set<Apontamento> apontamentos = new HashSet<Apontamento>(0);
+     private Set<Apontamento> apontamentos = new HashSet<>(0);
 
     public Fotoapontamento() {
     }

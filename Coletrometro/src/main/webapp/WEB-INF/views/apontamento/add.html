@@ -1,0 +1,97 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.apontamentos}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.apontamentos}"/> 
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${apontamento.cdApontamento == 0}?  @{/apontamento/save}: @{/apontamento/update}" th:object="${apontamento}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="cdApontamento"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" th:placeholder="#{lbcodigo}" th:field="*{cdApontamento}" readonly/>
+                            <span th:if="${#fields.hasErrors('cdApontamento')}" th:errors="*{cdApontamento}" class="badge badge-danger" th:readonly="${apontamento.cdApontamento == 0}"/>
+                        </div>
+                        <div class="col-sm-5">
+                            <label th:for="equipamento" th:text="#{lbequipamento}"></label> <p/>
+                            <select  data-none-selected-text class="selectpicker form-control" data-live-search="true" th:field="*{equipamento.cdEquipamento}" th:readonly="${apontamento.cdApontamento == 0}"> 
+                                <option th:each="i : ${equipamentos}"  th:value="${i.cdEquipamento}" th:text="${i.cdEquipamento + ' - ' + i.nrSerie }"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('equipamento')}" th:errors="*{equipamento}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-5">
+                            <label th:for="contrato" th:text="#{lbcontrato}"></label> <p/>
+                            <select class="selectpicker form-control"    data-none-selected-text data-live-search="true" th:field="*{contrato.nrContrato}" th:readonly="${apontamento.cdApontamento == 0}">
+                                <option th:each="i : ${contratos}"  th:value="${i.nrContrato}" th:text="${i.nrContrato + ' - ' + i.dsContrato }"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('contrato')}" th:errors="*{contrato}" class="badge badge-danger"/> 
+                        </div>
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="contAnterior" th:text="#{lbcontanterior}"/>
+                            <input type="text" class="form-control" pattern="[0-9]+$" th:placeholder="#{lbcontanterior}" th:field="*{contAnterior}" readonly/>
+                            <span th:if="${#fields.hasErrors('contAnterior')}" th:errors="*{contAnterior}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="contApontado" th:text="#{lbcontapontado}"/>
+                            <input type="text" class="form-control" pattern="[0-9]+$" th:placeholder="#{lbcontapontado}" th:field="*{contApontado}"/>
+                            <span th:if="${#fields.hasErrors('contApontado')}" th:errors="*{contApontado}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-5">
+                            <label th:for="usuario" th:text="#{lbusuario}"></label> <p/>
+                            <input type="text" class="form-control" th:placeholder="#{lbusuario}"  th:field="*{usuario.nickUsuario}" readonly/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtInclusao"  th:text="#{lbdtinclusao}"/>
+                            <input type="date" class="form-control datepicker"  th:placeholder="#{lbdtinclusao}" th:field="*{dtInclusao}" readonly/>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 pb-3 ">
+                            <label th:for="stFechado"   th:text="#{lbstfechado}"/>
+                            <select id="stFechado" class="form-control" th:field="*{stFechado}" disabled>
+                                <option th:value="true" th:text="#{lbativo}" />
+                                <option th:value="false" th:text="#{lbinativo}"/>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-10  pb-3">
+                            <label th:for="fotoapontamento" th:text="#{lbfotoapontamento}"/>
+                            <input type="file" class="form-control-file" th:placeholder="#{lbfotoapontamento}" th:field="*{fotoapontamento.ftApontamento}" accept="image/x-png,image/jpeg"/>
+                            <img src="" id="prev" class="img-fluid" />
+                            <span th:if="${#fields.hasErrors('fotoapontamento')}" th:errors="*{fotoapontamento}" class="badge badge-danger"/>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/apontamento/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    var reader = new FileReader();
+    reader.onload = function (r_event) {
+        document.getElementById('prev').setAttribute('src', r_event.target.result);
+    }
+
+    document.getElementsByName('fotoapontamento.ftApontamento')[0].addEventListener('change', function (event) {
+        reader.readAsDataURL(this.files[0]);
+    });
+    if (document.getElementById('cdApontamento').value == 0) {
+        document.getElementById('equipamento.cdEquipamento').selectedIndex = -1;
+        document.getElementById('contrato.nrContrato').selectedIndex = -1;
+    }
+</script>  
+</div>
+</div>
