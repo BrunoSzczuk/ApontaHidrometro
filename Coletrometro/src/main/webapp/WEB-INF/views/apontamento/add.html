@@ -9,7 +9,7 @@
 
             <!-- form complex example -->
             <div class="card-body">
-                <form th:action="${apontamento.cdApontamento == 0}?  @{/apontamento/save}: @{/apontamento/update}" th:object="${apontamento}" method="post">
+                <form enctype="multipart/form-data" th:action="${apontamento.cdApontamento == 0}?  @{/apontamento/save}: @{/apontamento/update}" th:object="${apontamento}" method="post">
                     <div class="form-row mt-4">
                         <div class="col-sm-2 pb-3 pr-3">
                             <label th:for="cdApontamento"  th:text="#{lbcodigo}"/>
@@ -58,7 +58,7 @@
 
                         <div class="col-sm-10  pb-3">
                             <label th:for="fotoapontamento" th:text="#{lbfotoapontamento}"/>
-                            <input type="file" class="form-control-file" th:placeholder="#{lbfotoapontamento}" th:field="*{fotoapontamento.ftApontamento}" accept="image/x-png,image/jpeg"/>
+                            <input type="file"on class="form-control-file" th:placeholder="#{lbfotoapontamento}" th:field="*{fotoapontamento.ftApontamento}" accept="image/x-png,image/jpeg"/>
                             <img src="" id="prev" class="img-fluid" />
                             <span th:if="${#fields.hasErrors('fotoapontamento')}" th:errors="*{fotoapontamento}" class="badge badge-danger"/>
                         </div>
@@ -85,7 +85,10 @@
         document.getElementById('prev').setAttribute('src', r_event.target.result);
     }
 
-    document.getElementsByName('fotoapontamento.ftApontamento')[0].addEventListener('change', function (event) {
+    document.getElementsByName('fotoapontamento.file')[0].addEventListener('change', function (event) {
+        reader.readAsDataURL(this.files[0]);
+    });
+    document.getElementsByName('fotoapontamento.ftApontamento')[0].addEventListener('show', function (event) {
         reader.readAsDataURL(this.files[0]);
     });
     if (document.getElementById('cdApontamento').value == 0) {

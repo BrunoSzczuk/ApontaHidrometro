@@ -8,7 +8,6 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 import br.com.brunoszczuk.apontahidrometro.entities.Apontamento;
 import br.com.brunoszczuk.apontahidrometro.entities.Contrato;
 import br.com.brunoszczuk.apontahidrometro.entities.Equipamento;
-import br.com.brunoszczuk.apontahidrometro.entities.Fotoapontamento;
 import br.com.brunoszczuk.apontahidrometro.repository.ApontamentoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.EquipamentoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.ContratoRepository;
@@ -23,6 +22,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,6 +60,8 @@ public class ApontamentoController {
     
     @Autowired
     FotoapontamentoRepository fotoapontamento;
+    
+    
     ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
     @GetMapping("/")
@@ -77,15 +80,15 @@ public class ApontamentoController {
         return new ModelAndView("layout", model);
     }
 
-    @PostMapping("/save")
-    public ModelAndView save(@Valid Apontamento apontamento, BindingResult result, RedirectAttributes attrib, ModelMap model, @RequestParam("fotoapontamento.ftApontamento") MultipartFile file) throws IOException{
+    @PostMapping(value = "/save")
+    public ModelAndView save(@Valid Apontamento apontamento, BindingResult result, RedirectAttributes attrib, ModelMap model) throws IOException{
 
         model.addAttribute("conteudo", "/apontamento/add");
         apontamento.setUsuario(usuarios.findByIgnoreCaseNickUsuario(apontamento.getUsuario().getNickUsuario()));
         if (result.hasErrors()) {
             return new ModelAndView("layout", getModel(model));
         }
-        apontamento.getFotoapontamento().setFtApontamento(file.getBytes());
+        apontamento.getFotoapontamento().setFtApontamento(apontamento.getFotoapontamento().getFile().getBytes());
         
         fotoapontamento.save(apontamento.getFotoapontamento());
         repo.save(apontamento);
@@ -93,13 +96,14 @@ public class ApontamentoController {
         return new ModelAndView("redirect:/apontamento/");
     }
 
-    @PostMapping("/update")
-    public ModelAndView update(@Valid Apontamento apontamento, BindingResult result, RedirectAttributes attrib, ModelMap model) {
+    @PostMapping(value="/update")
+    public ModelAndView update(@Valid Apontamento apontamento, BindingResult result, RedirectAttributes attrib, ModelMap model)  throws IOException{
         model.addAttribute("conteudo", "/apontamento/add");
+        
         if (result.hasErrors()) {
             return new ModelAndView("layout", getModel(model));
         }
-
+        apontamento.getFotoapontamento().setFtApontamento(apontamento.getFotoapontamento().getFile().getBytes());
         repo.save(apontamento);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/apontamento/");
@@ -108,6 +112,7 @@ public class ApontamentoController {
     @GetMapping("/update/{id}")
     public ModelAndView preUpdate(@PathVariable("id") int id, ModelMap model) {
         Apontamento e = repo.findById(id).get();
+        e.getFotoapontamento().setFile(new MockMultipartFile("imagem-",e.getFotoapontamento().getFtApontamento()));
         model.addAttribute("apontamento", e);
         model.addAttribute("conteudo", "/apontamento/add");
         return new ModelAndView("layout", getModel(model));

@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -76,7 +78,7 @@ public class Apontamento implements java.io.Serializable {
     }
 
     @Id
-
+    @GeneratedValue(strategy =GenerationType.AUTO)
     @Column(name = "cd_apontamento", nullable = false)
     public int getCdApontamento() {
         return this.cdApontamento;

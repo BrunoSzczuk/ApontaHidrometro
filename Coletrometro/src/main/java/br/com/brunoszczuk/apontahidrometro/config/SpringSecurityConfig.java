@@ -47,7 +47,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //	.antMatchers("/vendas/relatorios/custos").hasRole("VISUALIZAR_RELATORIO_CUSTOS")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
-                .and().rememberMe();
+                .and().rememberMe()
+                .and().csrf().disable();
         /* http.authorizeRequests().anyRequest().hasAnyRole("Administrador", "Usuário")
                 .and()
                 .authorizeRequests().antMatchers("/login**").permitAll()
