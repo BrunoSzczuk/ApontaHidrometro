@@ -58,8 +58,8 @@
 
                         <div class="col-sm-10  pb-3">
                             <label th:for="fotoapontamento" th:text="#{lbfotoapontamento}"/>
-                            <input type="file"on class="form-control-file" th:placeholder="#{lbfotoapontamento}" th:field="*{fotoapontamento.ftApontamento}" accept="image/x-png,image/jpeg"/>
-                            <img src="" id="prev" class="img-fluid" />
+                            <input type="file"on class="form-control-file" th:placeholder="#{lbfotoapontamento}" th:field="*{fotoapontamento.file}" accept="image/x-png,image/jpeg"/>
+                            <img th:src="@{/fotoapontamento/gerafoto?id={id}(id=${apontamento.fotoapontamento.cdFoto})}" id="prev" class="img-fluid" />
                             <span th:if="${#fields.hasErrors('fotoapontamento')}" th:errors="*{fotoapontamento}" class="badge badge-danger"/>
                         </div>
 

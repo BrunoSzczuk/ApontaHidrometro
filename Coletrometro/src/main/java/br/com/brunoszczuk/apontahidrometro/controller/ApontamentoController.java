@@ -112,7 +112,7 @@ public class ApontamentoController {
     @GetMapping("/update/{id}")
     public ModelAndView preUpdate(@PathVariable("id") int id, ModelMap model) {
         Apontamento e = repo.findById(id).get();
-        e.getFotoapontamento().setFile(new MockMultipartFile("imagem-",e.getFotoapontamento().getFtApontamento()));
+       // e.getFotoapontamento().setFile(new MockMultipartFile("imagem-",e.getFotoapontamento().getFtApontamento()));
         model.addAttribute("apontamento", e);
         model.addAttribute("conteudo", "/apontamento/add");
         return new ModelAndView("layout", getModel(model));
