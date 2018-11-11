@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Fetch;
@@ -32,17 +33,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Apontamento implements java.io.Serializable {
 
     private int cdApontamento;
-    @NotNull
+    @NotNull(message = "{message.apontamento.contrato}")
     private Contrato contrato;
-    @NotNull
+    @NotNull (message = "{message.apontamento.equipamento}")
     private Equipamento equipamento;
-    @NotNull
+    @Valid
     private Fotoapontamento fotoapontamento;
     @NotNull
     private Usuario usuario;
     @Min(0)
     private int contAnterior;
-    @Min(0)
+    @Min(1)
     private int contApontado;
     @NotNull
     private Date dtInclusao;

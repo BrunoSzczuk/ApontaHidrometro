@@ -1,11 +1,8 @@
 package br.com.brunoszczuk.apontahidrometro.entities;
 // Generated 29/08/2018 23:02:23 by Hibernate Tools 4.3.1
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.util.HashSet;
 import java.util.Set;
-import javax.imageio.ImageIO;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.springframework.mock.web.MockMultipartFile;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -38,14 +36,12 @@ public class Fotoapontamento implements java.io.Serializable {
     public Fotoapontamento(int cdFoto, byte[] ftApontamento) {
         this.cdFoto = cdFoto;
         this.ftApontamento = ftApontamento;
-        file = new MockMultipartFile("img_" + cdFoto, ftApontamento);
     }
 
     public Fotoapontamento(int cdFoto, byte[] ftApontamento, Set<Apontamento> apontamentos) {
         this.cdFoto = cdFoto;
         this.ftApontamento = ftApontamento;
         this.apontamentos = apontamentos;
-        file = new MockMultipartFile("img_" + cdFoto, ftApontamento);
     }
 
     @Id

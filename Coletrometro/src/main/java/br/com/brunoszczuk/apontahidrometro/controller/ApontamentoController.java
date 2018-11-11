@@ -88,6 +88,11 @@ public class ApontamentoController {
         if (result.hasErrors()) {
             return new ModelAndView("layout", getModel(model));
         }
+        if(apontamento.getFotoapontamento().getFile().isEmpty()){
+            attrib.addFlashAttribute("message", bundle.getString("message.fotoapontamento.ftapontamento"));
+            return new ModelAndView("redirect:/apontamento/add");
+        }
+        apontamento.setDtInclusao(new Date());
         apontamento.getFotoapontamento().setFtApontamento(apontamento.getFotoapontamento().getFile().getBytes());
 
         fotoapontamento.save(apontamento.getFotoapontamento());
@@ -97,25 +102,29 @@ public class ApontamentoController {
     }
 
     @PostMapping(value = "/update")
-    
+
     public ModelAndView update(@Valid Apontamento apontamento, BindingResult result, RedirectAttributes attrib, ModelMap model) throws IOException {
         model.addAttribute("conteudo", "/apontamento/add");
+        //model.addAttribute("apontamento", repo.findById(apontamento.getCdApontamento()).get());
         apontamento.setUsuario(usuarios.findByIgnoreCaseNickUsuario(apontamento.getUsuario().getNickUsuario()));
         if (result.hasErrors()) {
             return new ModelAndView("layout", getModel(model));
         }
-        apontamento.getFotoapontamento().setFtApontamento(apontamento.getFotoapontamento().getFile().getBytes());
+        if (apontamento.getFotoapontamento().getFile().getBytes().length == 0) {
+            apontamento.setFotoapontamento(fotoapontamento.findByApontamento(apontamento.getCdApontamento()));
+        } else {
+            apontamento.getFotoapontamento().setFtApontamento(apontamento.getFotoapontamento().getFile().getBytes());
+        }
+
         fotoapontamento.save(apontamento.getFotoapontamento());
-        apontamento.getFotoapontamento().setFtApontamento(apontamento.getFotoapontamento().getFile().getBytes());
         repo.save(apontamento);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/apontamento/");
     }
 
     @GetMapping("/update/{id}")
-    public ModelAndView preUpdate(@PathVariable("id") int id, ModelMap model) {
+    public ModelAndView preUpdate(@PathVariable("id") int id, ModelMap model) throws IOException {
         Apontamento e = repo.findById(id).get();
-        // e.getFotoapontamento().setFile(new MockMultipartFile("imagem-",e.getFotoapontamento().getFtApontamento()));
         model.addAttribute("apontamento", e);
         model.addAttribute("conteudo", "/apontamento/add");
         return new ModelAndView("layout", getModel(model));
