@@ -25,6 +25,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,11 +58,10 @@ public class ApontamentoController {
 
     @Autowired
     UsuarioRepository usuarios;
-    
+
     @Autowired
     FotoapontamentoRepository fotoapontamento;
-    
-    
+
     ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
     @GetMapping("/")
@@ -81,38 +81,50 @@ public class ApontamentoController {
     }
 
     @PostMapping(value = "/save")
-    public ModelAndView save(@Valid Apontamento apontamento, BindingResult result, RedirectAttributes attrib, ModelMap model) throws IOException{
+    public ModelAndView save(@Valid Apontamento apontamento, BindingResult result, RedirectAttributes attrib, ModelMap model) throws IOException {
 
         model.addAttribute("conteudo", "/apontamento/add");
         apontamento.setUsuario(usuarios.findByIgnoreCaseNickUsuario(apontamento.getUsuario().getNickUsuario()));
         if (result.hasErrors()) {
             return new ModelAndView("layout", getModel(model));
         }
+        if(apontamento.getFotoapontamento().getFile().isEmpty()){
+            attrib.addFlashAttribute("message", bundle.getString("message.fotoapontamento.ftapontamento"));
+            return new ModelAndView("redirect:/apontamento/add");
+        }
+        apontamento.setDtInclusao(new Date());
         apontamento.getFotoapontamento().setFtApontamento(apontamento.getFotoapontamento().getFile().getBytes());
-        
+
         fotoapontamento.save(apontamento.getFotoapontamento());
         repo.save(apontamento);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/apontamento/");
     }
 
-    @PostMapping(value="/update")
-    public ModelAndView update(@Valid Apontamento apontamento, BindingResult result, RedirectAttributes attrib, ModelMap model)  throws IOException{
+    @PostMapping(value = "/update")
+
+    public ModelAndView update(@Valid Apontamento apontamento, BindingResult result, RedirectAttributes attrib, ModelMap model) throws IOException {
         model.addAttribute("conteudo", "/apontamento/add");
-        
+        //model.addAttribute("apontamento", repo.findById(apontamento.getCdApontamento()).get());
+        apontamento.setUsuario(usuarios.findByIgnoreCaseNickUsuario(apontamento.getUsuario().getNickUsuario()));
         if (result.hasErrors()) {
             return new ModelAndView("layout", getModel(model));
         }
-        apontamento.getFotoapontamento().setFtApontamento(apontamento.getFotoapontamento().getFile().getBytes());
+        if (apontamento.getFotoapontamento().getFile().getBytes().length == 0) {
+            apontamento.setFotoapontamento(fotoapontamento.findByApontamento(apontamento.getCdApontamento()));
+        } else {
+            apontamento.getFotoapontamento().setFtApontamento(apontamento.getFotoapontamento().getFile().getBytes());
+        }
+
+        fotoapontamento.save(apontamento.getFotoapontamento());
         repo.save(apontamento);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroalteradocomsucesso"));
         return new ModelAndView("redirect:/apontamento/");
     }
 
     @GetMapping("/update/{id}")
-    public ModelAndView preUpdate(@PathVariable("id") int id, ModelMap model) {
+    public ModelAndView preUpdate(@PathVariable("id") int id, ModelMap model) throws IOException {
         Apontamento e = repo.findById(id).get();
-        e.getFotoapontamento().setFile(new MockMultipartFile("imagem-",e.getFotoapontamento().getFtApontamento()));
         model.addAttribute("apontamento", e);
         model.addAttribute("conteudo", "/apontamento/add");
         return new ModelAndView("layout", getModel(model));
@@ -121,7 +133,9 @@ public class ApontamentoController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes attrib) {
         try {
+            int idfoto = repo.findById(id).get().getFotoapontamento().getCdFoto();
             repo.deleteById(id);
+            fotoapontamento.deleteById(idfoto);
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
 
         } catch (DataIntegrityViolationException ex) {

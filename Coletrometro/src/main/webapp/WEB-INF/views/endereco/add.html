@@ -14,7 +14,7 @@
                         <div class="col-sm-2 pb-3 pr-3">
                             <label th:for="cdEndereco"  th:text="#{lbcodigo}"/>
                             <input type="text" class="form-control" id="cdEndereco" th:placeholder="#{lbcodigo}" th:field="*{cdEndereco}" th:readonly="${endereco.cdEndereco != null}" style="text-transform:uppercase"/>
-                        <span th:if="${#fields.hasErrors('cdEndereco')}" th:errors="*{cdEndereco}" class="badge badge-danger" th:readonly="${endereco.cdEndereco == null}"/>
+                            <span th:if="${#fields.hasErrors('cdEndereco')}" th:errors="*{cdEndereco}" class="badge badge-danger" th:readonly="${endereco.cdEndereco == null}"/>
                         </div>
                         <div class="col-sm-1 col-lg-2 pr-3">
                             <label th:for="nrLogradouro" th:text="#{lbnrlogradouro}"/>
@@ -72,10 +72,9 @@
                             </div>
                         </div>
                     </div>
-
+                </form>
             </div>
         </div>
-        </form>
         <script type="text/javascript">
             $(window).on('load', function () {
 
@@ -83,6 +82,8 @@
 
                 });
             });
+            if (document.getElementById('cdEndereco').value.length === 0)
+                document.getElementById('municipio').selectedIndex = -1;
         </script>  
     </div>
 </div>

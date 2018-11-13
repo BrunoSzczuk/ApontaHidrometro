@@ -26,11 +26,12 @@
                         <th th:text="#{lbcontrato}"></th>
                         <th th:text="#{lbcontanterior}"></th>
                         <th th:text="#{lbcontapontado}"></th>
+                        <th th:text="#{lbacao}"></th>
                     </tr>
                 </thead>
                 <tbody id="dados">
                     <tr th:each="e : ${apontamentos}">
-                        <td><input type="checkbox" th:checked="${e.stFechado}"/> </td>
+                        <td><input type="checkbox" th:checked="${e.stFechado}" disabled/> </td>
                         <td th:text="${e.cdApontamento} "></td>
                         <td th:text="${e.equipamento.cdEquipamento} "></td>
                         <td th:text="${e.contrato.nrContrato} "></td>

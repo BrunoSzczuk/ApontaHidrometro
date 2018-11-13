@@ -5,6 +5,7 @@
         <hr class="my-3"/>
         <div class="card border-primary mb-2">
             <div class="card-header" th:text="#{titulo.cadastros.apontamentos}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
 
 
             <!-- form complex example -->
@@ -51,16 +52,18 @@
                         <div class="col-sm-3 col-lg-3 pb-3 ">
                             <label th:for="stFechado"   th:text="#{lbstfechado}"/>
                             <select id="stFechado" class="form-control" th:field="*{stFechado}" disabled>
-                                <option th:value="true" th:text="#{lbativo}" />
-                                <option th:value="false" th:text="#{lbinativo}"/>
+                                <option th:value="true" th:text="#{lbfechado}" />
+                                <option th:value="false" th:text="#{lbaberto}"/>
                             </select>
                         </div>
 
                         <div class="col-sm-10  pb-3">
-                            <label th:for="fotoapontamento" th:text="#{lbfotoapontamento}"/>
-                            <input type="file"on class="form-control-file" th:placeholder="#{lbfotoapontamento}" th:field="*{fotoapontamento.ftApontamento}" accept="image/x-png,image/jpeg"/>
-                            <img src="" id="prev" class="img-fluid" />
-                            <span th:if="${#fields.hasErrors('fotoapontamento')}" th:errors="*{fotoapontamento}" class="badge badge-danger"/>
+                            <label th:for="fotoapontamento" th:text="#{lbfotoapontamento}"/> </br>
+                            <span th:if="${#fields.hasErrors('fotoapontamento.ftApontamento')}" th:errors="*{fotoapontamento.ftApontamento}" class="badge badge-danger"/>
+                            <input type="hidden" th:field="*{fotoapontamento.ftApontamento}"/>
+                            <input type="file"on class="form-control-file" th:placeholder="#{lbfotoapontamento}" th:field="*{fotoapontamento.file}" accept="image/x-png,image/jpeg"/>
+                            <img th:src="@{/fotoapontamento/gerafoto?id={id}(id=${apontamento.fotoapontamento.cdFoto})}" id="prev" class="img-fluid" /> 
+                            
                         </div>
 
                         <div class="col-12">
@@ -88,10 +91,7 @@
     document.getElementsByName('fotoapontamento.file')[0].addEventListener('change', function (event) {
         reader.readAsDataURL(this.files[0]);
     });
-    document.getElementsByName('fotoapontamento.ftApontamento')[0].addEventListener('show', function (event) {
-        reader.readAsDataURL(this.files[0]);
-    });
-    if (document.getElementById('cdApontamento').value == 0) {
+    if (document.getElementById('cdApontamento').value == '0') {
         document.getElementById('equipamento.cdEquipamento').selectedIndex = -1;
         document.getElementById('contrato.nrContrato').selectedIndex = -1;
     }

@@ -24,7 +24,7 @@
                         <div class="col-sm-2 col-lg-5">
                             <span  th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}" class="badge badge-danger"/>
                             <label th:for="estado" th:text="#{lbestado}"></label> <p/>
-                            <select data-placeholder="Selecione o País" class="selectpicker" id="estado"   data-live-search="true" th:field="*{estado.cdEstado}">
+                            <select data-placeholder="Selecione o País" class="selectpicker form-control" id="estado"   data-live-search="true" th:field="*{estado.cdEstado}">
                                 <option th:each="i : ${estados}"  th:value="${i.cdEstado}" th:text="${i.cdEstado + ' - ' + i.dsEstado }"/>
                             </select>
                         </div>
