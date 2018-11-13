@@ -1,0 +1,87 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+        <h3 class="my-1" th:text="#{titulo.fechamentoapontamentos}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.fechamentoapontamentos}"/> 
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${fechamentoapontamento.cdFechamento == null}?  @{/fechamentoapontamento/save}: @{/fechamentoapontamento/update}" th:object="${fechamentoapontamento}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="cdFechamento"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdFechamento" th:placeholder="#{lbcodigo}" th:field="*{cdFechamento}" readonly/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="tabpreco" th:text="#{lbtabpreco}"/>
+                            <input type="text" class="form-control" id="tabpreco" th:placeholder="#{lbdescricao}" th:field="*{tabpreco.cdTabpreco}" readonly/>
+                            <span th:if="${#fields.hasErrors('tabpreco')}" th:errors="*{tabpreco}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-5 pb-3 pr-3">
+                            <label th:for="competencia" th:text="#{lbcompetencia}"></label> <p/>
+                            <select th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="competencia"   data-live-search="true" th:field="*{competencia.cdCompetencia}" >
+                                <option th:each="e : ${competencias}"  class="form-control" th:value="${e.cdCompetencia}" th:text="${e.cdCompetencia + ' - ' + e.dsCompetencia }"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('competencia')}" th:errors="*{competencia}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" name="part1" th:text="#{lbpesquisar}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card border-primary container pb-3 pr-3">
+                            <div class="card-body pb-3">
+                                <table class="table table-striped table-bordered table-responsive-md nowrap" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th th:text="#{lbapontamento}"></th>
+                                            <th th:text="#{lbcontanterior}"></th>
+                                            <th th:text="#{lbcontapontado}"></th>
+                                            <th th:text="#{lbdtinclusao}"></th>
+                                        </tr>
+                                    </thead>
+
+
+                                    <tbody id="dados"> 
+                                        <tr th:each="apontamento : ${apontamentos}">
+                                            <td> 
+                                                <input type="checkbox" th:checked="${fechamentoapontamento.cdFechamento != 0}" name="apontamentosselecinados" th:readonly="${fechamentoapontamento.cdFechamento != 0}"/>
+                                            </td>
+                                            <td th:text="${apontamento.contAnterior} "></td>
+                                            <td th:text="${apontamento.contApontado} "></td>
+                                            <td th:text="${#temporal.format(apontamento.dtInclusao, 'dd/MMM/yyyy')}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/fechamentoapontamento/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(window).on('load', function () {
+
+                $('.selectpicker').selectpicker({
+
+                });
+            });
+        </script>  
+    </div>
+</div>

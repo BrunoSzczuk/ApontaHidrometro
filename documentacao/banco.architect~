@@ -485,7 +485,7 @@
   <table id="TAB134" populated="true" UUID="ba8cd79b-3208-477e-b653-2651633a6c34" name="fechamentoapontamento" objectType="TABLE" physicalName="fechamentoapontamento" >
    <remarks></remarks>
    <folder id="FOLTAB1341" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL135" populated="true" UUID="2d056a6c-501a-4a56-aaa3-a557b98cb779" autoIncrement="false" autoIncrementSequenceName="fechamentoapontamento_cd_fechamento_seq" defaultValue="" name="cd_fechamento" nullable="0" physicalName="cd_fechamento" precision="9" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL135" populated="true" UUID="2d056a6c-501a-4a56-aaa3-a557b98cb779" autoIncrement="true" autoIncrementSequenceName="fechamentoapontamento_cd_fechamento_seq" defaultValue="" name="cd_fechamento" nullable="0" physicalName="cd_fechamento" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL136" populated="true" UUID="ede28d85-fb17-4739-bc03-9b7f9fbd7714" autoIncrement="false" autoIncrementSequenceName="apontamento_cd_apontamento_seq_1" defaultValue="" name="cd_apontamento" nullable="0" physicalName="cd_apontamento" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
@@ -837,7 +837,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.8408964152537142" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.8408964152537142" viewportX="573" viewportY="339" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="50" y="478" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB12" x="150" y="316" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB20" x="560" y="250" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>

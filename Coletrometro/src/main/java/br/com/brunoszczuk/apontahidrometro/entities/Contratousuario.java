@@ -28,9 +28,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Contratousuario implements java.io.Serializable {
 
     private int cdContratousuario;
-    @NotNull
+    @NotNull(message = "{message.contratousuario.contrato}")
     private Contrato contrato;
-    @NotNull
+    @NotNull(message = "{message.contratousuario.usuario}")
     private Usuario usuario;
     private Date dtInclusao;
 
