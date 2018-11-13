@@ -15,9 +15,11 @@
                             <input type="text" class="form-control" id="cdFechamento" th:placeholder="#{lbcodigo}" th:field="*{cdFechamento}" readonly/>
                         </div>
                         <div class="col-sm-3 pb-3 pr-3">
-                            <label th:for="tabpreco" th:text="#{lbtabpreco}"/>
-                            <input type="text" class="form-control" id="tabpreco" th:placeholder="#{lbdescricao}" th:field="*{tabpreco.cdTabpreco}" readonly/>
-                            <span th:if="${#fields.hasErrors('tabpreco')}" th:errors="*{tabpreco}" class="badge badge-danger"/>
+                            <label th:for="tabpreco" th:text="#{lbtabpreco}"></label> <p/>
+                            <select th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="tabpreco"   data-live-search="true" th:field="*{tabpreco.cdTabpreco}" disabled >
+                                <option th:each="e : ${tabprecos}"  class="form-control" th:value="${e.cdTabpreco}" th:text="${e.cdTabpreco + ' - ' + {#numbers.formatCurrency(e.vlMetrocubico)} + ' - ' + {#numbers.formatCurrency(e.vlTaxaadm)} }"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('tabpreco')}" th:errors="*{tabpreco}" class="badge badge-danger"/>
                         </div>
                         <div class="col-sm-5 pb-3 pr-3">
                             <label th:for="competencia" th:text="#{lbcompetencia}"></label> <p/>
@@ -25,6 +27,13 @@
                                 <option th:each="e : ${competencias}"  class="form-control" th:value="${e.cdCompetencia}" th:text="${e.cdCompetencia + ' - ' + e.dsCompetencia }"/>
                             </select>
                             <span  th:if="${#fields.hasErrors('competencia')}" th:errors="*{competencia}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-5 pb-3 pr-3">
+                            <label th:for="contrato" th:text="#{lbcontrato}"></label> <p/>
+                            <select th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="contrato"   data-live-search="true" th:field="*{contrato.nrContrato}" >
+                                <option th:each="e : ${contratos}"  class="form-control" th:value="${e.nrContrato}" th:text="${e.nrContrato + ' - ' + e.dsContrato }"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('contrato')}" th:errors="*{contrato}" class="badge badge-danger"/>
                         </div>
                         <div class="col-12">
                             <div class="form-row">

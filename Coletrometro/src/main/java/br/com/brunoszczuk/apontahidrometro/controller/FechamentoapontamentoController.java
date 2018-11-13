@@ -68,8 +68,9 @@ public class FechamentoapontamentoController {
     @GetMapping("/add")
     private ModelAndView add(Fechamentoapontamento p, ModelMap model) {
         model.addAttribute("conteudo", "/fechamentoapontamento/add");
-        p.setTabpreco(getTabpreco());
         model.addAttribute("competencias", getCompetencias());
+        model.addAttribute("contratos", getContratos());
+        model.addAttribute("tabprecos",getTabpreco());
         return new ModelAndView("layout", model);
     }
     
@@ -77,6 +78,7 @@ public class FechamentoapontamentoController {
     @PostMapping(value = {"/save","/update"}, params = "part1")
     private ModelAndView addPart1(Fechamentoapontamento p, ModelMap model) {
         model.addAttribute("conteudo", "/fechamentoapontamento/add");
+        model.addAttribute("contratos", getContratos());
         model.addAttribute("apontamentos", getApontamentos(p.getContrato()));
         p.setTabpreco(getTabpreco());
         model.addAttribute("competencias", getCompetencias());
