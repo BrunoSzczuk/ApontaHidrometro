@@ -8,6 +8,7 @@ package br.com.brunoszczuk.apontahidrometro.repository;
 import br.com.brunoszczuk.apontahidrometro.entities.Apontamento;
 import br.com.brunoszczuk.apontahidrometro.entities.Equipamento;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,4 +21,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface ApontamentoRepository extends JpaRepository<Apontamento, Integer>{
     List<Apontamento> findByEquipamento(Equipamento equipamento);
+    List<Apontamento> findByEquipamento(Equipamento equipamento, Sort sort);
 }

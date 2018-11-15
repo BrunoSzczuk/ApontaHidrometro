@@ -7,6 +7,7 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Competencia;
 import br.com.brunoszczuk.apontahidrometro.repository.CompetenciaRepository;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -58,7 +59,7 @@ public class CompetenciaController {
             return new ModelAndView("layout", model);
         }
         if (competencia.getDtInclusao() == null){
-            competencia.setDtInclusao(new Date());
+            competencia.setDtInclusao( LocalDate.now());
         }
         repo.save(competencia);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));

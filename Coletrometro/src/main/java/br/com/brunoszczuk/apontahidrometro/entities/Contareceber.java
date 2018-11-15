@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -75,10 +77,12 @@ public class Contareceber implements java.io.Serializable {
         this.dtVencimento = dtVencimento;
         this.nrFechamentoapontamento = nrFechamentoapontamento;
     }
+    
 
     @Id
 
     @Column(name = "cd_contareceber", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getCdConta() {
         return this.cdContareceber;
     }

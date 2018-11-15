@@ -48,11 +48,12 @@ public class Apontamento implements java.io.Serializable {
     @NotNull
     private Date dtInclusao;
     private boolean stFechado;
-    private Set<Fechamentoapontamento> fechamentoapontamentos = new HashSet<>(0);
+   private Set<Itemfechamento> itemfechamentos = new HashSet<>(0);
 
     public Apontamento() {
     }
 
+	
     public Apontamento(int cdApontamento, Contrato contrato, Equipamento equipamento, Fotoapontamento fotoapontamento, Usuario usuario, int contAnterior, int contApontado, Date dtInclusao, boolean stFechado) {
         this.cdApontamento = cdApontamento;
         this.contrato = contrato;
@@ -64,19 +65,19 @@ public class Apontamento implements java.io.Serializable {
         this.dtInclusao = dtInclusao;
         this.stFechado = stFechado;
     }
-
-    public Apontamento(int cdApontamento, Contrato contrato, Equipamento equipamento, Fotoapontamento fotoapontamento, Usuario usuario, int contAnterior, int contApontado, Date dtInclusao, boolean stFechado, Set<Fechamentoapontamento> fechamentoapontamentos) {
-        this.cdApontamento = cdApontamento;
-        this.contrato = contrato;
-        this.equipamento = equipamento;
-        this.fotoapontamento = fotoapontamento;
-        this.usuario = usuario;
-        this.contAnterior = contAnterior;
-        this.contApontado = contApontado;
-        this.dtInclusao = dtInclusao;
-        this.stFechado = stFechado;
-        this.fechamentoapontamentos = fechamentoapontamentos;
+    public Apontamento(int cdApontamento, Contrato contrato, Equipamento equipamento, Fotoapontamento fotoapontamento, Usuario usuario, int contAnterior, int contApontado, Date dtInclusao, boolean stFechado, Set<Itemfechamento> itemfechamentos) {
+       this.cdApontamento = cdApontamento;
+       this.contrato = contrato;
+       this.equipamento = equipamento;
+       this.fotoapontamento = fotoapontamento;
+       this.usuario = usuario;
+       this.contAnterior = contAnterior;
+       this.contApontado = contApontado;
+       this.dtInclusao = dtInclusao;
+       this.stFechado = stFechado;
+       this.itemfechamentos = itemfechamentos;
     }
+
 
     @Id
     @GeneratedValue(strategy =GenerationType.AUTO)
@@ -170,14 +171,14 @@ public class Apontamento implements java.io.Serializable {
     public void setStFechado(boolean stFechado) {
         this.stFechado = stFechado;
     }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "apontamento")
-    public Set<Fechamentoapontamento> getFechamentoapontamentos() {
-        return this.fechamentoapontamentos;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="apontamento")
+    @Fetch(FetchMode.JOIN)
+    public Set<Itemfechamento> getItemfechamentos() {
+        return this.itemfechamentos;
     }
-
-    public void setFechamentoapontamentos(Set<Fechamentoapontamento> fechamentoapontamentos) {
-        this.fechamentoapontamentos = fechamentoapontamentos;
+    
+    public void setItemfechamentos(Set<Itemfechamento> itemfechamentos) {
+        this.itemfechamentos = itemfechamentos;
     }
 
 }

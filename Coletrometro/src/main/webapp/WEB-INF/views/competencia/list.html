@@ -32,8 +32,8 @@
                     <tr th:each="e : ${competencias}" >
                         <td th:text="${e.cdCompetencia}"></td>
                         <td th:text="${e.dsCompetencia} "></td>
-                        <td th:text="${#dates.format(e.dtInicio, 'dd/MMM/yyyy')}" ></td>
-                        <td th:text="${#dates.format(e.dtFim, 'dd/MMM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(e.dtInicio, 'dd/MMM/yyyy')}" ></td>
+                        <td th:text="${#temporals.format(e.dtFim, 'dd/MMM/yyyy')}"></td>
                         <td> <span th:class="${e.stAtivo}? 'fas fa-check' : 'fas fa-ban'"/></td>
                         <td>
                             <a class="btn btn-info" th:href="@{/competencia/update/{id}(id=${e.cdCompetencia})}" th:text="#{lbeditar}"></a>

@@ -4,11 +4,11 @@
         <hr class="my-3"/>
         <div class="card border-primary mb-2">
             <div class="card-header" th:text="#{titulo.cadastros.fechamentoapontamentos}"/> 
-
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
 
             <!-- form complex example -->
             <div class="card-body">
-                <form th:action="${fechamentoapontamento.cdFechamento == null}?  @{/fechamentoapontamento/save}: @{/fechamentoapontamento/update}" th:object="${fechamentoapontamento}" method="post">
+                <form th:action="@{/fechamentoapontamento/save}" th:object="${fechamentoapontamento}" method="post">
                     <div class="form-row mt-4">
                         <div class="col-sm-2 pb-3 pr-3">
                             <label th:for="cdFechamento"  th:text="#{lbcodigo}"/>
@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-sm-3 pb-3 pr-3">
                             <label th:for="tabpreco" th:text="#{lbtabpreco}"></label> <p/>
-                            <select th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="tabpreco"   data-live-search="true" th:field="*{tabpreco.cdTabpreco}" disabled >
+                            <select th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="tabpreco"   data-live-search="true" th:field="*{tabpreco.cdTabpreco}"  >
                                 <option th:each="e : ${tabprecos}"  class="form-control" th:value="${e.cdTabpreco}" th:text="${e.cdTabpreco + ' - ' + {#numbers.formatCurrency(e.vlMetrocubico)} + ' - ' + {#numbers.formatCurrency(e.vlTaxaadm)} }"/>
                             </select>
                             <span  th:if="${#fields.hasErrors('tabpreco')}" th:errors="*{tabpreco}" class="badge badge-danger"/>
@@ -58,11 +58,11 @@
                                     <tbody id="dados"> 
                                         <tr th:each="apontamento : ${apontamentos}">
                                             <td> 
-                                                <input type="checkbox" th:checked="${fechamentoapontamento.cdFechamento != 0}" name="apontamentosselecinados" th:readonly="${fechamentoapontamento.cdFechamento != 0}"/>
+                                                <input type="checkbox" th:checked="${fechamentoapontamento.cdFechamento != 0}" name="apontamentosselecinados" th:value="${apontamento.cdApontamento}" th:readonly="${fechamentoapontamento.cdFechamento != 0}"/>
                                             </td>
                                             <td th:text="${apontamento.contAnterior} "></td>
                                             <td th:text="${apontamento.contApontado} "></td>
-                                            <td th:text="${#temporal.format(apontamento.dtInclusao, 'dd/MMM/yyyy')}"></td>
+                                            <td th:text="${#dates.format(apontamento.dtInclusao, 'dd/MMM/yyyy')}"></td>
                                         </tr>
                                     </tbody>
                                 </table>
