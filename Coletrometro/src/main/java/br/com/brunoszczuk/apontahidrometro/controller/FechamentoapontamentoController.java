@@ -9,6 +9,7 @@ import br.com.brunoszczuk.apontahidrometro.entities.Apontamento;
 import br.com.brunoszczuk.apontahidrometro.entities.Competencia;
 import br.com.brunoszczuk.apontahidrometro.entities.Contareceber;
 import br.com.brunoszczuk.apontahidrometro.entities.Contrato;
+import br.com.brunoszczuk.apontahidrometro.entities.Equipamento;
 import br.com.brunoszczuk.apontahidrometro.entities.Fechamentoapontamento;
 import br.com.brunoszczuk.apontahidrometro.entities.Itemcondicaopagto;
 import br.com.brunoszczuk.apontahidrometro.entities.Itemfechamento;
@@ -18,11 +19,13 @@ import br.com.brunoszczuk.apontahidrometro.repository.ApontamentoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.CompetenciaRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.ContareceberRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.ContratoRepository;
+import br.com.brunoszczuk.apontahidrometro.repository.EquipamentoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.FechamentoapontamentoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.ItemfechamentoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.TabprecoRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -33,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,30 +58,25 @@ public class FechamentoapontamentoController {
 
     @Autowired
     FechamentoapontamentoRepository repo;
-
     @Autowired
     ApontamentoRepository apontamentos;
-
     @Autowired
     ContratoRepository contratos;
-
     @Autowired
     TabprecoRepository tabprecos;
-
     @Autowired
     CompetenciaRepository competencias;
-
     @Autowired
     ItemfechamentoRepository itemFechamentos;
-
     @Autowired
     ContareceberRepository contareceberRepository;
-
+    @Autowired
+    EquipamentoRepository equipamentoRepository;
     ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
-        model.addAttribute("fechamentoapontamentos", repo.findAll(new Sort(Sort.Direction.ASC, "cdFechamentoapontamento")));
+        model.addAttribute("fechamentoapontamentos", repo.findAll(new Sort(Sort.Direction.ASC, "cdFechamento")));
         model.addAttribute("conteudo", "/fechamentoapontamento/list");
         return new ModelAndView("layout", model);
     }
@@ -101,10 +100,17 @@ public class FechamentoapontamentoController {
             attrib.addFlashAttribute("message", bundle.getString("lbinformecompetencia"));
             return new ModelAndView("redirect:/fechamentoapontamento/add");
         }
-        model.addAttribute("conteudo", "/fechamentoapontamento/add");
         Contrato c = contratos.findById(p.getContrato().getNrContrato()).get();
+        p.setCompetencia(competencias.findById(p.getCompetencia().getCdCompetencia()).get());
+        if (getApontamentos(c, p.getCompetencia()).isEmpty()) {
+            attrib.addFlashAttribute("message", bundle.getString("lbnaotemapontamento"));
+            return new ModelAndView("redirect:/fechamentoapontamento/add");
+        }
+
+        model.addAttribute("conteudo", "/fechamentoapontamento/add");
+
         model.addAttribute("contratos", c);
-        model.addAttribute("apontamentos", getApontamentos(c));
+        model.addAttribute("apontamentos", getApontamentos(c, p.getCompetencia()));
         model.addAttribute("tabprecos", getTabpreco());
         model.addAttribute("competencias", getCompetencias());
         return new ModelAndView("layout", model);
@@ -131,9 +137,7 @@ public class FechamentoapontamentoController {
             item.getApontamento().setStFechado(true);
             this.apontamentos.save(item.getApontamento());
         }
-        //lista.forEach(obj -> obj.getApontamento().setStFechado(true));
         geraTituloFinanceiro(fechamentoapontamento);
-        //this.apontamentos.saveAll(lista.getClass());
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/fechamentoapontamento/");
     }
@@ -141,7 +145,10 @@ public class FechamentoapontamentoController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes attrib) {
         try {
-            //repo.deleteById(new FechamentoapontamentoId); montar o deletebyid no repository
+            apontamentos.updateEquipamentoSetStatus(id, false);
+            itemFechamentos.deleteItemfechamentoByCdFechamento(id);
+            contareceberRepository.deleteContareceberByCdFechamento(id);
+            repo.deleteById(id);
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
 
         } catch (DataIntegrityViolationException ex) {
@@ -164,27 +171,37 @@ public class FechamentoapontamentoController {
         return tabprecos.findByTabelaVigente(LocalDate.now());
     }
 
-    public List<Apontamento> getApontamentos(Contrato c) {
-        return apontamentos.findByEquipamento(c.getUnidadeconsumidora().getEquipamento(), new Sort(Sort.Direction.ASC, "dtInclusao"));
+    public List<Apontamento> getApontamentos(Contrato c, Competencia competencia) {
+        return apontamentos.findByEquipamentoandContratoAtivo(c.getUnidadeconsumidora().getEquipamento(), competencia.getDtInicio(),
+                competencia.getDtFim());
     }
 
     private void geraTituloFinanceiro(Fechamentoapontamento fechamentoapontamento) {
-        fechamentoapontamento = repo.findById(fechamentoapontamento.getCdFechamento()).get();
         
-        int qtdapontamento = fechamentoapontamento.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).max().getAsInt()
-                - fechamentoapontamento.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).min().getAsInt();
-        float vltotal =0;
-        vltotal += fechamentoapontamento.getTabpreco().getVlTaxaadm().floatValue();
-        vltotal += fechamentoapontamento.getTabpreco().getVlMetrocubico().floatValue() * qtdapontamento;
-        Date data = fechamentoapontamento.getDtInclusao();
-        Calendar c = Calendar.getInstance();
-        c.setTime(data);
-        fechamentoapontamento.setVlFechamento(vltotal);
-        repo.save(fechamentoapontamento);
-        for (Itemcondicaopagto item : fechamentoapontamento.getContrato().getCondicaopagto().getItemcondicaopagtos()) {
-            c.add(Calendar.DATE, item.getQtDias());
-            contareceberRepository.save(new Contareceber(0, fechamentoapontamento.getContrato().getCliente(), fechamentoapontamento.getContrato().getCliente().getFormapagto(),
-                    fechamentoapontamento.getCdFechamento() + "", true,new BigDecimal(0), fechamentoapontamento.getDtInclusao(), false, new BigDecimal(item.getPcQuota() / vltotal *100), new BigDecimal(0), c.getTime(),fechamentoapontamento.getCdFechamento() +""));
+        try {
+            //Recarregar os objetos do join
+            fechamentoapontamento = repo.findById(fechamentoapontamento.getCdFechamento()).get();
+            //Usando Programação funcional com Stream - JDK 8
+            int qtdapontamento = fechamentoapontamento.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).max().getAsInt()
+                    - fechamentoapontamento.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).min().getAsInt();
+            float vltotal = 0;
+            vltotal += fechamentoapontamento.getTabpreco().getVlTaxaadm().floatValue();
+            vltotal += fechamentoapontamento.getTabpreco().getVlMetrocubico().floatValue() * qtdapontamento;
+            Date data = fechamentoapontamento.getDtInclusao();
+            Calendar c = Calendar.getInstance();
+            c.setTime(data);
+
+            fechamentoapontamento.setVlFechamento(vltotal);
+            repo.save(fechamentoapontamento);
+            for (Itemcondicaopagto item : fechamentoapontamento.getContrato().getCondicaopagto().getItemcondicaopagtos()) {
+                c.add(Calendar.DATE, item.getQtDias());
+                contareceberRepository.save(new Contareceber(0, fechamentoapontamento.getContrato().getUnidadeconsumidora().getCliente(), fechamentoapontamento.getContrato().getUnidadeconsumidora().getCliente().getFormapagto(),
+                        fechamentoapontamento.getCdFechamento() + "",  fechamentoapontamento.getDtInclusao(), false, new BigDecimal(item.getPcQuota() / vltotal * 100),  c.getTime(), fechamentoapontamento.getCdFechamento()));
+            }
+            fechamentoapontamento.getContrato().getUnidadeconsumidora().getEquipamento().setContAtual(qtdapontamento);
+            equipamentoRepository.save(fechamentoapontamento.getContrato().getUnidadeconsumidora().getEquipamento());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

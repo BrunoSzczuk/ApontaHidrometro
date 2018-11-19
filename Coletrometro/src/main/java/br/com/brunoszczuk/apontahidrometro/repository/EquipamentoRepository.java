@@ -27,7 +27,7 @@ public interface EquipamentoRepository extends JpaRepository<Equipamento, Intege
     @Query(value = "Select * from equipamento as e "
             + " inner join unidadeconsumidora as u on (e.cd_equipamento = u.cd_equipamento)"
             + " inner join contrato as c on (c.cd_unidadeconsumidora = u.cd_unidadeconsumidora)"
-            + " inner join cliente as cli on (c.cd_cliente = cli.cd_cliente) "
+            + " inner join cliente as cli on (u.cd_cliente = cli.cd_cliente) "
             + " where e.st_ativo"
             + "   and c.st_ativo"
             + "   and c.dt_periodofinal > current_date"

@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author Bruno
  */
-@Controller
+@ControllerAdvice
 public class ErrorController {
 
     ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());

@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.validation.Valid;
-import javax.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
@@ -84,10 +83,9 @@ public class CompetenciaController {
             Competencia e = repo.findById(id).get();
             model = getModel(model);
             model.addAttribute("competencia", e);
-            return new ModelAndView("layout", model);
-        }else{
-            throw new NotFoundException();
+            
         }
+        return new ModelAndView("layout", model);
     }
 
     @GetMapping("/delete/{id}")

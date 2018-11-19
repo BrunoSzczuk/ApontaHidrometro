@@ -38,7 +38,6 @@ public class Fechamentoapontamento implements java.io.Serializable {
     private Contrato contrato;
     @NotNull
     private Tabpreco tabpreco;
-    private boolean stAtivo;
     @Min((long) 0.1)
     private float vlFechamento;
     private Date dtInclusao;
@@ -47,22 +46,21 @@ public class Fechamentoapontamento implements java.io.Serializable {
     public Fechamentoapontamento() {
     }
 
-    public Fechamentoapontamento(int cdFechamento, Competencia competencia, Contrato contrato, Tabpreco tabpreco, boolean stAtivo, float vlFechamento, Date dtInclusao) {
+    public Fechamentoapontamento(int cdFechamento, Competencia competencia, Contrato contrato, Tabpreco tabpreco, float vlFechamento, Date dtInclusao) {
         this.cdFechamento = cdFechamento;
         this.competencia = competencia;
         this.contrato = contrato;
         this.tabpreco = tabpreco;
-        this.stAtivo = stAtivo;
         this.vlFechamento = vlFechamento;
         this.dtInclusao = dtInclusao;
     }
 
-    public Fechamentoapontamento(int cdFechamento, Competencia competencia, Contrato contrato, Tabpreco tabpreco, boolean stAtivo, float vlFechamento, Date dtInclusao, Set<Itemfechamento> itemfechamentos) {
+    public Fechamentoapontamento(int cdFechamento, Competencia competencia, Contrato contrato, Tabpreco tabpreco, float vlFechamento, Date dtInclusao, Set<Itemfechamento> itemfechamentos) {
         this.cdFechamento = cdFechamento;
         this.competencia = competencia;
         this.contrato = contrato;
         this.tabpreco = tabpreco;
-        this.stAtivo = stAtivo;
+
         this.vlFechamento = vlFechamento;
         this.dtInclusao = dtInclusao;
         this.itemfechamentos = itemfechamentos;
@@ -111,15 +109,6 @@ public class Fechamentoapontamento implements java.io.Serializable {
 
     public void setTabpreco(Tabpreco tabpreco) {
         this.tabpreco = tabpreco;
-    }
-
-    @Column(name = "st_ativo", nullable = false)
-    public boolean isStAtivo() {
-        return this.stAtivo;
-    }
-
-    public void setStAtivo(boolean stAtivo) {
-        this.stAtivo = stAtivo;
     }
 
     @Column(name = "vl_fechamento", nullable = false, precision = 8, scale = 8)

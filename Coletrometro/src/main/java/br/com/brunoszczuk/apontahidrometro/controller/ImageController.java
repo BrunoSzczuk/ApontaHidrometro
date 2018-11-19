@@ -31,11 +31,12 @@ public class ImageController {
     @RequestMapping(value = "/gerafoto", method = RequestMethod.GET)
     public void showImage(@RequestParam("id") Integer id, HttpServletResponse response, HttpServletRequest request)
             throws ServletException, IOException {
-
-        Fotoapontamento foto = repo.findById(id).get();
-        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-        response.getOutputStream().write(foto.getFtApontamento());
-        response.getOutputStream().close();
+        if (repo.existsById(id)) {
+            Fotoapontamento foto = repo.findById(id).get();
+            response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+            response.getOutputStream().write(foto.getFtApontamento());
+            response.getOutputStream().close();
+        }
 
     }
 }

@@ -34,8 +34,6 @@ public class Contrato implements java.io.Serializable {
 
     private String nrContrato;
 
-    @NotNull(message = "{message.contrato.cliente}")
-    private Cliente cliente;
     @NotNull(message = "{message.contrato.condicaopagto}")
     private Condicaopagto condicaopagto;
     @NotNull(message = "{message.contrato.frequenciacoleta}")
@@ -57,9 +55,8 @@ public class Contrato implements java.io.Serializable {
     public Contrato() {
     }
 
-    public Contrato(String nrContrato, Cliente cliente, Condicaopagto condicaopagto, Frequenciacoleta frequenciacoleta, Unidadeconsumidora unidadeconsumidora, String dsContrato, LocalDate dtPeriodoinicial, boolean stAtivo) {
+    public Contrato(String nrContrato, Condicaopagto condicaopagto, Frequenciacoleta frequenciacoleta, Unidadeconsumidora unidadeconsumidora, String dsContrato, LocalDate dtPeriodoinicial, boolean stAtivo) {
         this.nrContrato = nrContrato;
-        this.cliente = cliente;
         this.condicaopagto = condicaopagto;
         this.frequenciacoleta = frequenciacoleta;
         this.unidadeconsumidora = unidadeconsumidora;
@@ -68,9 +65,8 @@ public class Contrato implements java.io.Serializable {
         this.stAtivo = stAtivo;
     }
 
-    public Contrato(String nrContrato, Cliente cliente, Condicaopagto condicaopagto, Frequenciacoleta frequenciacoleta, Unidadeconsumidora unidadeconsumidora, String dsContrato, LocalDate dtPeriodoinicial, LocalDate dtPeriodofinal, boolean stAtivo, Set<Apontamento> apontamentos, Set<Contratousuario> contratousuarios, Set<Fechamentoapontamento> fechamentoapontamentos) {
+    public Contrato(String nrContrato, Condicaopagto condicaopagto, Frequenciacoleta frequenciacoleta, Unidadeconsumidora unidadeconsumidora, String dsContrato, LocalDate dtPeriodoinicial, LocalDate dtPeriodofinal, boolean stAtivo, Set<Apontamento> apontamentos, Set<Contratousuario> contratousuarios, Set<Fechamentoapontamento> fechamentoapontamentos) {
         this.nrContrato = nrContrato;
-        this.cliente = cliente;
         this.condicaopagto = condicaopagto;
         this.frequenciacoleta = frequenciacoleta;
         this.unidadeconsumidora = unidadeconsumidora;
@@ -92,17 +88,6 @@ public class Contrato implements java.io.Serializable {
 
     public void setNrContrato(String nrContrato) {
         this.nrContrato = nrContrato;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "cd_cliente", nullable = false)
-    public Cliente getCliente() {
-        return this.cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

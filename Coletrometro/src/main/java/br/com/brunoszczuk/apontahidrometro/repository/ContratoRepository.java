@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ContratoRepository extends JpaRepository<Contrato, String>{
     @Query(value = "Select * from contrato as c "
             + " inner join unidadeconsumidora as u on (c.cd_unidadeconsumidora = u.cd_unidadeconsumidora)"
-            + " inner join cliente as cli on (c.cd_cliente = cli.cd_cliente) "
+            + " inner join cliente as cli on (u.cd_cliente = cli.cd_cliente) "
             + " where c.st_ativo"
             + "   and c.dt_periodofinal > current_date"
             + "   and cli.st_status ", name = "findByContratoAtivo", nativeQuery = true)

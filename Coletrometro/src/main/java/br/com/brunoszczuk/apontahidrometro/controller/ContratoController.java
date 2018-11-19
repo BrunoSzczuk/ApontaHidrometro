@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.validation.Valid;
-import javax.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
@@ -45,9 +44,6 @@ public class ContratoController {
 
     @Autowired
     ContratoRepository repo;
-
-    @Autowired
-    ClienteRepository clientes;
 
     @Autowired
     FrequenciaColetaRepository frequenciacoletas;
@@ -102,10 +98,9 @@ public class ContratoController {
             Contrato e = repo.findById(id).get();
             model = getModel(model);
             model.addAttribute("contrato", e);
-            return new ModelAndView("layout", model);
-        }else{
-            throw new NotFoundException();
+
         }
+        return new ModelAndView("layout", model);
     }
 
     @GetMapping("/delete/{id}")
@@ -118,11 +113,6 @@ public class ContratoController {
             attrib.addFlashAttribute("errorMessage", bundle.getString("lbregistroexistente"));
         }
         return "redirect:/contrato/";
-    }
-
-    @ModelAttribute
-    public List<Cliente> getClientes() {
-        return clientes.findAll();
     }
 
     @ModelAttribute
@@ -142,7 +132,6 @@ public class ContratoController {
 
     private ModelMap getModel(ModelMap model) {
         model.addAttribute("unidadeconsumidoras", getUnidadeconsumidoras());
-        model.addAttribute("clientes", getClientes());
         model.addAttribute("condicaopagtos", getCondicaopagtos());
         model.addAttribute("frequenciacoletas", getFrequenciacoletas());
         model.addAttribute("conteudo", "/contrato/add");

@@ -36,44 +36,37 @@ public class Contareceber implements java.io.Serializable {
     private Formapagto formapagto;
     @NotBlank
     private String nrTitulo;
-    private boolean stAtivo;
-    private BigDecimal vlDesconto;
     @NotNull
     private Date dtEmissao;
     private boolean stBaixado;
     @Min((long) 0.01)
     private BigDecimal vlTitulo;
-    private BigDecimal vlAcrescimo;
     @NotNull
     private Date dtVencimento;
-    private String nrFechamentoapontamento;
+    private int nrFechamentoapontamento;
 
     public Contareceber() {
     }
 
-    public Contareceber(int cdContareceber, Cliente cliente, Formapagto formapagto, String nrTitulo, boolean stAtivo, Date dtEmissao, boolean stBaixado, BigDecimal vlTitulo, Date dtVencimento) {
+    public Contareceber(int cdContareceber, Cliente cliente, Formapagto formapagto, String nrTitulo, Date dtEmissao, boolean stBaixado, BigDecimal vlTitulo, Date dtVencimento) {
         this.cdContareceber = cdContareceber;
         this.cliente = cliente;
         this.formapagto = formapagto;
         this.nrTitulo = nrTitulo;
-        this.stAtivo = stAtivo;
         this.dtEmissao = dtEmissao;
         this.stBaixado = stBaixado;
         this.vlTitulo = vlTitulo;
         this.dtVencimento = dtVencimento;
     }
 
-    public Contareceber(int cdContareceber, Cliente cliente, Formapagto formapagto, String nrTitulo, boolean stAtivo, BigDecimal vlDesconto, Date dtEmissao, boolean stBaixado, BigDecimal vlTitulo, BigDecimal vlAcrescimo, Date dtVencimento, String nrFechamentoapontamento) {
+    public Contareceber(int cdContareceber, Cliente cliente, Formapagto formapagto, String nrTitulo, Date dtEmissao, boolean stBaixado, BigDecimal vlTitulo, Date dtVencimento, int nrFechamentoapontamento) {
         this.cdContareceber = cdContareceber;
         this.cliente = cliente;
         this.formapagto = formapagto;
         this.nrTitulo = nrTitulo;
-        this.stAtivo = stAtivo;
-        this.vlDesconto = vlDesconto;
         this.dtEmissao = dtEmissao;
         this.stBaixado = stBaixado;
         this.vlTitulo = vlTitulo;
-        this.vlAcrescimo = vlAcrescimo;
         this.dtVencimento = dtVencimento;
         this.nrFechamentoapontamento = nrFechamentoapontamento;
     }
@@ -122,23 +115,7 @@ public class Contareceber implements java.io.Serializable {
         this.nrTitulo = nrTitulo;
     }
 
-    @Column(name = "st_ativo", nullable = false)
-    public boolean isStAtivo() {
-        return this.stAtivo;
-    }
 
-    public void setStAtivo(boolean stAtivo) {
-        this.stAtivo = stAtivo;
-    }
-
-    @Column(name = "vl_desconto", precision = 15, scale = 4)
-    public BigDecimal getVlDesconto() {
-        return this.vlDesconto;
-    }
-
-    public void setVlDesconto(BigDecimal vlDesconto) {
-        this.vlDesconto = vlDesconto;
-    }
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dt_emissao", nullable = false, length = 29)
@@ -168,15 +145,6 @@ public class Contareceber implements java.io.Serializable {
         this.vlTitulo = vlTitulo;
     }
 
-    @Column(name = "vl_acrescimo", precision = 15, scale = 4)
-    public BigDecimal getVlAcrescimo() {
-        return this.vlAcrescimo;
-    }
-
-    public void setVlAcrescimo(BigDecimal vlAcrescimo) {
-        this.vlAcrescimo = vlAcrescimo;
-    }
-
     @Temporal(TemporalType.DATE)
     @Column(name = "dt_vencimento", nullable = false, length = 13)
     public Date getDtVencimento() {
@@ -187,12 +155,12 @@ public class Contareceber implements java.io.Serializable {
         this.dtVencimento = dtVencimento;
     }
 
-    @Column(name = "nr_fechamentoapontamento", length = 9)
-    public String getNrFechamentoapontamento() {
+    @Column(name = "nr_fechamentoapontamento")
+    public int getNrFechamentoapontamento() {
         return this.nrFechamentoapontamento;
     }
 
-    public void setNrFechamentoapontamento(String nrFechamentoapontamento) {
+    public void setNrFechamentoapontamento(int nrFechamentoapontamento) {
         this.nrFechamentoapontamento = nrFechamentoapontamento;
     }
 

@@ -58,7 +58,6 @@ public class Cliente implements java.io.Serializable {
     private String dsEmail;
     private boolean stStatus;
     private Set<Unidadeconsumidora> unidadeconsumidoras = new HashSet<>(0);
-    private Set<Contrato> contratos = new HashSet<>(0);
     private Set<Contareceber> contarecebers = new HashSet<>(0);
 
     public Cliente() {
@@ -77,7 +76,7 @@ public class Cliente implements java.io.Serializable {
         this.formapagto = formapagto;
     }
 
-    public Cliente(int cdCliente, Endereco endereco, String nrLoja, String tpCliente, String nrCnpjcpf, String nmCliente, String nmFantasia, String nrDdd, String nrTelefone, String dsEmail, boolean stStatus, Set<Unidadeconsumidora> unidadeconsumidoras, Set<Contrato> contratos, Set<Contareceber> contarecebers) {
+    public Cliente(int cdCliente, Endereco endereco, String nrLoja, String tpCliente, String nrCnpjcpf, String nmCliente, String nmFantasia, String nrDdd, String nrTelefone, String dsEmail, boolean stStatus, Set<Unidadeconsumidora> unidadeconsumidoras,  Set<Contareceber> contarecebers) {
         this.cdCliente = cdCliente;
         this.endereco = endereco;
         this.nrLoja = nrLoja;
@@ -90,7 +89,6 @@ public class Cliente implements java.io.Serializable {
         this.dsEmail = dsEmail;
         this.stStatus = stStatus;
         this.unidadeconsumidoras = unidadeconsumidoras;
-        this.contratos = contratos;
         this.contarecebers = contarecebers;
     }
 
@@ -215,15 +213,6 @@ public class Cliente implements java.io.Serializable {
 
     public void setUnidadeconsumidoras(Set<Unidadeconsumidora> unidadeconsumidoras) {
         this.unidadeconsumidoras = unidadeconsumidoras;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
-    public Set<Contrato> getContratos() {
-        return this.contratos;
-    }
-
-    public void setContratos(Set<Contrato> contratos) {
-        this.contratos = contratos;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
