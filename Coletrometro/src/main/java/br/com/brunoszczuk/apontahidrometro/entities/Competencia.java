@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,10 +30,10 @@ public class Competencia implements java.io.Serializable {
     private int cdCompetencia;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dtInclusao;
-    @FutureOrPresent
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dtInicio;
-    @FutureOrPresent
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dtFim;
     @NotBlank

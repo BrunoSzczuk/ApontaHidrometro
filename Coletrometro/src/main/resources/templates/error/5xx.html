@@ -1,0 +1,16 @@
+<html th:insert="layout">
+
+    <div th:fragment="corpo">
+        <div class="container-fluid">
+            <h1 class="display-1" ></h1>
+            <p class="lead">
+                [[${status}]] - [[${error}]]<p/>
+            <label th:text="#{lbmsgerro}"/> <p/>
+            <a href="javascript:history.back()" th:text="#{lbretornar}"/><p/>
+
+            <a th:href="@{/}" th:text="#{lbpaginainicial}"></a>
+            </p>
+        </div>
+    </div>
+
+</html>

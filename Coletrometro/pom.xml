@@ -121,6 +121,13 @@
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
             <version>3.0.3.RELEASE</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars.npm/bulma -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bulma</artifactId>
+            <version>0.6.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
