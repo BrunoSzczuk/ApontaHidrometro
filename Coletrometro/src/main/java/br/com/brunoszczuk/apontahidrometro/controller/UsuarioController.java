@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.brunoszczuk.apontahidrometro.repository.TipousuarioRepository;
+import br.com.brunoszczuk.apontahidrometro.util.ValidatorUtil;
 
 /**
  *
@@ -123,12 +124,8 @@ public class UsuarioController {
     @PostMapping("/password/save")
     public ModelAndView passwordSave(Usuario usuario, BindingResult result, RedirectAttributes attrib, ModelMap model) {
         model.addAttribute("conteudo", "/usuario/password");
-
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-
-        if (!validator.validateProperty(usuario, "snUsuario").isEmpty()) {
-            result.addError(new FieldError("Usuario", "snUsuario", validator.validateProperty(usuario, "snUsuario").iterator().next().getMessage()));
+        if (ValidatorUtil.hasErrorField(usuario, "snUsuario")) {
+            result.addError(ValidatorUtil.addErrorFieldDefault(usuario, "snUsuario"));
             return new ModelAndView("layout", model);
         }
         Usuario outro = repo.findById(usuario.getCdUsuario()).get();
@@ -145,7 +142,7 @@ public class UsuarioController {
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
             
         }catch(DataIntegrityViolationException ex){
-            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+            attrib.addFlashAttribute("errorMessage",bundle.getString("lbexistedependencia"));
         }
         return "redirect:/usuario/";
     }

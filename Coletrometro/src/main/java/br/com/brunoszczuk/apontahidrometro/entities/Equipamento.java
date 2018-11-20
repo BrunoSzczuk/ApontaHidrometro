@@ -68,7 +68,7 @@ public class Equipamento implements java.io.Serializable {
     @Id
 
     @Column(name = "cd_equipamento", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getCdEquipamento() {
         return this.cdEquipamento;
     }

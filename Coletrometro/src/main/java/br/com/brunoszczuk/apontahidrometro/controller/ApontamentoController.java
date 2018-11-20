@@ -138,7 +138,7 @@ public class ApontamentoController {
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
 
         } catch (DataIntegrityViolationException ex) {
-            attrib.addFlashAttribute("errorMessage", bundle.getString("lbregistroexistente"));
+            attrib.addFlashAttribute("errorMessage", bundle.getString("lbexistedependencia"));
         }
         return "redirect:/apontamento/";
     }

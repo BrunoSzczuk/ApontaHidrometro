@@ -7,6 +7,7 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Competencia;
 import br.com.brunoszczuk.apontahidrometro.repository.CompetenciaRepository;
+import br.com.brunoszczuk.apontahidrometro.util.ValidatorUtil;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
@@ -57,6 +58,11 @@ public class CompetenciaController {
         if (result.hasErrors()) {
             return new ModelAndView("layout", model);
         }
+        if(repo.existsByDsCompetenciaIgnoreCase(competencia.getDsCompetencia().trim())){
+            result.addError(ValidatorUtil.addErrorField(competencia, "dsCompetencia",bundle.getString("lbregistroexistentedescricao")));
+            model.addAttribute("competencia", competencia);
+            return new ModelAndView("layout", model);
+        }
         if (competencia.getDtInclusao() == null){
             competencia.setDtInclusao( LocalDate.now());
         }
@@ -95,7 +101,7 @@ public class CompetenciaController {
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
 
         } catch (DataIntegrityViolationException ex) {
-            attrib.addFlashAttribute("errorMessage", bundle.getString("lbregistroexistente"));
+            attrib.addFlashAttribute("errorMessage", bundle.getString("lbexistedependencia"));
         }
         return "redirect:/competencia/";
     }

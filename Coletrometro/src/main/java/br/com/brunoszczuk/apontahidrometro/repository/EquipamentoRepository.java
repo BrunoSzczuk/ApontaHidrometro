@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface EquipamentoRepository extends JpaRepository<Equipamento, Integer> {
-
+    boolean existsByNrSerieIgnoreCase(String nrSerie);
+    
     Equipamento findByStAtivoTrue();
 
     @Modifying

@@ -5,16 +5,17 @@
         <hr class="my-3"/>
         <div class="card border-primary mb-2">
             <div class="card-header" th:text="#{titulo.cadastros.equipamentos}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
 
 
             <!-- form complex example -->
             <div class="card-body">
-                <form th:action="${equipamento.cdEquipamento == null}?  @{/equipamento/save}: @{/equipamento/update}" th:object="${equipamento}" method="post">
+                <form th:action="${equipamento.cdEquipamento == 0}?  @{/equipamento/save}: @{/equipamento/update}" th:object="${equipamento}" method="post">
                     <div class="form-row mt-4">
                         <div class="col-sm-2 pb-3 pr-3">
                             <label th:for="cdEquipamento"  th:text="#{lbcodigo}"/>
                             <input type="text" class="form-control" id="cdEquipamento" th:placeholder="#{lbcodigo}" th:field="*{cdEquipamento}" th:readonly="${equipamento.cdEquipamento != null}"/>
-                            <span th:if="${#fields.hasErrors('cdEquipamento')}" th:errors="*{cdEquipamento}" class="badge badge-danger" th:readonly="${equipamento.cdEquipamento == null}"/>
+                            <span th:if="${#fields.hasErrors('cdEquipamento')}" th:errors="*{cdEquipamento}" class="badge badge-danger" th:readonly="${equipamento.cdEquipamento == 0}"/>
                         </div>
                         <div class="col-sm-7 pb-3 pr-3">
                             <label th:for="dsEquipamento" th:text="#{lbdescricao}"/>

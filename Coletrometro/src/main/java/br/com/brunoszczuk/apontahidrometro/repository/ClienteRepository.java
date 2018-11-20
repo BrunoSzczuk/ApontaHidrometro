@@ -17,5 +17,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
-    
+    boolean existsByNrCnpjcpf(String nrcnpjcpf);
 }

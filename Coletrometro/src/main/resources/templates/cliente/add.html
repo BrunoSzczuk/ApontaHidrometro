@@ -5,11 +5,12 @@
         <hr class="my-3"/>
         <div class="card border-primary mb-2">
             <div class="card-header" th:text="#{titulo.cadastros.clientes}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
 
 
             <!-- form complex example -->
             <div class="card-body">
-                <form th:action="${cliente.cdCliente == null}?  @{/cliente/save}: @{/cliente/update}" th:object="${cliente}" method="post">
+                <form th:action="${cliente.cdCliente == 0}?  @{/cliente/save}: @{/cliente/update}" th:object="${cliente}" method="post">
                     <div class="form-row mt-4">
                         <div class="col-sm-2 pb-3 pr-3">
                             <label th:for="cdCliente"  th:text="#{lbcodigo}"/>
@@ -30,7 +31,7 @@
                         </div>
                         <div class="col-sm-3 pb-3 pr-3">
                             <label th:for="nrCnpjcpf" th:text="#{lbcnpjcpf}"/>
-                            <input type="text" class="form-control" id="nrCnpjcpf" th:placeholder="#{lbcnpjcpf}" th:field="*{nrCnpjcpf}"/>
+                            <input type="text" class="form-control" id="nrCnpjcpf" th:placeholder="#{lbcnpjcpf}" th:field="*{nrCnpjcpf}" th:readonly="${cliente.cdCliente !=0}"/>
                             <span th:if="${#fields.hasErrors('nrCnpjcpf')}" th:errors="*{nrCnpjcpf}" class="badge badge-danger"/>
                         </div>
                         <div class="col-sm-6 pb-3 pr-3">

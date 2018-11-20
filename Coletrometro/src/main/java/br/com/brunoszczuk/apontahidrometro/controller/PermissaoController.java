@@ -88,7 +88,7 @@ public class PermissaoController {
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
             
         }catch(DataIntegrityViolationException ex){
-            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+            attrib.addFlashAttribute("errorMessage",bundle.getString("lbexistedependencia"));
         }
         attrib.addFlashAttribute("message", "Registro removido com sucesso.");
         return "redirect:/permissao/";

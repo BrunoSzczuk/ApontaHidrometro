@@ -11,6 +11,7 @@ import br.com.brunoszczuk.apontahidrometro.entities.Formapagto;
 import br.com.brunoszczuk.apontahidrometro.repository.ClienteRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.EnderecoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.FormaPagtoRepository;
+import br.com.brunoszczuk.apontahidrometro.util.ValidatorUtil;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -46,7 +47,8 @@ public class ClienteController {
     @Autowired
     FormaPagtoRepository formapagtos;
 
-    ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
+    ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
+
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
         model.addAttribute("clientes", repo.findAll(new Sort(Sort.Direction.ASC, "cdCliente")));
@@ -57,7 +59,6 @@ public class ClienteController {
     @GetMapping("/add")
     private ModelAndView add(Cliente p, ModelMap model) {
         model.addAttribute("conteudo", "/cliente/add");
-        p.setCdCliente((int) (repo.count() + 1));
         model.addAttribute("enderecos", getEnderecos());
         model.addAttribute("formapagtos", getFormapagtos());
         return new ModelAndView("layout", model);
@@ -72,8 +73,10 @@ public class ClienteController {
         if (result.hasErrors()) {
             return new ModelAndView("layout", model);
         }
-        if (repo.findById(cliente.getCdCliente()) != null) {
-            cliente.setCdCliente((int) (repo.count() + 1));
+        if (repo.existsByNrCnpjcpf(cliente.getNrCnpjcpf().trim())) {
+            result.addError(ValidatorUtil.addErrorField(cliente, "nrCnpjcpf", bundle.getString("lbregistroexistente")));
+            model.addAttribute("cliente", cliente);
+            return new ModelAndView("layout", model);
         }
         repo.save(cliente);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
@@ -109,9 +112,9 @@ public class ClienteController {
         try {
             repo.deleteById(id);
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
-            
-        }catch(DataIntegrityViolationException ex){
-            attrib.addFlashAttribute("errorMessage",bundle.getString("lbregistroexistente"));
+
+        } catch (DataIntegrityViolationException ex) {
+            attrib.addFlashAttribute("errorMessage", bundle.getString("lbexistedependencia"));
         }
         return "redirect:/cliente/";
     }
