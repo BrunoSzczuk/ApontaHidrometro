@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-sm-3 pb-3 pr-3">
                             <label th:for="nrCnpjcpf" th:text="#{lbcnpjcpf}"/>
-                            <input type="text" class="form-control" id="nrCnpjcpf" th:placeholder="#{lbcnpjcpf}" th:field="*{nrCnpjcpf}" th:readonly="${cliente.cdCliente !=0}"/>
+                            <input type="text" class="form-control" id="nrCnpjcpf"  th:placeholder="#{lbcnpjcpf}" th:field="*{nrCnpjcpf}" th:readonly="${cliente.cdCliente !=0}"/>
                             <span th:if="${#fields.hasErrors('nrCnpjcpf')}" th:errors="*{nrCnpjcpf}" class="badge badge-danger"/>
                         </div>
                         <div class="col-sm-6 pb-3 pr-3">
@@ -104,6 +104,31 @@
                 document.getElementById('endereco').selectedIndex = -1;
                 document.getElementById('formapagto').selectedIndex = -1;
             }
+            $("#nrCnpjcpf").keydown(function () {
+                try {
+                    $("#nrCnpjcpf").unmask();
+                } catch (e) {
+                }
+
+                var tamanho = $("#nrCnpjcpf").val().length;
+
+                if (tamanho < 11) {
+                    $("#nrCnpjcpf").mask("999.999.999-99");
+                } else if (tamanho >= 11) {
+                    $("#nrCnpjcpf").mask("99.999.999/9999-99");
+                }
+
+                // ajustando foco
+                var elem = this;
+                setTimeout(function () {
+                    // mudo a posição do seletor
+                    elem.selectionStart = elem.selectionEnd = 10000;
+                }, 0);
+                // reaplico o valor para mudar o foco
+                var currentValue = $(this).val();
+                $(this).val('');
+                $(this).val(currentValue);
+            });
         </script>  
     </div>
 </div>
