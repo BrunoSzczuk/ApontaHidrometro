@@ -7,6 +7,7 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Apontamento;
 import br.com.brunoszczuk.apontahidrometro.entities.Competencia;
+import br.com.brunoszczuk.apontahidrometro.entities.Condicaopagto;
 import br.com.brunoszczuk.apontahidrometro.entities.Contareceber;
 import br.com.brunoszczuk.apontahidrometro.entities.Contrato;
 import br.com.brunoszczuk.apontahidrometro.entities.Equipamento;
@@ -17,6 +18,7 @@ import br.com.brunoszczuk.apontahidrometro.entities.ItemfechamentoId;
 import br.com.brunoszczuk.apontahidrometro.entities.Tabpreco;
 import br.com.brunoszczuk.apontahidrometro.repository.ApontamentoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.CompetenciaRepository;
+import br.com.brunoszczuk.apontahidrometro.repository.CondicaopagtoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.ContareceberRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.ContratoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.EquipamentoRepository;
@@ -72,6 +74,9 @@ public class FechamentoapontamentoController {
     ContareceberRepository contareceberRepository;
     @Autowired
     EquipamentoRepository equipamentoRepository;
+    @Autowired
+    CondicaopagtoRepository condicaopagtoRepository;
+    
     ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
     @GetMapping("/")
@@ -110,6 +115,7 @@ public class FechamentoapontamentoController {
         model.addAttribute("conteudo", "/fechamentoapontamento/add");
 
         model.addAttribute("contratos", c);
+        model.addAttribute("fechamentoapontamento", p);
         model.addAttribute("apontamentos", getApontamentos(c, p.getCompetencia()));
         model.addAttribute("tabprecos", getTabpreco());
         model.addAttribute("competencias", getCompetencias());
@@ -117,10 +123,21 @@ public class FechamentoapontamentoController {
     }
 
     @PostMapping("/save")
-    public ModelAndView save(Fechamentoapontamento fechamentoapontamento, @RequestParam("apontamentosselecinados") List<String> apontamentos, BindingResult result, RedirectAttributes attrib, ModelMap model) {
+    public ModelAndView save(Fechamentoapontamento fechamentoapontamento, @RequestParam(value= "apontamentosselecinados",required = false) List<String> apontamentos, BindingResult result, RedirectAttributes attrib, ModelMap model) {
         model.addAttribute("conteudo", "/fechamentoapontamento/add");
         if (result.hasErrors()) {
             return new ModelAndView("redirect:/fechamentoapontamento/save?part1");
+        }
+        if(apontamentos == null){
+            attrib.addFlashAttribute("message", bundle.getString("message.fechamentoapontamento.semapontamentos"));
+            return new ModelAndView("redirect:/fechamentoapontamento/add");
+        }
+        //Select no objeto pra montar ele completo
+        Contrato c = contratos.findById(fechamentoapontamento.getContrato().getNrContrato()).get();
+        Competencia competencia =competencias.findById(fechamentoapontamento.getCompetencia().getCdCompetencia()).get();
+        if (this.apontamentos.hasApontamentosAnteriores(c.getUnidadeconsumidora().getEquipamento().getCdEquipamento(), competencia.getDtInicio())) {
+            attrib.addFlashAttribute("message", bundle.getString("message.fechamentoapontamento.apontamentoanteriores"));
+            return new ModelAndView("redirect:/fechamentoapontamento/add");
         }
         fechamentoapontamento.setDtInclusao(new Date());
         repo.save(fechamentoapontamento);
@@ -137,6 +154,7 @@ public class FechamentoapontamentoController {
             item.getApontamento().setStFechado(true);
             this.apontamentos.save(item.getApontamento());
         }
+        fechamentoapontamento.setItemfechamentos(lista);
         geraTituloFinanceiro(fechamentoapontamento);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/fechamentoapontamento/");
@@ -145,7 +163,11 @@ public class FechamentoapontamentoController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes attrib) {
         try {
-            apontamentos.updateEquipamentoSetStatus(id, false);
+            Fechamentoapontamento fechamentoapontamento = repo.findById(id).get();
+            apontamentos.updateApontamentoSetStatus(id, false);
+            int qtdapontada = fechamentoapontamento.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).sum();
+            equipamentoRepository.updateEquipamentoSetContAtual(fechamentoapontamento.getItemfechamentos().iterator().next().getApontamento().getEquipamento().getCdEquipamento(),
+                    qtdapontada);
             itemFechamentos.deleteItemfechamentoByCdFechamento(id);
             contareceberRepository.deleteContareceberByCdFechamento(id);
             repo.deleteById(id);
@@ -177,29 +199,33 @@ public class FechamentoapontamentoController {
     }
 
     private void geraTituloFinanceiro(Fechamentoapontamento fechamentoapontamento) {
-        
+
         try {
             //Recarregar os objetos do join
-            fechamentoapontamento = repo.findById(fechamentoapontamento.getCdFechamento()).get();
+            Fechamentoapontamento f = repo.findById(fechamentoapontamento.getCdFechamento()).get();
             //Usando Programação funcional com Stream - JDK 8
-            int qtdapontamento = fechamentoapontamento.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).max().getAsInt()
-                    - fechamentoapontamento.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).min().getAsInt();
+            int qtdapontamento = f.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).max().getAsInt()
+                    - f.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).min().getAsInt();
             float vltotal = 0;
-            vltotal += fechamentoapontamento.getTabpreco().getVlTaxaadm().floatValue();
-            vltotal += fechamentoapontamento.getTabpreco().getVlMetrocubico().floatValue() * qtdapontamento;
-            Date data = fechamentoapontamento.getDtInclusao();
+            Tabpreco tabpreco = tabprecos.findById(f.getTabpreco().getCdTabpreco()).get();
+            vltotal += tabpreco.getVlTaxaadm().floatValue();
+            vltotal += tabpreco.getVlMetrocubico().floatValue() * qtdapontamento;
+            Date data = f.getDtInclusao();
             Calendar c = Calendar.getInstance();
             c.setTime(data);
 
-            fechamentoapontamento.setVlFechamento(vltotal);
-            repo.save(fechamentoapontamento);
-            for (Itemcondicaopagto item : fechamentoapontamento.getContrato().getCondicaopagto().getItemcondicaopagtos()) {
+            f.setVlFechamento(vltotal);
+            repo.save(f);
+            Contrato contrato = contratos.findById(f.getContrato().getNrContrato()).get();
+            Condicaopagto condicaopagto = condicaopagtoRepository.findById(contrato.getCondicaopagto().getCdCondicaopagto()).get();
+            for (Itemcondicaopagto item : condicaopagto.getItemcondicaopagtos()) {
                 c.add(Calendar.DATE, item.getQtDias());
-                contareceberRepository.save(new Contareceber(0, fechamentoapontamento.getContrato().getUnidadeconsumidora().getCliente(), fechamentoapontamento.getContrato().getUnidadeconsumidora().getCliente().getFormapagto(),
-                        fechamentoapontamento.getCdFechamento() + "",  fechamentoapontamento.getDtInclusao(), false, new BigDecimal(item.getPcQuota() / vltotal * 100),  c.getTime(), fechamentoapontamento.getCdFechamento()));
+                contareceberRepository.save(new Contareceber(0, contrato.getUnidadeconsumidora().getCliente(), contrato.getUnidadeconsumidora().getCliente().getFormapagto(),
+                        f.getCdFechamento() + "", f.getDtInclusao(), false, new BigDecimal(item.getPcQuota() / vltotal * 100), c.getTime(), f.getCdFechamento()));
             }
-            fechamentoapontamento.getContrato().getUnidadeconsumidora().getEquipamento().setContAtual(qtdapontamento);
-            equipamentoRepository.save(fechamentoapontamento.getContrato().getUnidadeconsumidora().getEquipamento());
+            Equipamento eq = equipamentoRepository.findById(contrato.getUnidadeconsumidora().getEquipamento().getCdEquipamento()).get();
+            eq.setContAtual(f.getItemfechamentos().stream().mapToInt(obj -> obj.getApontamento().getContApontado()).max().getAsInt());
+            equipamentoRepository.save(eq);
         } catch (Exception e) {
             e.printStackTrace();
         }

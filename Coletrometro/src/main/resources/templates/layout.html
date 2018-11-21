@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <title th:text="#{nomeapp}"></title>
 
         <!-- Bootstrap core CSS-->
@@ -91,6 +91,7 @@
                         <span th:text="#{lbrelatorio}"></span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="pagesDropdownRelatorio">
+                        <a class="dropdown-item" sec:authorize="hasRole('relatorio')" th:href="@{/relatorio/}" th:text="#{lbrelatorioconsumo}"></a>
                     </div>
                 </li>
             </ul>

@@ -7,6 +7,7 @@ package br.com.brunoszczuk.apontahidrometro.repository;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Apontamento;
 import br.com.brunoszczuk.apontahidrometro.entities.Equipamento;
+import br.com.brunoszczuk.apontahidrometro.entities.Unidadeconsumidora;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public interface ApontamentoRepository extends JpaRepository<Apontamento, Integer> {
+
+    @Query(value = "select * from apontamento  as a\n"
+            + " inner join contrato as c on (c.nr_contrato = a.nr_contrato)\n"
+            + " inner join unidadeconsumidora as u on (c.cd_unidadeconsumidora = u.cd_unidadeconsumidora)\n"
+            + " where a.dt_inclusao between ?1 and ?2\n"
+            + "   and u.cd_unidadeconsumidora = ?3", nativeQuery = true)
+    List<Apontamento> findBydtInclusaoBetweenAndUnidadeconsumidora(Date dtInicio, Date dtFim, Unidadeconsumidora unidadeconsumidora);
+
+    List<Apontamento> findBydtInclusaoBetween(Date dtInicio, Date dtFim);
 
     List<Apontamento> findByEquipamento(Equipamento equipamento);
 
@@ -53,5 +63,17 @@ public interface ApontamentoRepository extends JpaRepository<Apontamento, Intege
             + " inner join apontamento as a on (a.cd_equipamento = e.cd_equipamento)\n"
             + " inner join itemfechamento as f on (f.cd_apontamento = a.cd_apontamento)\n"
             + "  where f.cd_fechamento = ?1 )", nativeQuery = true)
-    void updateEquipamentoSetStatus(int cdEquipamento, boolean status);
+    void updateApontamentoSetStatus(int cdApontamento, boolean status);
+
+    @Query(value = "select cast(coalesce(max(a.cont_apontado),e.cont_inicial,0)as integer) from apontamento as a\n"
+            + " inner join equipamento as e on (e.cd_equipamento = a.cd_equipamento)\n"
+            + " where a.cd_equipamento = ?1\n"
+            + " group by e.cont_inicial", nativeQuery = true)
+    int findUltimoContador(int cdEquipamento);
+
+    @Query(value = "select exists(select 1 from apontamento as a\n"
+            + " where dt_inclusao < ?2\n"
+            + "   and not a.st_fechado"
+            + "   and a.cd_equipamento = ?1)", nativeQuery = true)
+    boolean hasApontamentosAnteriores(int cdEquipamento,LocalDate dataInicio);
 }

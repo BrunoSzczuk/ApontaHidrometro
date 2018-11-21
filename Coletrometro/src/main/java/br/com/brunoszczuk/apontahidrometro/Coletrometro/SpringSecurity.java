@@ -62,7 +62,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/municipio/").hasRole("municipio")
                 .antMatchers("/pais/").hasRole("pais")
                 .antMatchers("/permissao/").hasRole("permissao")
-                .antMatchers("/permissaotipousuario/").hasRole("permissaotipousuario")
+                .antMatchers("/tipousuario/").hasRole("tipousuario")
                 .antMatchers("/tabpreco/").hasRole("tabpreco")
                 .antMatchers("/unddconsumidora/").hasRole("unddconsumidora")
                 .antMatchers("/usuario/").hasRole("usuario")

@@ -76,11 +76,11 @@ public class Contareceber implements java.io.Serializable {
 
     @Column(name = "cd_contareceber", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public int getCdConta() {
+    public int getCdContareceber() {
         return this.cdContareceber;
     }
 
-    public void setCdConta(int cdContareceber) {
+    public void setCdContareceber(int cdContareceber) {
         this.cdContareceber = cdContareceber;
     }
 

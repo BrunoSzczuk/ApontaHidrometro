@@ -131,7 +131,7 @@ public class Fechamentoapontamento implements java.io.Serializable {
         this.dtInclusao = dtInclusao;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "fechamentoapontamento")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "fechamentoapontamento")
     @Fetch(FetchMode.JOIN)
     public Set<Itemfechamento> getItemfechamentos() {
         return this.itemfechamentos;

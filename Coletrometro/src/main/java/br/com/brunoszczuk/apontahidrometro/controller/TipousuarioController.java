@@ -110,11 +110,13 @@ public class TipousuarioController {
     
     @PostMapping("/permissoes/save")
     
-    public ModelAndView savePermissoes(Tipousuario tipousuario, @RequestParam("permissaotipousuariosdados") List<String> ptu,BindingResult result, RedirectAttributes attrib, ModelMap model) {
+    public ModelAndView savePermissoes(Tipousuario tipousuario, @RequestParam( value = "permissaotipousuariosdados", required = false) List<String> ptu,BindingResult result, RedirectAttributes attrib, ModelMap model) {
         HashSet<Permissaotipousuario> dados = new HashSet<>();
-        ptu.forEach(obj ->dados.add(new Permissaotipousuario(0,permissoes.findById(Integer.valueOf(obj)).get(), tipousuario, new Date(), new Date(), false))); 
         permissaotipousuarios.deletePermissaoTipoUsuarioByTipoUsuario(tipousuario.getCdTipousuario());
-        permissaotipousuarios.saveAll(dados);
+        if (ptu != null){
+            ptu.forEach(obj ->dados.add(new Permissaotipousuario(0,permissoes.findById(Integer.valueOf(obj)).get(), tipousuario, new Date(), new Date(), false))); 
+            permissaotipousuarios.saveAll(dados);
+        }
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/tipousuario/");
     }

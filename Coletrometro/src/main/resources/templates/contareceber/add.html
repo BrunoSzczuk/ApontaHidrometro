@@ -1,34 +1,34 @@
 <div th:fragment="corpo">
     <div class="col-md-10 offset-md-1" >
 
-        <h3 class="my-1" th:text="#{titulo.contratos}"/>
+        <h3 class="my-1" th:text="#{titulo.contarecebers}"/>
         <hr class="my-3"/>
         <div class="card border-primary mb-2">
-            <div class="card-header" th:text="#{titulo.cadastros.contratos}"/> 
+            <div class="card-header" th:text="#{titulo.cadastros.contarecebers}"/> 
             <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
 
 
             <!-- form complex example -->
             <div class="card-body">
-                <form th:action="${contrato.nrContrato == null}?  @{/contrato/save}: @{/contrato/update}" th:object="${contrato}" method="post">
+                <form th:action="${contareceber.cdContareceber == null}?  @{/contareceber/save}: @{/contareceber/update}" th:object="${contareceber}" method="post">
                     <div class="form-row mt-4">
                         <div class="col-sm-2 pb-3 pr-3">
-                            <label th:for="nrContrato"  th:text="#{lbcodigo}"/>
-                            <input type="text" class="form-control" id="nrContrato" th:placeholder="#{lbcodigo}" th:field="*{nrContrato}" th:readonly="${contrato.nrContrato != null}"/>
-                            <span th:if="${#fields.hasErrors('nrContrato')}" th:errors="*{nrContrato}" class="badge badge-danger" th:readonly="${contrato.nrContrato == null}"/>
+                            <label th:for="cdContareceber"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdContareceber" th:placeholder="#{lbcodigo}" th:field="*{cdContareceber}" th:readonly="${contareceber.cdContareceber != null}"/>
+                            <span th:if="${#fields.hasErrors('cdContareceber')}" th:errors="*{cdContareceber}" class="badge badge-danger" th:readonly="${contareceber.cdContareceber == null}"/>
                         </div>
                         <div class="col-sm-10 pb-3 pr-3">
-                            <label th:for="dsContrato"  th:text="#{lbdescricao}"/>
-                            <input type="text" class="form-control" id="dsContrato" th:placeholder="#{lbcodigo}" th:field="*{dsContrato}" />
-                            <span th:if="${#fields.hasErrors('dsContrato')}" th:errors="*{dsContrato}" class="badge badge-danger" th:readonly="${contrato.dsContrato == null}"/>
+                            <label th:for="nrFechamentoapontamento"  th:text="#{lbdescricao}"/>
+                            <input type="text" class="form-control" id="nrFechamentoapontamento" th:placeholder="#{lbfechamentoapontamento}" th:field="*{nrFechamentoapontamento}" />
+                            <span th:if="${#fields.hasErrors('nrFechamentoapontamento')}" th:errors="*{nrFechamentoapontamento}" class="badge badge-danger" readonly/>
                         </div>
                         <div class="col-sm-5">
-                            <label th:for="condicaopagto" th:text="#{lbcondicaopagto}"></label> <p/>
-                            <select data-size="5" th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="condicaopagto"   data-live-search="true" th:field="*{condicaopagto.cdCondicaopagto}" >
+                            <label th:for="formapagto" th:text="#{lbformapagto}"></label> <p/>
+                            <select data-size="5" th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="formapagto"   data-live-search="true" th:field="*{formapagto.cdFormapagto}" >
 
-                                <option th:each="e : ${condicaopagtos}"  class="form-control" th:value="${e.cdCondicaopagto}" th:text="${e.cdCondicaopagto + ' - ' + e.dsCondicaopagto }"/>
+                                <option th:each="e : ${formapagtos}"  class="form-control" th:value="${e.cdFormapagto}" th:text="${e.cdFormapagto + ' - ' + e.dsFormapagto }"/>
                             </select>
-                            <span  th:if="${#fields.hasErrors('condicaopagto')}" th:errors="*{condicaopagto}" class="badge badge-danger"/>
+                            <span  th:if="${#fields.hasErrors('formapagto')}" th:errors="*{formapagto}" class="badge badge-danger"/>
                         </div>
                         <div class="col-sm-7">
                             <label th:for="cliente" th:text="#{lbcliente}"></label> <p/>
@@ -37,33 +37,24 @@
                             </select>
                             <span  th:if="${#fields.hasErrors('cliente')}" th:errors="*{cliente}" class="badge badge-danger"/>
                         </div>
-                        <div class="col-sm-4">
-                            <label th:for="frequenciacoleta" th:text="#{lbfrequenciacoleta}"></label> <p/>
-                            <select data-placeholder="Selecione o País"  data-none-selected-text class="selectpicker form-control" id="frequenciacoleta"   data-live-search="true" th:field="*{frequenciacoleta.cdFrequenciacoleta}">
-                                <option th:each="i : ${frequenciacoletas}"  th:value="${i.cdFrequenciacoleta}" th:text="${i.cdFrequenciacoleta + ' - ' + i.dsFrequenciacoleta}"/>
-                            </select>
-                            <span  th:if="${#fields.hasErrors('frequenciacoleta')}" th:errors="*{frequenciacoleta}" class="badge badge-danger"/>
-                        </div>
-                        <div class="col-sm-5">
-                            <label th:for="unidadeconsumidora" th:text="#{lbunidadeconsumidora}"></label> <p/>
-                            <select data-placeholder="Selecione o País"  data-none-selected-text class="selectpicker form-control" id="unidadeconsumidora"   data-live-search="true" th:field="*{unidadeconsumidora.cdUnidadeconsumidora}">
-                                <option th:each="i : ${unidadeconsumidoras}"  th:value="${i.cdUnidadeconsumidora}" th:text="${i.cdUnidadeconsumidora + ' - ' + i.cliente.nmCliente  }"/>
-                            </select>
-                            <span  th:if="${#fields.hasErrors('unidadeconsumidora')}" th:errors="*{unidadeconsumidora}" class="badge badge-danger"/>
+                        <div class="col-sm-5 pb-3 pr-3">
+                            <label th:for="vlTitulo"  th:text="#{lbdescricao}"/>
+                            <input required type="number" onkeypress="return isNumberKey(event);" class="form-control" id="vlTitulo" th:placeholder="#{lbfechamentoapontamento}" th:field="*{vlTitulo}" />
+                            <span th:if="${#fields.hasErrors('vlTitulo')}" th:errors="*{vlTitulo}" class="badge badge-danger" readonly/>
                         </div>
                         <div class="col-sm-3 pb-3 pr-3">
-                            <label th:for="dtPeriodoinicial"  th:text="#{lbperiodoinicial}"/>
-                            <input type="date" class="form-control datepicker" id="dtPeriodoinicial" th:placeholder="#{lbperiodoinicial}" th:field="*{dtPeriodoinicial}"/>
-                            <span  th:if="${#fields.hasErrors('dtPeriodoinicial')}" th:errors="*{dtPeriodoinicial}" class="badge badge-danger"/>
+                            <label th:for="dtEmissao"  th:text="#{lbperiodoinicial}"/>
+                            <input type="date" class="form-control datepicker" id="dtEmissao" th:placeholder="#{lbperiodoinicial}" th:field="*{dtEmissao}"/>
+                            <span  th:if="${#fields.hasErrors('dtEmissao')}" th:errors="*{dtEmissao}" class="badge badge-danger"/>
                         </div>
                         <div class="col-sm-3 pb-3 pr-3">
-                            <label th:for="dtPeriodofinal"  th:text="#{lbperiodofinal}"/>
-                            <input type="date" class="form-control datepicker" id="dtPeriodofinal" th:placeholder="#{lbperiodofinal}" th:field="*{dtPeriodofinal}"/>
-                            <span  th:if="${#fields.hasErrors('dtPeriodofinal')}" th:errors="*{dtPeriodofinal}" class="badge badge-danger"/>
+                            <label th:for="dtVencimento"  th:text="#{lbperiodofinal}"/>
+                            <input type="date" class="form-control datepicker" id="dtVencimento" th:placeholder="#{lbperiodofinal}" th:field="*{dtVencimento}"/>
+                            <span  th:if="${#fields.hasErrors('dtVencimento')}" th:errors="*{dtVencimento}" class="badge badge-danger"/>
                         </div>
                         <div class="col-sm-3 col-lg-3 ">
-                            <label th:for="stAtivo"   th:text="#{lbstatus}"/>
-                            <select id="stAtivo" class="form-control" th:field="*{stAtivo}" >
+                            <label th:for="stBaixado"   th:text="#{lbstatus}"/>
+                            <select id="stBaixado" class="form-control" th:field="*{stBaixado}" >
                                 <option th:value="true" th:text="#{lbativo}"/>
                                 <option th:value="false" th:text="#{lbinativo}"/>
                             </select>
@@ -74,7 +65,7 @@
                                     <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
                                 </div>
                                 <div class="col-sm3 pb-3">
-                                    <a th:href="@{/contrato/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                    <a th:href="@{/contareceber/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
                                 </div>
                             </div>
                         </div>
@@ -90,9 +81,9 @@
 
                 });
             });
-            if (document.getElementById('dtPeriodoinicial').value.length === 0) {
+            if (document.getElementById('dtEmissao').value.length === 0) {
                 document.getElementById('frequenciacoleta').selectedIndex = -1;
-                document.getElementById('condicaopagto').selectedIndex = -1;
+                document.getElementById('formapagto').selectedIndex = -1;
                 document.getElementById('cliente').selectedIndex = -1;
                 document.getElementById('unidadeconsumidora').selectedIndex = -1;
             }

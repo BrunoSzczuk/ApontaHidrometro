@@ -49,7 +49,7 @@ public class ContareceberController {
     ResourceBundle bundle = ResourceBundle.getBundle("messages",Locale.getDefault());
     @GetMapping("/")
     private ModelAndView home(ModelMap model) {
-        model.addAttribute("contasreceber", repo.findAll(new Sort(Sort.Direction.ASC, "cdContareceber")));
+        model.addAttribute("contarecebers", repo.findAll(new Sort(Sort.Direction.ASC, "cdContareceber")));
         model.addAttribute("conteudo", "/contareceber/list");
         return new ModelAndView("layout", model);
     }

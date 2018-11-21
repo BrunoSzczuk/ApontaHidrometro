@@ -34,4 +34,10 @@ public interface EquipamentoRepository extends JpaRepository<Equipamento, Intege
             + "   and c.dt_periodofinal > current_date"
             + "   and cli.st_status ", name = "findByContratoAtivo", nativeQuery = true)
     List<Equipamento> findByContratoAtivo();
+    
+    @Modifying
+    @Query(value = "update equipamento as i  "
+            + "set cont_atual = cont_atual - ?2 "
+            + "where i.cd_equipamento = ?1 ", nativeQuery = true)
+    void updateEquipamentoSetContAtual(int cdEquipamento, long contador);
 }

@@ -33,8 +33,8 @@
                         <td th:text="${e.cdTabpreco}"></td>
                         <td th:text="${#numbers.formatCurrency(e.vlMetrocubico)} "></td>
                         <td th:text="${#numbers.formatCurrency(e.vlTaxaadm)} "></td>
-                        <td th:text="${#temporals.format(e.dtVigenciaini, 'dd/MMM/yyyy')}" ></td>
-                        <td th:text="${#temporals.format(e.dtVigenciafim, 'dd/MMM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(e.dtVigenciaini, 'dd/MM/yyyy')}" ></td>
+                        <td th:text="${#temporals.format(e.dtVigenciafim, 'dd/MM/yyyy')}"></td>
                         <td> <span th:class="${e.stAtivo}? 'fas fa-check' : 'fas fa-ban'"/></td>
                         <td>
                             <a class="btn btn-info" th:href="@{/tabpreco/update/{id}(id=${e.cdTabpreco})}" th:text="#{lbeditar}"></a>

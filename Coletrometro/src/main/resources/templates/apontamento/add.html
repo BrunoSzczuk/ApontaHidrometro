@@ -18,10 +18,9 @@
                             <span th:if="${#fields.hasErrors('cdApontamento')}" th:errors="*{cdApontamento}" class="badge badge-danger" th:readonly="${apontamento.cdApontamento == 0}"/>
                         </div>
                         <div class="col-sm-5">
+                            
                             <label th:for="equipamento" th:text="#{lbequipamento}"></label> <p/>
-                            <select  data-none-selected-text class="selectpicker form-control" data-live-search="true" th:field="*{equipamento.cdEquipamento}" th:readonly="${apontamento.cdApontamento == 0}"> 
-                                <option th:each="i : ${equipamentos}"  th:value="${i.cdEquipamento}" th:text="${i.cdEquipamento + ' - ' + i.nrSerie }"/>
-                            </select>
+                            <input type="text" class="form-control" pattern="[0-9]+$" th:placeholder="#{lbequipamento}"  th:field="*{equipamento.cdEquipamento}"readonly/>
                             <span  th:if="${#fields.hasErrors('equipamento')}" th:errors="*{equipamento}" class="badge badge-danger"/>
                         </div>
                         <div class="col-sm-5">
@@ -30,6 +29,13 @@
                                 <option th:each="i : ${contratos}"  th:value="${i.nrContrato}" th:text="${i.nrContrato + ' - ' + i.dsContrato }"/>
                             </select>
                             <span  th:if="${#fields.hasErrors('contrato')}" th:errors="*{contrato}" class="badge badge-danger"/> 
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" name="part1" th:text="#{lbpesquisar}"/>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm-2 pb-3 pr-3">
                             <label th:for="contAnterior" th:text="#{lbcontanterior}"/>
@@ -63,7 +69,7 @@
                             <input type="hidden" th:field="*{fotoapontamento.ftApontamento}"/>
                             <input type="file"on class="form-control-file" th:placeholder="#{lbfotoapontamento}" th:field="*{fotoapontamento.file}" accept="image/x-png,image/jpeg"/>
                             <img th:src="@{/fotoapontamento/gerafoto?id={id}(id=${apontamento.fotoapontamento.cdFoto})}" id="prev" class="img-fluid" /> 
-                            
+
                         </div>
 
                         <div class="col-12">
@@ -91,8 +97,7 @@
     document.getElementsByName('fotoapontamento.file')[0].addEventListener('change', function (event) {
         reader.readAsDataURL(this.files[0]);
     });
-    if (document.getElementById('cdApontamento').value == '0') {
-        document.getElementById('equipamento.cdEquipamento').selectedIndex = -1;
+    if (document.getElementById('equipamento.cdEquipamento').value == '0') {
         document.getElementById('contrato.nrContrato').selectedIndex = -1;
     }
 </script>  

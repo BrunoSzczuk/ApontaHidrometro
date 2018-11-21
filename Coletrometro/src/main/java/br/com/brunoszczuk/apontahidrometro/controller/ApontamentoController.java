@@ -87,8 +87,14 @@ public class ApontamentoController {
         if (result.hasErrors()) {
             return new ModelAndView("layout", getModel(model));
         }
-        if(apontamento.getFotoapontamento().getFile().isEmpty()){
+        if (apontamento.getFotoapontamento().getFile().isEmpty()) {
             attrib.addFlashAttribute("message", bundle.getString("message.fotoapontamento.ftapontamento"));
+            attrib.addFlashAttribute("apontamento", apontamento);
+            return new ModelAndView("redirect:/apontamento/add");
+        }
+        if (apontamento.getContApontado() <= apontamento.getContAnterior()) {
+            attrib.addFlashAttribute("message", bundle.getString("message.apontamento.contadorinvalido"));
+            attrib.addFlashAttribute("apontamento", apontamento);
             return new ModelAndView("redirect:/apontamento/add");
         }
         apontamento.setDtInclusao(new Date());
@@ -98,6 +104,26 @@ public class ApontamentoController {
         repo.save(apontamento);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
         return new ModelAndView("redirect:/apontamento/");
+    }
+
+    @PostMapping(value = "/save", params = "part1")
+    private ModelAndView addPart1(Apontamento p, ModelMap model, BindingResult result, RedirectAttributes attrib) {
+        attrib.addFlashAttribute("apontamento", p);
+        model.addAttribute("conteudo", "/apontamento/add");
+        if (p.getContrato() == null) {
+            attrib.addFlashAttribute("message", bundle.getString("lbinformecontrato"));
+            return new ModelAndView("redirect:/apontamento/add");
+        }
+        Contrato c = contratos.findById(p.getContrato().getNrContrato()).get();
+        if (!c.getUnidadeconsumidora().getEquipamento().isStAtivo()) {
+            attrib.addFlashAttribute("message", bundle.getString("message.apontamento.equipamentoinativo"));
+            return new ModelAndView("redirect:/apontamento/add");
+        }
+        p.setContAnterior(repo.findUltimoContador(c.getUnidadeconsumidora().getEquipamento().getCdEquipamento()));
+        p.setEquipamento(c.getUnidadeconsumidora().getEquipamento());
+        model.addAttribute("contratos", c);
+        model.addAttribute("apontamento", p);
+        return new ModelAndView("layout", model);
     }
 
     @PostMapping(value = "/update")
@@ -132,6 +158,11 @@ public class ApontamentoController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes attrib) {
         try {
+            Apontamento apontamento = repo.findById(id).get();
+            if (apontamento.isStFechado()) {
+                attrib.addFlashAttribute("message", bundle.getString("message.apontamento.fechamentoinvalido"));
+                return "redirect:/apontamento/";
+            }
             int idfoto = repo.findById(id).get().getFotoapontamento().getCdFoto();
             repo.deleteById(id);
             fotoapontamento.deleteById(idfoto);

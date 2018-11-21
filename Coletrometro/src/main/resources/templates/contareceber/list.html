@@ -4,7 +4,7 @@
 
 
     <div class="card mb-3">
-        <h3 th:text="#{titulo.contratos}"></h3>
+        <h3 th:text="#{titulo.contarecebers}"></h3>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -13,7 +13,7 @@
             <div class="alert alert-success" th:if="${message}" th:text="${message}" role="alert"/>
             <div class="card mb-3">
                 <div class="card-header">
-                    <a class="btn btn-primary" th:href="@{/contrato/add}" th:text="#{lbadicionar}"></a>
+                    <a class="btn btn-primary" th:href="@{/contareceber/add}" th:text="#{lbadicionar}"></a>
 
                 </div>
             </div>
@@ -21,27 +21,21 @@
                 <thead>
                     <tr>
                         <th th:text="#{lbcodigo}">Cód</th>
-                        <th th:text="#{lbdescricao}">Descrição</th>
-                        <th th:text="#{lbunidadeconsumidora}"></th>
-                        <th th:text="#{lbfrequenciacoleta}"></th>
-                        <th th:text="#{lbcondicaopagto}"></th>
-                        <th th:text="#{lbdescricao}"></th>
-                        <th th:text="#{lbstatus}"></th>
+                        <th th:text="#{lbcliente}">Descrição</th>
+                        <th th:text="#{lbvltitulo}"></th>
+                        <th th:text="#{lbdtemissao}"></th>
                         <th th:text="#{lbacao}">Ação</th>
                     </tr>
                 </thead>
                 <tbody id="dados">
-                    <tr th:each="e : ${contratos}" >
-                        <td th:text="${e.nrContrato}"></td>
-                        <td th:text="${e.dsContrato} "></td>
-                        <td th:text="${e.unidadeconsumidora.cdUnidadeconsumidora} "></td>
-                        <td th:text="${e.frequenciacoleta.cdFrequenciacoleta} "></td>
-                        <td th:text="${e.condicaopagto.cdCondicaopagto} "></td>
-                        <td th:text="${e.condicaopagto.dsCondicaopagto} "></td>
-                        <td> <span th:class="${e.stAtivo}? 'fas fa-check' : 'fas fa-ban'"/></td>
+                    <tr th:each="e : ${contarecebers}" >
+                        <td th:text="${e.cdContareceber}"></td>
+                        <td th:text="${e.cliente.cdCliente}"></td>
+                        <td th:text="${#numbers.formatCurrency(e.vlTitulo)} "></td>
+                        <td th:text="${#dates.format(e.dtEmissao, 'dd/MM/yyyy')}"></td>
                         <td>
-                            <a class="btn btn-info" th:href="@{/contrato/update/{id}(id=${e.nrContrato})}" th:text="#{lbeditar}"></a>
-                            <a class="btn btn-danger" th:href="@{/contrato/delete/{id}(id=${e.nrContrato})}" th:text="#{lbexcluir}"></a>
+                            <a class="btn btn-info" th:href="@{/contareceber/update/{id}(id=${e.cdContareceber})}" th:text="#{lbeditar}"></a>
+                            <a class="btn btn-danger" th:href="@{/contareceber/delete/{id}(id=${e.cdContareceber})}" th:text="#{lbexcluir}"></a>
                         </td>
                     </tr>
                 </tbody>

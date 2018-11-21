@@ -31,6 +31,7 @@
                             <input type="date" class="form-control datepicker" id="dtFim" th:placeholder="#{lbperiodofinal}" th:field="*{dtFim}"/>
                             <span  th:if="${#fields.hasErrors('dtFim')}" th:errors="*{dtFim}" class="badge badge-danger"/>
                         </div>
+                        <input hidden type="date" class="form-control datepicker" th:placeholder="#{lbperiodofinal}" th:field="*{dtInclusao}"/>
                         <div class="col-sm-3 col-lg-3 ">
                             <label th:for="stAtivo"   th:text="#{lbstatus}"/>
                             <select id="stAtivo" class="form-control" th:field="*{stAtivo}" >
