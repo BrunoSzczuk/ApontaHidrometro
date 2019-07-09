@@ -86,7 +86,7 @@ public class Tipousuario implements java.io.Serializable {
         this.usuarios = usuarios;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipousuario")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipousuario")
     public Set<Permissaotipousuario> getPermissaotipousuarios() {
         return this.permissaotipousuarios;
     }

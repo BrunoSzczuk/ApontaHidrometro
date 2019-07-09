@@ -1,0 +1,66 @@
+
+<div class="container" th:fragment="corpo">
+    <div class="card mb-3">
+        <div class="card-header" >
+            <i class="fas fa-chart-area"></i>
+            <label th:text="#{lbrelatorioconsumo}"/>
+        </div>
+        <div class="card-body">
+            <label th:text="${unddconsumidora}"/>
+            <label th:text="#{lbdtemissao} + ' - ' +${#dates.format(dtemissao, 'dd/MM/yyyy')}"/>
+             <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+    </div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript" th:inline="javascript" class="init">
+        /*<![CDATA[*/
+        window.onload = function (e) {
+            var dps = [];
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "light2", // "light1", "dark1", "dark2"
+                animationEnabled: true,
+                title: {
+                    text: "Relatório de consumo"
+                },
+                axisX: {
+                    labelFormatter: function (e) {
+				return CanvasJS.formatDate( e.value, "DD MMM");
+			},
+                },
+                axisY: {
+                    title: "Metros cúbicos",
+                    suffix: " m³"
+                },
+                data: [{
+                        type: "line",
+                        xValueType: "date",
+                        xValueFormatString: "Consumo",
+                        yValueFormatString: "#,##0 m³",
+                        dataPoints: dps
+                    }]
+            });
+
+
+            var dataPointsList = /*[[${dataPointsList}]]*/ 'null';
+            console.log(dataPointsList);
+
+            count = 0;
+            for (var i = 0; i < dataPointsList.length; i++) {
+                var dataPoints = dataPointsList[i];
+                for (var j = 0; j < dataPoints.length; j++) {
+                    dps[count++] = {
+                        x: dataPoints[j].x,
+                        y: dataPoints[j].y
+                    };
+                    console.log(dataPoints[j].x);
+                    console.log(dataPoints[j].y);
+                }
+            }
+            chart.render();
+        };        
+         /*]]>*/
+    </script>
+</script>
+</div>
+

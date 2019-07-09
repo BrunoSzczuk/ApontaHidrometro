@@ -1,0 +1,58 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.competencias}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.competencias}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${competencia.cdCompetencia == 0}?  @{/competencia/save}: @{/competencia/update}" th:object="${competencia}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="cdCompetencia"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdCompetencia" th:placeholder="#{lbcodigo}" th:field="*{cdCompetencia}" readonly/>
+                        </div>
+                        <div class="col-sm-10 pb-3 pr-3">
+                            <label th:for="dsCompetencia"  th:text="#{lbdescricao}"/>
+                            <input type="text" class="form-control" id="dsCompetencia" th:placeholder="#{lbdescricao}" th:field="*{dsCompetencia}" />
+                            <span th:if="${#fields.hasErrors('dsCompetencia')}" th:errors="*{dsCompetencia}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtInicio"  th:text="#{lbperiodoinicial}"/>
+                            <input type="date" class="form-control datepicker" id="dtInicio" th:placeholder="#{lbperiodoinicial}" th:field="*{dtInicio}"/>
+                            <span  th:if="${#fields.hasErrors('dtInicio')}" th:errors="*{dtInicio}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtFim"  th:text="#{lbperiodofinal}"/>
+                            <input type="date" class="form-control datepicker" id="dtFim" th:placeholder="#{lbperiodofinal}" th:field="*{dtFim}"/>
+                            <span  th:if="${#fields.hasErrors('dtFim')}" th:errors="*{dtFim}" class="badge badge-danger"/>
+                        </div>
+                        <input hidden type="date" class="form-control datepicker" th:placeholder="#{lbperiodofinal}" th:field="*{dtInclusao}"/>
+                        <div class="col-sm-3 col-lg-3 ">
+                            <label th:for="stAtivo"   th:text="#{lbstatus}"/>
+                            <select id="stAtivo" class="form-control" th:field="*{stAtivo}" >
+                                <option th:value="true" th:text="#{lbativo}"/>
+                                <option th:value="false" th:text="#{lbinativo}"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/competencia/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

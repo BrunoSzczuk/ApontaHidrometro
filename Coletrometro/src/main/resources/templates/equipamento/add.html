@@ -1,0 +1,72 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.equipamentos}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.equipamentos}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${equipamento.cdEquipamento == 0}?  @{/equipamento/save}: @{/equipamento/update}" th:object="${equipamento}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="cdEquipamento"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdEquipamento" th:placeholder="#{lbcodigo}" th:field="*{cdEquipamento}" th:readonly="${equipamento.cdEquipamento != null}"/>
+                            <span th:if="${#fields.hasErrors('cdEquipamento')}" th:errors="*{cdEquipamento}" class="badge badge-danger" th:readonly="${equipamento.cdEquipamento == 0}"/>
+                        </div>
+                        <div class="col-sm-7 pb-3 pr-3">
+                            <label th:for="dsEquipamento" th:text="#{lbdescricao}"/>
+                            <input type="text" class="form-control" id="dsEquipamento" th:placeholder="#{lbdescricao}" th:field="*{dsEquipamento}"/>
+                            <span th:if="${#fields.hasErrors('dsEquipamento')}" th:errors="*{dsEquipamento}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="nrSerie" th:text="#{lbnumerodeserie}"/>
+                            <input type="text" class="form-control" id="nrSerie" th:placeholder="#{lbnumerodeserie}" th:field="*{nrSerie}"/>
+                            <span th:if="${#fields.hasErrors('nrSerie')}" th:errors="*{nrSerie}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-2 col-lg-2 pb-3">
+                            <label th:for="contInicial" th:text="#{lbcontadorinicial}"/>
+                            <input type="text" class="form-control" id="contInicial" th:field="*{contInicial}"/>
+                            <span th:if="${#fields.hasErrors('contInicial')}" th:errors="*{contInicial}" class="badge badge-danger"></span>
+                        </div>
+                        <div class="col-sm-2 col-lg-2 pb-3">
+                            <label th:for="contAtual" th:text="#{lbcontadoratual}"/>
+                            <input type="text" class="form-control" id="contAtual" th:field="*{contAtual}"/>
+                            <span th:if="${#fields.hasErrors('contAtual')}" th:errors="*{contAtual}" class="badge badge-danger"></span>
+                        </div>
+
+                        <div class="col-sm-3 col-lg-3 ">
+                            <label th:for="stAtivo"   th:text="#{lbstatus}"/>
+                            <select id="stAtivo" class="form-control" th:field="*{stAtivo}" >
+                                <option th:value="true" th:text="#{lbativo}"/>
+                                <option th:value="false" th:text="#{lbinativo}"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/equipamento/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+
+                $('.selectpicker').selectpicker({
+
+                });
+            });
+        </script>  
+    </div>
+</div>

@@ -1,0 +1,93 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.contarecebers}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.contarecebers}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${contareceber.cdContareceber == null}?  @{/contareceber/save}: @{/contareceber/update}" th:object="${contareceber}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="cdContareceber"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdContareceber" th:placeholder="#{lbcodigo}" th:field="*{cdContareceber}" th:readonly="${contareceber.cdContareceber != null}"/>
+                            <span th:if="${#fields.hasErrors('cdContareceber')}" th:errors="*{cdContareceber}" class="badge badge-danger" th:readonly="${contareceber.cdContareceber == null}"/>
+                        </div>
+                        <div class="col-sm-10 pb-3 pr-3">
+                            <label th:for="nrFechamentoapontamento"  th:text="#{lbdescricao}"/>
+                            <input type="text" class="form-control" id="nrFechamentoapontamento" th:placeholder="#{lbfechamentoapontamento}" th:field="*{nrFechamentoapontamento}" />
+                            <span th:if="${#fields.hasErrors('nrFechamentoapontamento')}" th:errors="*{nrFechamentoapontamento}" class="badge badge-danger" readonly/>
+                        </div>
+                        <div class="col-sm-5">
+                            <label th:for="formapagto" th:text="#{lbformapagto}"></label> <p/>
+                            <select data-size="5" th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="formapagto"   data-live-search="true" th:field="*{formapagto.cdFormapagto}" >
+
+                                <option th:each="e : ${formapagtos}"  class="form-control" th:value="${e.cdFormapagto}" th:text="${e.cdFormapagto + ' - ' + e.dsFormapagto }"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('formapagto')}" th:errors="*{formapagto}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-7">
+                            <label th:for="cliente" th:text="#{lbcliente}"></label> <p/>
+                            <select data-placeholder="Selecione o País"  data-none-selected-text class="selectpicker form-control" id="cliente"   data-live-search="true" th:field="*{cliente.cdCliente}">
+                                <option th:each="i : ${clientes}"  th:value="${i.cdCliente}" th:text="${i.cdCliente + ' - ' + i.nmCliente}"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('cliente')}" th:errors="*{cliente}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-5 pb-3 pr-3">
+                            <label th:for="vlTitulo"  th:text="#{lbdescricao}"/>
+                            <input required type="number" onkeypress="return isNumberKey(event);" class="form-control" id="vlTitulo" th:placeholder="#{lbfechamentoapontamento}" th:field="*{vlTitulo}" />
+                            <span th:if="${#fields.hasErrors('vlTitulo')}" th:errors="*{vlTitulo}" class="badge badge-danger" readonly/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtEmissao"  th:text="#{lbperiodoinicial}"/>
+                            <input type="date" class="form-control datepicker" id="dtEmissao" th:placeholder="#{lbperiodoinicial}" th:field="*{dtEmissao}"/>
+                            <span  th:if="${#fields.hasErrors('dtEmissao')}" th:errors="*{dtEmissao}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtVencimento"  th:text="#{lbperiodofinal}"/>
+                            <input type="date" class="form-control datepicker" id="dtVencimento" th:placeholder="#{lbperiodofinal}" th:field="*{dtVencimento}"/>
+                            <span  th:if="${#fields.hasErrors('dtVencimento')}" th:errors="*{dtVencimento}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 ">
+                            <label th:for="stBaixado"   th:text="#{lbstatus}"/>
+                            <select id="stBaixado" class="form-control" th:field="*{stBaixado}" >
+                                <option th:value="true" th:text="#{lbativo}"/>
+                                <option th:value="false" th:text="#{lbinativo}"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/contareceber/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+
+                $('.selectpicker').selectpicker({
+
+                });
+            });
+            if (document.getElementById('dtEmissao').value.length === 0) {
+                document.getElementById('frequenciacoleta').selectedIndex = -1;
+                document.getElementById('formapagto').selectedIndex = -1;
+                document.getElementById('cliente').selectedIndex = -1;
+                document.getElementById('unidadeconsumidora').selectedIndex = -1;
+            }
+
+        </script>  
+    </div>
+</div>

@@ -1,0 +1,82 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.paises}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.paises}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${pais.cdPais == null}?  @{/pais/save}: @{/pais/update}" th:object="${pais}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="cdPais"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdPais" th:placeholder="#{lbcodigo}" th:field="*{cdPais}" th:readonly="${pais.cdPais != null}" style="text-transform:uppercase"/>
+                            <span th:if="${#fields.hasErrors('cdPais')}" th:errors="*{cdPais}" class="badge badge-danger" th:readonly="${pais.cdPais == null}"/>
+                        </div>
+                        <div class="col-sm-7 pb-3 pr-3">
+                            <label th:for="dsPais" th:text="#{lbdescricao}"/>
+                            <input type="text" class="form-control" id="dsPais" th:placeholder="#{lbdescricao}" th:field="*{dsPais}"/>
+                            <span th:if="${#fields.hasErrors('dsPais')}" th:errors="*{dsPais}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-2 col-lg-2 pb-3">
+                            <label th:for="sgPais" th:text="#{lbsigla}"/>
+                            <input type="text" class="form-control" id="sgPais" th:field="*{sgPais}" style="text-transform:uppercase"/>
+                            <span th:if="${#fields.hasErrors('sgPais')}" th:errors="*{sgPais}" class="badge badge-danger"></span>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 pb-3">
+                            <label th:for="dsRegiao" th:text="#{lbregiao}"/>
+                            <input type="text" class="form-control" id="dsRegiao" th:field="*{dsRegiao}" style="text-transform:uppercase"/>
+                            <span th:if="${#fields.hasErrors('dsRegiao')}" th:errors="*{dsSubregiao}" class="badge badge-danger"></span>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 pb-3">
+                            <label th:for="dsSubregiao" th:text="#{lbsubregiao}"/>
+                            <input type="text" class="form-control" id="dsSubregiao" th:field="*{dsSubregiao}" style="text-transform:uppercase"/>
+                            <span th:if="${#fields.hasErrors('dsSubregiao')}" th:errors="*{dsSubregiao}" class="badge badge-danger"></span>
+                        </div>
+                        
+                        <div class="col-sm-3 col-lg-3 pb-3">
+                            <label th:for="cdCidadecapital" th:text="#{lbcidadecapital}"/>
+                            <input type="text" class="form-control" id="cdCidadecapital" th:field="*{cdCidadecapital}" style="text-transform:uppercase"/>
+                            <span th:if="${#fields.hasErrors('cdCidadecapital')}" th:errors="*{cdCidadecapital}" class="badge badge-danger"></span>
+                        </div>
+                        <div class="col-sm-7 pb-3 pr-3">
+                            <label th:for="urlBandeira" th:text="#{lburlbandeira}"/>
+                            <input type="text" class="form-control" id="urlBandeira" th:placeholder="#{lbdescricao}" th:field="*{urlBandeira}"/>
+                            <span th:if="${#fields.hasErrors('urlBandeira')}" th:errors="*{urlBandeira}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 ">
+                            <label th:for="stAtivo"   th:text="#{lbstatus}"/>
+                            <select id="stAtivo" class="form-control" th:field="*{stAtivo}" >
+                                <option th:value="true" th:text="#{lbativo}"/>
+                                <option th:value="false" th:text="#{lbinativo}"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/pais/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+
+                $('.selectpicker').selectpicker({
+
+                });
+            });
+        </script>  
+    </div>
+</div>

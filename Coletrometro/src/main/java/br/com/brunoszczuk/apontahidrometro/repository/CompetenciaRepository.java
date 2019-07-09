@@ -17,5 +17,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public interface CompetenciaRepository extends JpaRepository<Competencia, Integer>{
-    
+    boolean existsByDsCompetenciaIgnoreCase(String dsCompetencia);
 }

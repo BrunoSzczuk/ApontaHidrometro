@@ -1,0 +1,95 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.contratos}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.contratos}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${contrato.nrContrato == null}?  @{/contrato/save}: @{/contrato/update}" th:object="${contrato}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3">
+                            <label th:for="nrContrato"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="nrContrato" th:placeholder="#{lbcodigo}" th:field="*{nrContrato}" th:readonly="${contrato.nrContrato != null}"/>
+                            <span th:if="${#fields.hasErrors('nrContrato')}" th:errors="*{nrContrato}" class="badge badge-danger" th:readonly="${contrato.nrContrato == null}"/>
+                        </div>
+                        <div class="col-sm-10 pb-3 pr-3">
+                            <label th:for="dsContrato"  th:text="#{lbdescricao}"/>
+                            <input type="text" class="form-control" id="dsContrato" th:placeholder="#{lbcodigo}" th:field="*{dsContrato}" />
+                            <span th:if="${#fields.hasErrors('dsContrato')}" th:errors="*{dsContrato}" class="badge badge-danger" th:readonly="${contrato.dsContrato == null}"/>
+                        </div>
+                        <div class="col-sm-5">
+                            <label th:for="condicaopagto" th:text="#{lbcondicaopagto}"></label> <p/>
+                            <select data-size="5" th:placeholder="#{lbselecione}" data-none-selected-text class="selectpicker form-control" id="condicaopagto"   data-live-search="true" th:field="*{condicaopagto.cdCondicaopagto}" >
+
+                                <option th:each="e : ${condicaopagtos}"  class="form-control" th:value="${e.cdCondicaopagto}" th:text="${e.cdCondicaopagto + ' - ' + e.dsCondicaopagto }"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('condicaopagto')}" th:errors="*{condicaopagto}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <label th:for="frequenciacoleta" th:text="#{lbfrequenciacoleta}"></label> <p/>
+                            <select data-placeholder="Selecione o País"  data-none-selected-text class="selectpicker form-control" id="frequenciacoleta"   data-live-search="true" th:field="*{frequenciacoleta.cdFrequenciacoleta}">
+                                <option th:each="i : ${frequenciacoletas}"  th:value="${i.cdFrequenciacoleta}" th:text="${i.cdFrequenciacoleta + ' - ' + i.dsFrequenciacoleta}"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('frequenciacoleta')}" th:errors="*{frequenciacoleta}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-5">
+                            <label th:for="unidadeconsumidora" th:text="#{lbunidadeconsumidora}"></label> <p/>
+                            <select data-placeholder="Selecione o País"  data-none-selected-text class="selectpicker form-control" id="unidadeconsumidora"   data-live-search="true" th:field="*{unidadeconsumidora.cdUnidadeconsumidora}">
+                                <option th:each="i : ${unidadeconsumidoras}"  th:value="${i.cdUnidadeconsumidora}" th:text="${i.cdUnidadeconsumidora + ' - ' + i.cliente.nmCliente  }"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('unidadeconsumidora')}" th:errors="*{unidadeconsumidora}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtPeriodoinicial"  th:text="#{lbperiodoinicial}"/>
+                            <input type="date" class="form-control datepicker" id="dtPeriodoinicial" th:placeholder="#{lbperiodoinicial}" th:field="*{dtPeriodoinicial}"/>
+                            <span  th:if="${#fields.hasErrors('dtPeriodoinicial')}" th:errors="*{dtPeriodoinicial}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtPeriodofinal"  th:text="#{lbperiodofinal}"/>
+                            <input type="date" class="form-control datepicker" id="dtPeriodofinal" th:placeholder="#{lbperiodofinal}" th:field="*{dtPeriodofinal}"/>
+                            <span  th:if="${#fields.hasErrors('dtPeriodofinal')}" th:errors="*{dtPeriodofinal}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 ">
+                            <label th:for="stAtivo"   th:text="#{lbstatus}"/>
+                            <select id="stAtivo" class="form-control" th:field="*{stAtivo}" >
+                                <option th:value="true" th:text="#{lbativo}"/>
+                                <option th:value="false" th:text="#{lbinativo}"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/contrato/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+
+                $('.selectpicker').selectpicker({
+
+                });
+            });
+            if (document.getElementById('dtPeriodoinicial').value.length === 0) {
+                document.getElementById('frequenciacoleta').selectedIndex = -1;
+                document.getElementById('condicaopagto').selectedIndex = -1;
+                document.getElementById('cliente').selectedIndex = -1;
+                document.getElementById('unidadeconsumidora').selectedIndex = -1;
+            }
+
+        </script>  
+    </div>
+</div>

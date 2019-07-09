@@ -2,9 +2,8 @@ package br.com.brunoszczuk.apontahidrometro.entities;
 // Generated 29/08/2018 23:02:23 by Hibernate Tools 4.3.1
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,11 +39,12 @@ public class Condicaopagto implements java.io.Serializable {
     private String dsCondicaopagto;
     @Column(name = "st_ativo", nullable = false)
     private boolean stAtivo;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "condicaopagto")
+    
     @Valid
     @Size(min = 1, message = "{message.condicaopagto.itemcondicaopagtos}")
     @Fetch(FetchMode.JOIN)
-    private List<Itemcondicaopagto> itemcondicaopagtos = new ArrayList<>(0);
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "condicaopagto")
+    private Set<Itemcondicaopagto> itemcondicaopagtos = new HashSet<>(0);
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "condicaopagto")
     private Set<Contrato> contratos = new HashSet<>(0);
 
@@ -63,7 +63,7 @@ public class Condicaopagto implements java.io.Serializable {
         this.stAtivo = stAtivo;
     }
 
-    public Condicaopagto(String cdCondicaopagto, String dsCondicaopagto, boolean stAtivo, List<Itemcondicaopagto> itemcondicaopagtos, Set<Contrato> contratos, BigDecimal totalQuota) {
+    public Condicaopagto(String cdCondicaopagto, String dsCondicaopagto, boolean stAtivo, Set<Itemcondicaopagto> itemcondicaopagtos, Set<Contrato> contratos, BigDecimal totalQuota) {
 
         this.cdCondicaopagto = cdCondicaopagto;
         this.dsCondicaopagto = dsCondicaopagto;
@@ -97,11 +97,11 @@ public class Condicaopagto implements java.io.Serializable {
         this.stAtivo = stAtivo;
     }
 
-    public List<Itemcondicaopagto> getItemcondicaopagtos() {
+    public Set<Itemcondicaopagto> getItemcondicaopagtos() {
         return this.itemcondicaopagtos;
     }
 
-    public void setItemcondicaopagtos(List<Itemcondicaopagto> itemcondicaopagtos) {
+    public void setItemcondicaopagtos(Set<Itemcondicaopagto> itemcondicaopagtos) {
         this.itemcondicaopagtos = itemcondicaopagtos;
     }
 

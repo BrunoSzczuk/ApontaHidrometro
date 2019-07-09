@@ -7,11 +7,12 @@ package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Competencia;
 import br.com.brunoszczuk.apontahidrometro.repository.CompetenciaRepository;
+import br.com.brunoszczuk.apontahidrometro.util.ValidatorUtil;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.validation.Valid;
-import javax.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
@@ -57,8 +58,13 @@ public class CompetenciaController {
         if (result.hasErrors()) {
             return new ModelAndView("layout", model);
         }
+        if(repo.existsByDsCompetenciaIgnoreCase(competencia.getDsCompetencia().trim())){
+            result.addError(ValidatorUtil.addErrorField(competencia, "dsCompetencia",bundle.getString("lbregistroexistentedescricao")));
+            model.addAttribute("competencia", competencia);
+            return new ModelAndView("layout", model);
+        }
         if (competencia.getDtInclusao() == null){
-            competencia.setDtInclusao(new Date());
+            competencia.setDtInclusao( LocalDate.now());
         }
         repo.save(competencia);
         attrib.addFlashAttribute("message", bundle.getString("lbregistroinseridocomsucesso"));
@@ -83,10 +89,9 @@ public class CompetenciaController {
             Competencia e = repo.findById(id).get();
             model = getModel(model);
             model.addAttribute("competencia", e);
-            return new ModelAndView("layout", model);
-        }else{
-            throw new NotFoundException();
+            
         }
+        return new ModelAndView("layout", model);
     }
 
     @GetMapping("/delete/{id}")
@@ -96,7 +101,7 @@ public class CompetenciaController {
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
 
         } catch (DataIntegrityViolationException ex) {
-            attrib.addFlashAttribute("errorMessage", bundle.getString("lbregistroexistente"));
+            attrib.addFlashAttribute("errorMessage", bundle.getString("lbexistedependencia"));
         }
         return "redirect:/competencia/";
     }

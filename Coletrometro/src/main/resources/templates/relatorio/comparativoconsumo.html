@@ -1,0 +1,45 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{lbrelatorioconsumo}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="@{/relatorio/consumo/gerar}" th:object="${relatorioconsumo}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-5">
+                            <label th:for="unidadeconsumidora" th:text="#{lbunidadeconsumidora}"></label> <p/>
+                            <select data-placeholder="Selecione o País"  data-none-selected-text class="selectpicker form-control" id="unidadeconsumidora"   data-live-search="true" th:field="*{unidadeconsumidora.cdUnidadeconsumidora}">
+                                <option th:each="i : ${unidadeconsumidoras}"  th:value="${i.cdUnidadeconsumidora}" th:text="${i.cdUnidadeconsumidora + ' - ' + i.cliente.nmCliente  }"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('unidadeconsumidora')}" th:errors="*{unidadeconsumidora}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtPeriodoinicial"  th:text="#{lbperiodoinicial}"/>
+                            <input type="date" class="form-control datepicker" id="dtPeriodoinicial" th:placeholder="#{lbperiodoinicial}" th:field="*{dtPeriodoinicial}"/>
+                            <span  th:if="${#fields.hasErrors('dtPeriodoinicial')}" th:errors="*{dtPeriodoinicial}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtPeriodofinal"  th:text="#{lbperiodofinal}"/>
+                            <input type="date" class="form-control datepicker" id="dtPeriodofinal" th:placeholder="#{lbperiodofinal}" th:field="*{dtPeriodofinal}"/>
+                            <span  th:if="${#fields.hasErrors('dtPeriodofinal')}" th:errors="*{dtPeriodofinal}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/relatorioconsumo/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+</div>

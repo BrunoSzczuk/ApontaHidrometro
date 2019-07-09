@@ -1,0 +1,66 @@
+<div th:fragment="corpo">
+    <div class="col-md-10 offset-md-1" >
+
+        <h3 class="my-1" th:text="#{titulo.contratousuarios}"/>
+        <hr class="my-3"/>
+        <div class="card border-primary mb-2">
+            <div class="card-header" th:text="#{titulo.cadastros.contratousuarios}"/> 
+            <div class="alert alert-danger" th:if="${message}" th:text="${message}" role="alert"/>
+
+
+            <!-- form complex example -->
+            <div class="card-body">
+                <form th:action="${contratousuario.cdContratousuario == 0}?  @{/contratousuario/save}: @{/contratousuario/update}" th:object="${contratousuario}" method="post">
+                    <div class="form-row mt-4">
+                        <div class="col-sm-2 pb-3 pr-3" hidden>
+                            <label th:for="cdContratousuario"  th:text="#{lbcodigo}"/>
+                            <input type="text" class="form-control" id="cdContratousuario" th:placeholder="#{lbcodigo}" th:field="*{cdContratousuario}" readonly/>
+                        </div>  
+                        <div class="col-sm-2 col-lg-4">
+                            <label th:for="contrato" th:text="#{lbcontrato}"></label> <p/>
+                            <select data-placeholder="Selecione o País"  data-none-selected-text class="selectpicker form-control" id="contrato"   data-live-search="true" th:field="*{contrato.nrContrato}">
+                                <option th:each="i : ${contratos}"  th:value="${i.nrContrato}" th:text="${i.nrContrato + ' - ' + i.dsContrato}"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('contrato')}" th:errors="*{contrato}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-2 col-lg-4">
+                            <label th:for="usuario" th:text="#{lbusuario}"></label> <p/>
+                            <select data-placeholder="Selecione o País"  data-none-selected-text class="selectpicker form-control" id="usuario"   data-live-search="true" th:field="*{usuario.cdUsuario}">
+                                <option th:each="i : ${usuarios}"  th:value="${i.cdUsuario}" th:text="${i.cdUsuario + ' - ' + i.nickUsuario}"/>
+                            </select>
+                            <span  th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="badge badge-danger"/>
+                        </div>
+                        <div class="col-sm-3 pb-3 pr-3">
+                            <label th:for="dtInclusao"  th:text="#{lbdtinclusao}"/>
+                            <input type="datetime" class="form-control datepicker" id="dtInclusao" th:placeholder="#{lbdtinclusao}" readonly th:field="*{dtInclusao}"/>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-sm3 pb-3">
+                                    <button type="submit" class="btn btn-primary" th:text="#{lbconfirmar}"/>
+                                </div>
+                                <div class="col-sm3 pb-3">
+                                    <a th:href="@{/contratousuario/}" ><button type="button" class="btn btn-warning"  th:text="#{lbcancelar}"></button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </form>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+
+                $('.selectpicker').selectpicker({
+
+                });
+            });
+            if (document.getElementById('dtInclusao').value.length === 0) {
+                document.getElementById('usuario').selectedIndex = -1;
+                document.getElementById('contrato').selectedIndex = -1;
+            }
+
+        </script>  
+    </div>
+</div>

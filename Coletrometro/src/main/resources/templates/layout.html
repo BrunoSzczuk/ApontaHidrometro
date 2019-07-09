@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" th:fragment="layoutpadrao">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <title th:text="#{nomeapp}"></title>
+
+        <!-- Bootstrap core CSS-->
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/static/css/bootstrap-select.min.css}" rel="stylesheet"/>
+        <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet" type="text/css"/>
+
+        <link th:href="@{/static/css/datatables/dataTables.bootstrap4.css}" rel="stylesheet"/>
+
+        <!-- Bootstrap core JavaScript-->
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/jquery-easing/jquery.easing.min.js}"></script>
+
+        <!--link type="text/css" rel="stylesheet" th:href="@{/static/css/menu.css}" /-->
+        <link rel="shortcut icon" th:href="@{/static/logo1.png}" />
+
+
+        <!-- Custom styles for this template-->
+        <link th:href="@{/static/css/sb-admin.css}" rel="stylesheet"/>
+
+    </head>
+
+    <body id="page-top" > 
+
+        <nav  th:replace="fragmentos/header:: header_nav"/>
+
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+
+            <ul class="sidebar navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span th:text="#{lbcadastros}"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" sec:authorize="hasRole('equipamento')"th:href="@{/equipamento/}" th:text="#{titulo.equipamentos}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('pais')" th:href="@{/pais/}" th:text="#{titulo.paises}">Register</a>
+                        <a class="dropdown-item" sec:authorize="hasRole('estado')" th:href="@{/estado/}" th:text="#{titulo.estados}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('municipio')" th:href="@{/municipio/}" th:text="#{titulo.municipios}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('endereco')" th:href="@{/endereco/}" th:text="#{titulo.enderecos}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('frequenciacoleta')" th:href="@{/frequenciacoleta/}" th:text="#{titulo.frequenciacoletas}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('unddconsumidora')" th:href="@{/unddconsumidora/}" th:text="#{titulo.unddconsumidoras}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('contrato')" th:href="@{/contrato/}" th:text="#{titulo.contratos}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('tipousuario')" th:href="@{/tipousuario/}" th:text="#{titulo.tipousuarios}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('usuario')" th:href="@{/usuario/}" th:text="#{titulo.usuarios}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('cliente')" th:href="@{/cliente/}" th:text="#{titulo.clientes}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('permissao')"  th:href="@{/permissao/}" th:text="#{titulo.permissoes}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('tabpreco')"  th:href="@{/tabpreco/}" th:text="#{titulo.tabprecos}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('competencia')" th:href="@{/competencia/}" th:text="#{titulo.competencias}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('contratousuario')" th:href="@{/contratousuario/}" th:text="#{titulo.contratousuarios}"></a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdownFinanceiro" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-fw fa-briefcase"></i>
+                        <span th:text="#{lbfinanceiro}"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdownFinanceiro">
+                        <a class="dropdown-item" sec:authorize="hasRole('contareceber')" th:href="@{/contareceber/}" th:text="#{titulo.contarecebers}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('formapagto')" th:href="@{/formapagto/}" th:text="#{titulo.formapagtos}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('condicaopagto')" th:href="@{/condicaopagto/}" th:text="#{titulo.condicaopagtos}"></a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdownApontamento" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-fw fa-map-marker-alt"></i>
+                        <span th:text="#{lbapontamentos}"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdownApontamento">
+                        <a class="dropdown-item" sec:authorize="hasRole('contrato')" th:href="@{/contrato/}" th:text="#{titulo.contratos}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('apontamento')" th:href="@{/apontamento/}" th:text="#{titulo.apontamentos}"></a>
+                        <a class="dropdown-item" sec:authorize="hasRole('fechamentoapontamento')" th:href="@{/fechamentoapontamento/}" th:text="#{titulo.fechamentoapontamentos}"></a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdownRelatorio" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span th:text="#{lbrelatorio}"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdownRelatorio">
+                        <a class="dropdown-item" sec:authorize="hasRole('relatorio')" th:href="@{/relatorio/}" th:text="#{lbrelatorioconsumo}"></a>
+                    </div>
+                </li>
+            </ul>
+
+            <div id="content-wrapper" th:include="${conteudo} :: corpo">
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+            <!-- Sticky Footer -->
+            <footer class="sticky-footer" th:replace="fragmentos/footer"/>
+
+        </div>
+        <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="#{lbmensagemsair}"></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body" th:text="#{lbconfirmacaosaida}"></div>
+                <form method="post" class="navbar-form navbar-right" th:action="@{/logout}">
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal" th:text="#{lbcancelar}"></button>
+                        <button class="btn btn-primary" type="submit" th:text="#{lbsair}">Logout</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
+
+
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/static/css/datatables/jquery.dataTables.js}"></script>
+    <script th:src="@{/static/css/datatables/dataTables.bootstrap4.js}"></script>
+    <script th:src="@{/static/js/dataTables.responsive.min.js}"></script>
+    <script th:src="@{/static/js/responsive.bootstrap4.min.js}"></script>
+    <script th:src="@{/static/js/sb-admin.min.js}"></script>
+    <script th:src="@{/static/js/bootstrap-select.min.js}"></script>
+
+</body>
+
+</html>

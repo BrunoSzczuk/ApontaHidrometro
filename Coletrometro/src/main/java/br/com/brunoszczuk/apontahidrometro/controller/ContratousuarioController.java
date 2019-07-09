@@ -6,10 +6,7 @@
 package br.com.brunoszczuk.apontahidrometro.controller;
 
 import br.com.brunoszczuk.apontahidrometro.entities.Contratousuario;
-import br.com.brunoszczuk.apontahidrometro.entities.Condicaopagto;
 import br.com.brunoszczuk.apontahidrometro.entities.Contrato;
-import br.com.brunoszczuk.apontahidrometro.entities.Frequenciacoleta;
-import br.com.brunoszczuk.apontahidrometro.entities.Unidadeconsumidora;
 import br.com.brunoszczuk.apontahidrometro.entities.Usuario;
 import br.com.brunoszczuk.apontahidrometro.repository.ContratoRepository;
 import br.com.brunoszczuk.apontahidrometro.repository.ContratousuarioRepository;
@@ -19,7 +16,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.validation.Valid;
-import javax.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
@@ -98,10 +94,9 @@ public class ContratousuarioController {
             Contratousuario e = repo.findById(id).get();
             model = getModel(model);
             model.addAttribute("contratousuario", e);
-            return new ModelAndView("layout", model);
-        }else{
-            throw new NotFoundException();
+            
         }
+        return new ModelAndView("layout", model);
     }
 
     @GetMapping("/delete/{id}")
@@ -111,7 +106,7 @@ public class ContratousuarioController {
             attrib.addFlashAttribute("message", bundle.getString("lbregistroremovidocomsucesso"));
 
         } catch (DataIntegrityViolationException ex) {
-            attrib.addFlashAttribute("errorMessage", bundle.getString("lbregistroexistente"));
+            attrib.addFlashAttribute("errorMessage", bundle.getString("lbexistedependencia"));
         }
         return "redirect:/contratousuario/";
     }

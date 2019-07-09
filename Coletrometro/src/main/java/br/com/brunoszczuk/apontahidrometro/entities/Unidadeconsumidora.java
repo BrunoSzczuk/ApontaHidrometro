@@ -103,7 +103,7 @@ public class Unidadeconsumidora implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "dt_inclusao", nullable = false, length = 29)
     public Date getDtInclusao() {
         return this.dtInclusao;
@@ -114,6 +114,7 @@ public class Unidadeconsumidora implements java.io.Serializable {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "unidadeconsumidora")
+    @Fetch(FetchMode.SELECT)
     public Set<Contrato> getContratos() {
         return this.contratos;
     }

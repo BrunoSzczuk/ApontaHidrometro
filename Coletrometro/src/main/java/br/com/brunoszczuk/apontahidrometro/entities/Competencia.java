@@ -1,7 +1,7 @@
 package br.com.brunoszczuk.apontahidrometro.entities;
 // Generated 29/08/2018 23:02:23 by Hibernate Tools 4.3.1
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -12,10 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,21 +23,19 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity
 @Table(name = "competencia",
-         schema = "public"
+        schema = "public"
 )
 public class Competencia implements java.io.Serializable {
 
-    
     private int cdCompetencia;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dtInclusao;
+    private LocalDate dtInclusao;
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @FutureOrPresent
-    private Date dtInicio;
+    private LocalDate dtInicio;
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @FutureOrPresent
-    private Date dtFim;
+    private LocalDate dtFim;
     @NotBlank
     @Size(max = 100, min = 3)
     private String dsCompetencia;
@@ -48,7 +45,7 @@ public class Competencia implements java.io.Serializable {
     public Competencia() {
     }
 
-    public Competencia(int cdCompetencia, Date dtInclusao, Date dtInicio, Date dtFim, String dsCompetencia, boolean stAtivo) {
+    public Competencia(int cdCompetencia, LocalDate dtInclusao, LocalDate dtInicio, LocalDate dtFim, String dsCompetencia, boolean stAtivo) {
         this.cdCompetencia = cdCompetencia;
         this.dtInclusao = dtInclusao;
         this.dtInicio = dtInicio;
@@ -57,7 +54,7 @@ public class Competencia implements java.io.Serializable {
         this.stAtivo = stAtivo;
     }
 
-    public Competencia(int cdCompetencia, Date dtInclusao, Date dtInicio, Date dtFim, String dsCompetencia, boolean stAtivo, Set<Fechamentoapontamento> fechamentoapontamentos) {
+    public Competencia(int cdCompetencia, LocalDate dtInclusao, LocalDate dtInicio, LocalDate dtFim, String dsCompetencia, boolean stAtivo, Set<Fechamentoapontamento> fechamentoapontamentos) {
         this.cdCompetencia = cdCompetencia;
         this.dtInclusao = dtInclusao;
         this.dtInicio = dtInicio;
@@ -78,33 +75,30 @@ public class Competencia implements java.io.Serializable {
         this.cdCompetencia = cdCompetencia;
     }
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "dt_inclusao", nullable = false, length = 13)
-    public Date getDtInclusao() {
+    public LocalDate getDtInclusao() {
         return this.dtInclusao;
     }
 
-    public void setDtInclusao(Date dtInclusao) {
+    public void setDtInclusao(LocalDate dtInclusao) {
         this.dtInclusao = dtInclusao;
     }
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "dt_inicio", nullable = false, length = 13)
-    public Date getDtInicio() {
+    public LocalDate getDtInicio() {
         return this.dtInicio;
     }
 
-    public void setDtInicio(Date dtInicio) {
+    public void setDtInicio(LocalDate dtInicio) {
         this.dtInicio = dtInicio;
     }
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "dt_fim", nullable = false, length = 13)
-    public Date getDtFim() {
+    public LocalDate getDtFim() {
         return this.dtFim;
     }
 
-    public void setDtFim(Date dtFim) {
+    public void setDtFim(LocalDate dtFim) {
         this.dtFim = dtFim;
     }
 
